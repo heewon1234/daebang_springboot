@@ -12,7 +12,7 @@ public interface GenericMapper<D,E>{
 	D toDto(E e);
 	E toEntity(D d);
 	
-	List<D> toDTOLIst(List<E> e);
+	List<D> toDtoList(List<E> e);
 	List<E> toEntityList(List<D> d);
 	
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
