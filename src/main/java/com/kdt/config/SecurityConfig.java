@@ -24,8 +24,6 @@ public class SecurityConfig {
 	protected SecurityFilterChain config(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		
-		
-		
 		http.authorizeHttpRequests()
 		.requestMatchers(new AntPathRequestMatcher("/api/member/**")).authenticated()
 		.requestMatchers(new AntPathRequestMatcher("/api/manager/**")).hasRole("MANAGER")
