@@ -22,6 +22,7 @@ public class BoardService {
 	public void insertBoardContents(BoardDTO dto) {
 		dto.setViewCount(0L);
 		Board board = bMapper.toEntity(dto);
+		board.setWriteDate(new Timestamp(System.currentTimeMillis()));
 		bRepo.save(board);
 	}
 	
