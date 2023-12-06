@@ -1,5 +1,7 @@
 package com.kdt.mappers;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 import org.mapstruct.BeanMapping;
@@ -17,4 +19,20 @@ public interface GenericMapper<D,E>{
 	
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	void updateEntityFromDTO(D d, @MappingTarget E e);
+	
+	default Instant map(Timestamp t) {
+		if(t != null) {
+			return t.toInstant();
+		} else {
+			return null;
+		}
+	}
+	
+	default Timestamp map(Instant i) {
+		if(i != null) {
+			return Timestamp.from(i);
+		} else {
+			return null;
+		}
+	}
 }
