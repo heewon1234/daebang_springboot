@@ -1,6 +1,7 @@
 package com.kdt.services;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,4 +27,14 @@ public class BoardService {
 		bRepo.save(board);
 	}
 	
+	public List<BoardDTO> selectAllFreeBoardContents(){
+		return bMapper.toDtoList(bRepo.findAllByBoardTitle("자유게시판"));
+	}
+	public List<BoardDTO> selectAllRoomBoardContents(){
+		return bMapper.toDtoList(bRepo.findAllByBoardTitle("양도게시판"));
+	}	
+	
+	public BoardDTO boardContents(Long seq) {
+		return bMapper.toDto(bRepo.findById(seq).get());
+	}
 }

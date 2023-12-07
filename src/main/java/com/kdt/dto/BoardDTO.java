@@ -1,6 +1,7 @@
 package com.kdt.dto;
 
 import java.time.Instant;
+import java.util.Set;
 
 public class BoardDTO {
 	
@@ -12,6 +13,8 @@ public class BoardDTO {
 	private String header;
 	private String contents;
 	private Long viewCount;
+	private Set<ReplyDTO> replies;
+	
 	public BoardDTO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -27,6 +30,12 @@ public class BoardDTO {
 		this.header = header;
 		this.contents = contents;
 		this.viewCount = viewCount;
+	}
+	public Set<ReplyDTO> getReplies() {
+		return replies;
+	}
+	public void setReplies(Set<ReplyDTO> replies) {
+		this.replies = replies;
 	}
 	public Long getSeq() {
 		return seq;

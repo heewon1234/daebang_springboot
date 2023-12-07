@@ -25,7 +25,7 @@ public class SecurityConfig {
 		http.csrf().disable();
 		
 		http.authorizeHttpRequests()
-		.requestMatchers(new AntPathRequestMatcher("/api/member/**")).authenticated()
+		//.requestMatchers(new AntPathRequestMatcher("/api/member/**")).authenticated()
 		.requestMatchers(new AntPathRequestMatcher("/api/manager/**")).hasRole("MANAGER")
 		.requestMatchers(new AntPathRequestMatcher("/**")).permitAll();
 		
@@ -41,9 +41,9 @@ public class SecurityConfig {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		});
 		
-		http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-			response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 로그인안한 사용자가 접근할 때 네트워크 에러 대신 forbidden 띄워주기
-		});
+//		http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
+//			response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 로그인안한 사용자가 접근할 때 네트워크 에러 대신 forbidden 띄워주기
+//		});
 		
 		http.logout().logoutUrl("/api/member/logout").invalidateHttpSession(true)
 		.logoutSuccessHandler((request, response, authentication) -> {
