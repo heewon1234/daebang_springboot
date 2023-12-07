@@ -11,6 +11,8 @@ import com.kdt.dto.ReplyDTO;
 import com.kdt.mappers.ReplyMapper;
 import com.kdt.repositories.ReplyRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ReplyService {
 
@@ -25,6 +27,14 @@ public class ReplyService {
 		reply.setWriteDate(new Timestamp(System.currentTimeMillis()));
 		rRepo.save(reply);
 		return rMapper.toDtoList(rRepo.findAllByParentSeq(dto.getParentSeq()));
+	}
+	
+	@Transactional
+	public List<ReplyDTO> updateReply(ReplyDTO dto) {
+		Reply reply = rRepo.findById(dto.getSeq()).get();
+		rMapper.updateEntityFromDTO(dto,reply);
+		rRepo.save(reply);
+		return rMapper.toDtoList(rRepo.findAllByParentSeq(reply.getParentSeq()));
 	}
 	
 }
