@@ -1,6 +1,7 @@
 package com.kdt.services;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,11 @@ public class ReplyService {
 	@Autowired
 	private ReplyMapper rMapper;
 	
-	public void insertReply(ReplyDTO dto) {
+	public List<ReplyDTO> insertReply(ReplyDTO dto) {
 		Reply reply = rMapper.toEntity(dto);
 		reply.setWriteDate(new Timestamp(System.currentTimeMillis()));
 		rRepo.save(reply);
+		return rMapper.toDtoList(rRepo.findAllByParentSeq(dto.getParentSeq()));
 	}
 	
 }
