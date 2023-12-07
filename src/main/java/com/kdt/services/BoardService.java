@@ -33,4 +33,8 @@ public class BoardService {
 	public List<BoardDTO> selectAllRoomBoardContents(){
 		return bMapper.toDtoList(bRepo.findAllByBoardTitle("양도게시판"));
 	}	
+	
+	public BoardDTO boardContents(Long seq) {
+		return bMapper.toDto(bRepo.findById(seq).get());
+	}
 }
