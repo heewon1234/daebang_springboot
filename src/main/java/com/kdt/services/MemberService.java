@@ -1,12 +1,11 @@
 package com.kdt.services;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.kdt.config.SecurityConfig;
 import com.kdt.domain.entities.Member;
 import com.kdt.dto.MemberDTO;
 import com.kdt.mappers.MemberMapper;
@@ -27,9 +26,15 @@ public class MemberService {
         this.passwordEncoder = passwordEncoder;
     }
 	
-	public List<MemberDTO> getAllMembers() {
-		List<Member> list = mRepo.findAll();
-		return mMapper.toDtoList(list);
+	public Boolean idDuplCheck(MemberDTO dto) {
+		Optional<Member> m = mRepo.findById(dto.getId());
+		if (m.isPresent()) {
+			System.out.println("이미 잇다");
+			return false;
+		} else {
+			System.out.println("없다");
+			return true;
+		}
 	}
 	
 	public void signUp(MemberDTO dto) {

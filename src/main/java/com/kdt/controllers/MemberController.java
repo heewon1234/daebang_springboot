@@ -20,10 +20,10 @@ public class MemberController {
 	@Autowired
 	private MemberService mServ;
 	
-	@GetMapping
-	public ResponseEntity<List<MemberDTO>> getAllMembers() {
-		List<MemberDTO> list = mServ.getAllMembers();
-		return ResponseEntity.ok(list);
+	@PostMapping("idDuplCheck")
+	public ResponseEntity<Boolean> idDuplCheck(@RequestBody MemberDTO dto) {
+		Boolean isdupl = mServ.idDuplCheck(dto);
+		return ResponseEntity.ok(isdupl);
 	}
 	
 	@PostMapping("signUp")
