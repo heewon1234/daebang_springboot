@@ -29,10 +29,8 @@ public class MemberService {
 	public Boolean idDuplCheck(MemberDTO dto) {
 		Optional<Member> m = mRepo.findById(dto.getId());
 		if (m.isPresent()) {
-			System.out.println("이미 잇다");
 			return false;
 		} else {
-			System.out.println("없다");
 			return true;
 		}
 	}
