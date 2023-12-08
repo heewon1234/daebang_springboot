@@ -52,4 +52,10 @@ public class MemberController {
 		mServ.deleteById(id);
 		return ResponseEntity.ok().build();
 	}
+	@GetMapping("findId/{email}")
+	public ResponseEntity<List<MemberDTO>> getId(@PathVariable String email){
+		List<MemberDTO> dto = mServ.getId(email);
+		return ResponseEntity.ok(dto);
+		
+	}
 }
