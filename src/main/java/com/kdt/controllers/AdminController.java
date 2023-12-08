@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdt.domain.entities.Visitor;
-import com.kdt.dto.MemberDTO;
 import com.kdt.dto.RealEstateAgentDTO;
 import com.kdt.dto.VisitorDTO;
 import com.kdt.services.AgentService;
@@ -44,12 +43,31 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-	@DeleteMapping("/agent/delete/{id}")
-	public ResponseEntity<Void> deleteById(@PathVariable String id){
-		aServ.deleteById(id);
+	@DeleteMapping("/agent/delete/{email}")
+	public ResponseEntity<Void> deleteById(@PathVariable String email){
+		aServ.deleteById(email);
 		return ResponseEntity.ok().build();
 	}
-	
+	@PutMapping("/agent/approve/{email}")
+    public ResponseEntity<Void> approve(@PathVariable String email) {
+        try {
+        	aServ.approve(email);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            // 예외 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+	@PutMapping("/agent/revoke-approval/{email}")
+	public ResponseEntity<Void> revoke_approval(@PathVariable String email) {
+		try {
+			aServ.revoke_approval(email);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			// 예외 처리
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 	
 	
 	@GetMapping("/userip")
