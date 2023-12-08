@@ -2,7 +2,7 @@ package com.kdt.dto;
 
 public class EstateRequestDTO {
 	private EstateDTO estateDTO;
-	private String[] optionCodeList;
+	private String[] optionList;
 	
 	public EstateDTO getEstateDTO() {
 		return estateDTO;
@@ -10,19 +10,21 @@ public class EstateRequestDTO {
 	public void setEstateDTO(EstateDTO estateDTO) {
 		this.estateDTO = estateDTO;
 	}
-	public String[] getOptionCodeList() {
-		return optionCodeList;
+	public String[] getOptionList() {
+		return optionList;
 	}
-	public void setOptionCodeList(String[] optionCodeList) {
-		this.optionCodeList = optionCodeList;
+	public void setOptionList(String[] optionList) {
+		this.optionList = optionList;
 	}
-	public EstateRequestDTO(EstateDTO estateDTO, String[] optionCodeList) {
+	public EstateRequestDTO(EstateDTO estateDTO, String[] optionList) {
 		super();
 		this.estateDTO = estateDTO;
-		this.optionCodeList = optionCodeList;
+		this.optionList = optionList;
 	}
 	public EstateRequestDTO() {
 		super();
 	}
+	
+
 	
 }
