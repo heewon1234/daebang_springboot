@@ -1,9 +1,5 @@
 package com.kdt.dto;
 
-import java.util.List;
-
-import org.springframework.web.multipart.MultipartFile;
-
 public class EstateRequestDTO {
 	private EstateDTO estateDTO;
 	private String[] optionList;

@@ -1,7 +1,6 @@
 package com.kdt.services;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +14,6 @@ import com.kdt.domain.entities.EstateImage;
 import com.kdt.domain.entities.EstateOption;
 import com.kdt.dto.EstateDTO;
 import com.kdt.dto.EstateOptionDTO;
-import com.kdt.mappers.EstateImageMapper;
 import com.kdt.mappers.EstateMapper;
 import com.kdt.mappers.EstateOptionMapper;
 import com.kdt.repositories.EstateImageRepository;
