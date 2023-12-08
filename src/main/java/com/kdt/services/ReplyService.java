@@ -22,6 +22,7 @@ public class ReplyService {
 	@Autowired
 	private ReplyMapper rMapper;
 	
+	// 댓글 삽입
 	public List<ReplyDTO> insertReply(ReplyDTO dto) {
 		Reply reply = rMapper.toEntity(dto);
 		reply.setWriteDate(new Timestamp(System.currentTimeMillis()));
@@ -29,12 +30,19 @@ public class ReplyService {
 		return rMapper.toDtoList(rRepo.findAllByParentSeq(dto.getParentSeq()));
 	}
 	
+	// 댓글 수정
 	@Transactional
 	public List<ReplyDTO> updateReply(ReplyDTO dto) {
 		Reply reply = rRepo.findById(dto.getSeq()).get();
 		rMapper.updateEntityFromDTO(dto,reply);
 		rRepo.save(reply);
 		return rMapper.toDtoList(rRepo.findAllByParentSeq(reply.getParentSeq()));
+	}
+	
+	// 댓글 삭제
+	public void delReply(Long seq) {
+		Reply reply = rRepo.findById(seq).get();
+		rRepo.delete(reply);
 	}
 	
 }
