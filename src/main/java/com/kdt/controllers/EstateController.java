@@ -2,13 +2,16 @@ package com.kdt.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kdt.dto.EstateDTO;
 import com.kdt.dto.EstateOptionDTO;
@@ -38,7 +41,6 @@ public class EstateController {
 	@PostMapping
 	@RequestMapping("estateInsert2")
 	public ResponseEntity<Void> insert2(@RequestBody EstateRequestDTO requestDTO) throws Exception{
-		
 		EstateDTO dto = requestDTO.getEstateDTO();
 		String[] optionList = requestDTO.getOptionList();
 		
@@ -58,8 +60,8 @@ public class EstateController {
 		for(String optionCode : optionList) {
 			optionDTOList.add(new EstateOptionDTO(null, null, optionCode));
 		}
-
 		// <- 옵션
+		
 		session.setAttribute("estateDTO", estateDTO);
 		session.setAttribute("optionDTOList", optionDTOList);
 
@@ -68,14 +70,18 @@ public class EstateController {
 	
 	@PostMapping
 	@RequestMapping("estateInsert3")
-	public ResponseEntity<Void> insert3(@RequestBody EstateDTO dto) throws Exception{
+	public ResponseEntity<Void> insert3(
+			@RequestParam("images") List<MultipartFile> images,
+            @RequestParam("title") String title,
+            @RequestParam("contents") String contents,
+            @RequestParam("memo") String memo) throws Exception{
 		
 		EstateDTO estateDTO = (EstateDTO)session.getAttribute("estateDTO");
 		List<EstateOptionDTO> optionDTOList =  (List<EstateOptionDTO>) session.getAttribute("optionDTOList");
 		
-		estateDTO.setTitle(dto.getTitle());
-		estateDTO.setContents(dto.getContents());
-		estateDTO.setMemo(dto.getMemo());
+		estateDTO.setTitle(title);
+		estateDTO.setContents(contents);
+		estateDTO.setMemo(memo);
 		
 		/*
 		 * System.out.println(estateDTO.getRoomCode());
@@ -95,7 +101,7 @@ public class EstateController {
 		 * System.out.println(estateDTO.getMemo());
 		 */
 
-		eServ.insertEstate(estateDTO, optionDTOList);
+		eServ.insertEstate(estateDTO, optionDTOList, images);
 		
 		return ResponseEntity.ok().build();
 	}
