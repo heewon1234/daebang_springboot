@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.kdt.domain.entities.Employee;
 import com.kdt.domain.entities.Member;
 import com.kdt.dto.MemberDTO;
 import com.kdt.mappers.MemberMapper;
