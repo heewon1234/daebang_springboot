@@ -47,7 +47,6 @@ public class EstateService {
 		}
 		estate.setWriteDate(new Timestamp(System.currentTimeMillis()));
 		Long parentSeq = eRepo.save(estate).getEstateId();
-
 		// <- 매물 입력
 
 		// 매물 옵션 입력 ->
