@@ -31,6 +31,7 @@ public class BoardDTO {
 		this.contents = contents;
 		this.viewCount = viewCount;
 	}
+
 	public Set<ReplyDTO> getReplies() {
 		return replies;
 	}
