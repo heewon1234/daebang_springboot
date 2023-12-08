@@ -53,4 +53,9 @@ public class MemberService {
 		Member e = mRepo.findById(id).get();
 		mRepo.delete(e);
 	}
+	public List<MemberDTO> getId(String email){
+		List<Member> list = mRepo.selectbyemail(email);
+		List<MemberDTO> dtos = mMapper.toDtoList(list);
+		return dtos;
+	}
 }

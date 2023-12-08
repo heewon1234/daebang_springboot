@@ -1,5 +1,6 @@
 package com.kdt.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdt.dto.MemberDTO;
-import com.kdt.dto.VisitorDTO;
 import com.kdt.services.MemberService;
 
 @RestController
@@ -51,5 +51,18 @@ public class MemberController {
 	public ResponseEntity<Void> deleteById(@PathVariable String id){
 		mServ.deleteById(id);
 		return ResponseEntity.ok().build();
+	}
+	@GetMapping("findId/{email}")
+	public ResponseEntity<List<String>> getId(@PathVariable String email){
+		List<MemberDTO> dto = mServ.getId(email);
+		List<String> idList = new ArrayList<>();
+		if(!(dto.size()==0)){
+		for(int i =0;i<dto.size();i++) {
+			idList.add(dto.get(i).getId());
+		}
+		}
+		System.out.println(idList);
+		return ResponseEntity.ok(idList);
+		
 	}
 }
