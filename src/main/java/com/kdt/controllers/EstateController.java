@@ -1,6 +1,7 @@
 package com.kdt.controllers;
 
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdt.dto.EstateDTO;
+import com.kdt.dto.EstateOptionDTO;
 import com.kdt.dto.EstateRequestDTO;
+import com.kdt.services.EstateService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -20,13 +23,16 @@ public class EstateController {
 
 	@Autowired
 	private HttpSession session;
+	
+	@Autowired
+	private EstateService eServ;
 
 	@PostMapping
 	@RequestMapping("estateInsert1")
 	public ResponseEntity<Void> insert1(@RequestBody EstateDTO dto) throws Exception{
-		session.setAttribute("EstateDTO", dto);
+		session.setAttribute("estateDTO", dto);
 
-		return null;
+		return ResponseEntity.ok().build();
 	}
 
 	@PostMapping
@@ -34,9 +40,10 @@ public class EstateController {
 	public ResponseEntity<Void> insert2(@RequestBody EstateRequestDTO requestDTO) throws Exception{
 		
 		EstateDTO dto = requestDTO.getEstateDTO();
-		String[] optionCodeList = requestDTO.getOptionCodeList();
+		String[] optionList = requestDTO.getOptionList();
 		
-		EstateDTO estateDTO = (EstateDTO)session.getAttribute("EstateDTO");
+		// 매물 ->
+		EstateDTO estateDTO = (EstateDTO)session.getAttribute("estateDTO");
 		
 		estateDTO.setTransactionCode(dto.getTransactionCode());
 		estateDTO.setDeposit(dto.getDeposit());
@@ -44,17 +51,27 @@ public class EstateController {
 		estateDTO.setMaintenanceCost(dto.getMaintenanceCost());
 		estateDTO.setRoomFloors(dto.getRoomFloors());
 		estateDTO.setBuildingFloors(dto.getBuildingFloors());
+		// <- 매물
+		
+		// 옵션 ->
+		List<EstateOptionDTO> optionDTOList = new ArrayList<>(); 
+		for(String optionCode : optionList) {
+			optionDTOList.add(new EstateOptionDTO(null, null, optionCode));
+		}
 
-		session.setAttribute("EstateDTO", estateDTO);
+		// <- 옵션
+		session.setAttribute("estateDTO", estateDTO);
+		session.setAttribute("optionDTOList", optionDTOList);
 
-		return null;
+		return ResponseEntity.ok().build();
 	}
 	
 	@PostMapping
 	@RequestMapping("estateInsert3")
 	public ResponseEntity<Void> insert3(@RequestBody EstateDTO dto) throws Exception{
 		
-		EstateDTO estateDTO = (EstateDTO)session.getAttribute("EstateDTO");
+		EstateDTO estateDTO = (EstateDTO)session.getAttribute("estateDTO");
+		List<EstateOptionDTO> optionDTOList =  (List<EstateOptionDTO>) session.getAttribute("optionDTOList");
 		
 		estateDTO.setTitle(dto.getTitle());
 		estateDTO.setContents(dto.getContents());
@@ -78,6 +95,8 @@ public class EstateController {
 		 * System.out.println(estateDTO.getMemo());
 		 */
 
-		return null;
+		eServ.insertEstate(estateDTO, optionDTOList);
+		
+		return ResponseEntity.ok().build();
 	}
 }
