@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,5 +50,11 @@ public class ReplyController {
 		return ResponseEntity.ok(list);
 	}
 	
+	// 댓글 삭제
+	@DeleteMapping("/{seq}")
+	public ResponseEntity<Void> delReply(@PathVariable Long seq){
+		rServ.delReply(seq);
+		return ResponseEntity.ok().build();
+	}
 	
 }
