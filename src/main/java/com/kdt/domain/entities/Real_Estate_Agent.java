@@ -28,61 +28,6 @@ public class Real_Estate_Agent {
 	@Column(name="enabled")
 	private boolean enabled;
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPw() {
-		return pw;
-	}
-
-	public void setPw(String pw) {
-		this.pw = pw;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public double getManners_temperature() {
-		return manners_temperature;
-	}
-
-	public void setManners_temperature(double manners_temperature) {
-		this.manners_temperature = manners_temperature;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
 
 	public Real_Estate_Agent(String email, String pw, String name, String phone, double manners_temperature,
 			String role, boolean enabled) {
@@ -95,6 +40,77 @@ public class Real_Estate_Agent {
 		this.role = role;
 		this.enabled = enabled;
 	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public String getPw() {
+		return pw;
+	}
+
+
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public String getPhone() {
+		return phone;
+	}
+
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+
+	public double getManners_temperature() {
+		return manners_temperature;
+	}
+
+
+	public void setManners_temperature(double manners_temperature) {
+		this.manners_temperature = manners_temperature;
+	}
+
+
+	public String getRole() {
+		return role;
+	}
+
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 
 	public Real_Estate_Agent() {
 		super();
