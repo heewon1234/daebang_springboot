@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.kdt.domain.entities.Visitor;
+import com.kdt.dto.NewMemberDTO;
 import com.kdt.dto.RealEstateAgentDTO;
 import com.kdt.dto.VisitorDTO;
 import com.kdt.services.AgentService;
+import com.kdt.services.NewMemberService;
 import com.kdt.services.VisitorService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,13 +32,14 @@ public class AdminController {
 	private VisitorService vServ;
 	@Autowired
 	private AgentService aServ;
+	@Autowired
+	private NewMemberService nServ;
 	
 	//공인중개사 관련
 	@GetMapping("/agent/getAll")
     public ResponseEntity<List<RealEstateAgentDTO>> getAll() {
     	try {
     		List<RealEstateAgentDTO> dto = aServ.getAll();
-            System.out.println(dto);
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
             // 예외가 발생한 경우 처리
@@ -79,12 +83,11 @@ public class AdminController {
         System.out.println(userIP);
         return "User IP Address: " + userIP;
     }
-	
+	//방문자수
     @GetMapping("/todayVisitor")
     public ResponseEntity<VisitorDTO> getTodayVisitor() {
     	try {
             VisitorDTO dto = vServ.getTodayVisitor();
-            System.out.println(dto);
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
             // 예외가 발생한 경우 처리
@@ -103,7 +106,6 @@ public class AdminController {
     public ResponseEntity<Void> incrementVisitor(@PathVariable Long seq) {
         try {
             vServ.incrementVisitor(seq);
-            System.out.println("실행확인");
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             // 예외 처리
@@ -125,5 +127,51 @@ public class AdminController {
         LocalDate endOfMonth = LocalDate.now().plusMonths(1).withDayOfMonth(1).minusDays(1);
         List<Visitor> monthlyVisitors = vServ.getMonthlyVisitors(startOfMonth, endOfMonth);
         return ResponseEntity.ok(monthlyVisitors);
+    }
+    @GetMapping("/openApi")
+    public String callExternalApi() {
+        // 외부 API의 URL
+        String apiUrl = "http://openapi.nsdi.go.kr/nsdi/EstateBrkpgService/attr/getEBOfficeInfo";
+
+        // 인증키 및 다른 필요한 매개변수
+        String authKey = "2ec1311cbdddd7356ed72a";
+        // 필요한 다른 매개변수들을 추가해주세요
+
+        // 외부 API 호출을 위한 RestTemplate 객체 생성
+        RestTemplate restTemplate = new RestTemplate();
+
+        // 외부 API 호출 및 응답 받기
+        String result = restTemplate.getForObject(apiUrl + "?authkey=" + authKey, String.class);
+System.out.println(result);
+        // 외부 API 응답 반환
+        return result;
+    }
+    //신규회원 등록 수
+    @GetMapping("/todayNewMember")
+    public ResponseEntity<NewMemberDTO> getTodayNewMamber() {
+    	try {
+    		NewMemberDTO dto = nServ.getTodayNewMamber();
+            System.out.println(dto);
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
+            // 예외가 발생한 경우 처리
+            e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @PostMapping("/createNewMember")
+    public ResponseEntity<Void> createNewMember() {
+    	nServ.createNewMamber();
+        return ResponseEntity.ok().build();
+    }
+    @PutMapping("/incrementNewMember/{seq}")
+    public ResponseEntity<Void> incrementNewMember(@PathVariable Long seq) {
+        try {
+        	nServ.incrementNewMember(seq);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            // 예외 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

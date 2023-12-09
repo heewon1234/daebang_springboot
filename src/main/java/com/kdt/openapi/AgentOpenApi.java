@@ -7,11 +7,11 @@ import java.net.URLEncoder;
 import java.io.BufferedReader;     
 import java.io.IOException;     
      
-public class AgentOpneApi {     
+public class AgentOpenApi {     
     public static void main(String[] args) throws IOException {     
         StringBuilder urlBuilder = new StringBuilder("http://openapi.nsdi.go.kr/nsdi/EstateBrkpgService/attr/getEBOfficeInfo"); /* URL */   
         StringBuilder parameter  = new StringBuilder();   
-        parameter.append("?" + URLEncoder.encode("authkey","UTF-8") + "=c3e7631d335545078685c562fcb54151"); /*authkey Key*/     
+        parameter.append("?" + URLEncoder.encode("authkey","UTF-8") + "=2ec1311cbdddd7356ed72a"); /*authkey Key*/     
 //        parameter.append("&" + URLEncoder.encode("ldCode","UTF-8") + "=" + URLEncoder.encode("11110", "UTF-8")); /* 시군구코드(2~5자리) */  
 //        parameter.append("&" + URLEncoder.encode("bsnmCmpnm","UTF-8") + "=" + URLEncoder.encode("맑은공인", "UTF-8")); /* 사업자상호 */  
 //        parameter.append("&" + URLEncoder.encode("brkrNm","UTF-8") + "=" + URLEncoder.encode("홍길동", "UTF-8")); /* 중개업자명 */  
