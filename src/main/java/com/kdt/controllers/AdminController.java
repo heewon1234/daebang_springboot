@@ -113,14 +113,27 @@ public class AdminController {
         }
     }
 
-
+    //오늘 방문자수
     @GetMapping("/dailyVisitors")
     public ResponseEntity<Visitor> getDailyVisitors() {
         LocalDate today = LocalDate.now();
         Visitor dailyVisitors = vServ.getDailyVisitors(today);
         return ResponseEntity.ok(dailyVisitors);
     }
+    //모든 방문자수
+    @GetMapping("/visitors/getAll")
+    public ResponseEntity<List<VisitorDTO>> visitorsGetAll() {
+    	List<VisitorDTO> list = vServ.getAll();
+    	return ResponseEntity.ok(list);
+    }
+    //누적 방문자수
+    @GetMapping("/visitors/sum")
+    public ResponseEntity<Integer> sum() {
+        int num = vServ.sum();
+        return ResponseEntity.ok(num);
+    }
 
+    
     @GetMapping("/monthlyVisitors")
     public ResponseEntity<List<Visitor>> getMonthlyVisitors() {
         LocalDate startOfMonth = LocalDate.now().withDayOfMonth(1);
@@ -173,5 +186,10 @@ System.out.println(result);
             // 예외 처리
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+    @GetMapping("/newMember/getAll")
+    public ResponseEntity<List<NewMemberDTO>> newMemberGetAll() {
+    	List<NewMemberDTO> list = nServ.getAll();
+    	return ResponseEntity.ok(list);
     }
 }
