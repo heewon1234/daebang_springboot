@@ -13,6 +13,9 @@ public class Real_Estate_Agent {
 	@Column(name="pw")
 	private String pw;
 	
+	@Column(name="estate_name")
+	private String estateName;
+	
 	@Column(name="name")
 	private String name;
 	
@@ -29,17 +32,22 @@ public class Real_Estate_Agent {
 	private boolean enabled;
 
 
-	public Real_Estate_Agent(String email, String pw, String name, String phone, double manners_temperature,
-			String role, boolean enabled) {
+
+
+	public Real_Estate_Agent(String email, String pw, String estateName, String name, String phone,
+			double manners_temperature, String role, boolean enabled) {
 		super();
 		this.email = email;
 		this.pw = pw;
+		this.estateName = estateName;
 		this.name = name;
 		this.phone = phone;
 		this.manners_temperature = manners_temperature;
 		this.role = role;
 		this.enabled = enabled;
 	}
+
+
 
 
 	public String getEmail() {
@@ -47,9 +55,13 @@ public class Real_Estate_Agent {
 	}
 
 
+
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
 
 
 	public String getPw() {
@@ -57,9 +69,27 @@ public class Real_Estate_Agent {
 	}
 
 
+
+
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
+
+
+
+
+	public String getEstateName() {
+		return estateName;
+	}
+
+
+
+
+	public void setEstateName(String estateName) {
+		this.estateName = estateName;
+	}
+
+
 
 
 	public String getName() {
@@ -67,9 +97,13 @@ public class Real_Estate_Agent {
 	}
 
 
+
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
 
 
 	public String getPhone() {
@@ -77,9 +111,13 @@ public class Real_Estate_Agent {
 	}
 
 
+
+
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+
+
 
 
 	public double getManners_temperature() {
@@ -87,9 +125,13 @@ public class Real_Estate_Agent {
 	}
 
 
+
+
 	public void setManners_temperature(double manners_temperature) {
 		this.manners_temperature = manners_temperature;
 	}
+
+
 
 
 	public String getRole() {
@@ -97,9 +139,13 @@ public class Real_Estate_Agent {
 	}
 
 
+
+
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+
 
 
 	public boolean isEnabled() {
@@ -107,9 +153,13 @@ public class Real_Estate_Agent {
 	}
 
 
+
+
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+
+
 
 
 	public Real_Estate_Agent() {
