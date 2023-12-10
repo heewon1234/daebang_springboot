@@ -40,6 +40,14 @@ public class VisitorService {
 	    todayVisitor.setVisitorCount(todayVisitor.getVisitorCount() + 1);
 	    vRepo.save(todayVisitor);
 	}
+	public List<VisitorDTO> getAll() {
+		List<Visitor> list = vRepo.findAll();
+		List<VisitorDTO> dlist = vMapper.toDtoList(list);
+		return dlist;
+	}
+	public int sum() {
+		return vRepo.sumVisitorCount();
+	}
 
 
 	public Visitor getDailyVisitors(LocalDate date) {

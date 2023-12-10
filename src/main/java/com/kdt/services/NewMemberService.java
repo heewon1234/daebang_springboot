@@ -1,12 +1,15 @@
 package com.kdt.services;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kdt.domain.entities.NewMember;
+import com.kdt.domain.entities.Visitor;
 import com.kdt.dto.NewMemberDTO;
+import com.kdt.dto.VisitorDTO;
 import com.kdt.mappers.NewMemberMapper;
 import com.kdt.repositories.NewMemberRepository;
 
@@ -38,5 +41,10 @@ public class NewMemberService {
 		NewMember todayNewMember = nRepo.findById(seq).get();
 		todayNewMember.setNewMemberCount(todayNewMember.getNewMemberCount()+1);
 		nRepo.save(todayNewMember);
+	}
+	public List<NewMemberDTO> getAll() {
+		List<NewMember> list = nRepo.findAll();
+		List<NewMemberDTO> dlist = nMapper.toDtoList(list);
+		return dlist;
 	}
 }
