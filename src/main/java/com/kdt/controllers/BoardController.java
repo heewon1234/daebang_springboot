@@ -36,10 +36,9 @@ public class BoardController {
 	
 	// 게시글 삽입
 	@PostMapping
-	public ResponseEntity<Void> insertBoardContents(BoardUploadDTO dto) throws Exception{
-		System.out.println("확인");
+	public ResponseEntity<Void> insertBoardContents(BoardUploadDTO dto, String[] delImgList) throws Exception{
 		dto.setWriter(getUser().getUsername());
-		bServ.insertBoardContents(dto);
+		bServ.insertBoardContents(dto, delImgList);
 		return ResponseEntity.ok().build();
 	}
 	
