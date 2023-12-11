@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdt.dto.MemberDTO;
+import com.kdt.dto.UpdateMemberDTO;
 import com.kdt.services.MemberService;
 
 @RestController
@@ -79,9 +79,9 @@ public class MemberController {
 		}
 	}
 	
-	@PostMapping("checkidpw")
-	public ResponseEntity<Boolean> checkidpw(@RequestParam("id") String id, @RequestParam("pw") String pw) {
-		Boolean realPw = mServ.realPw(id,pw);
-		return ResponseEntity.ok(realPw);
+	@PostMapping("updateMyInfo")
+	public ResponseEntity<Void> updateMyInfo(@RequestBody UpdateMemberDTO dto) {
+		mServ.updateMyInfo(dto);
+		return ResponseEntity.ok().build();
 	}
 }
