@@ -3,28 +3,28 @@ package com.kdt.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kdt.dto.BoardDTO;
 import com.kdt.dto.EstateDTO;
 import com.kdt.dto.EstateOptionDTO;
 import com.kdt.dto.EstateRequestDTO;
+import com.kdt.dto.EstateTempDTO;
 import com.kdt.services.EstateService;
 
 import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/estateManage/")
+@SessionAttributes({"estateDTO", "optionDTOList"})
 public class EstateController {
 
 	@Autowired
@@ -84,45 +84,16 @@ public class EstateController {
 		estateDTO.setContents(contents);
 		estateDTO.setMemo(memo);
 
-		/*
-		 * System.out.println(estateDTO.getRoomCode());
-		 * System.out.println(estateDTO.getStructureCode());
-		 * System.out.println(estateDTO.getBuildingCode());
-		 * System.out.println(estateDTO.getHeatingCode());
-		 * System.out.println(estateDTO.getDeposit());
-		 * System.out.println(estateDTO.getPrice());
-		 * System.out.println(estateDTO.getArea());
-		 * System.out.println(estateDTO.getZipcode());
-		 * System.out.println(estateDTO.getAddress());
-		 * System.out.println(estateDTO.getRoomFloors());
-		 * System.out.println(estateDTO.getBuildingFloors());
-		 * System.out.println(estateDTO.getMaintenanceCost());
-		 * System.out.println(estateDTO.getTitle());
-		 * System.out.println(estateDTO.getContents());
-		 * System.out.println(estateDTO.getMemo());
-		 */
-
 		eServ.insertEstate(estateDTO, optionDTOList, images);
 
 		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping
-	public ResponseEntity<List<EstateDTO>> selectAll() {
-		List<EstateDTO> list = eServ.selectAll();
-		
-		System.out.println(list);
+	public ResponseEntity<List<EstateTempDTO>> selectAll() {
+		List<EstateTempDTO> list = eServ.selectAll();
 		
 		return ResponseEntity.ok(list);
 	}
-	
-	// roomName 가져오기
-//	@GetMapping("/getRoomType/{roomCode}")
-//	public ResponseEntity<String> getRoomTypeByRoomCode(@PathVariable String roomCode) {
-//		String roomType = eServ.
-//		
-//		return ResponseEntity.ok(null);
-//		
-//	}
 
 }
