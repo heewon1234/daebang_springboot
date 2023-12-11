@@ -24,22 +24,18 @@ public class Files {
 	
 	@Column(name="parent_seq")
 	private Long parentSeq;
-	
-	@Column(name="type")
-	private String type;
 
 	public Files() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Files(Long seq, String sysName, String oriName, Long parentSeq, String type) {
+	public Files(Long seq, String sysName, String oriName, Long parentSeq) {
 		super();
 		this.seq = seq;
 		this.sysName = sysName;
 		this.oriName = oriName;
 		this.parentSeq = parentSeq;
-		this.type = type;
 	}
 
 	public Long getSeq() {
@@ -74,11 +70,4 @@ public class Files {
 		this.parentSeq = parentSeq;
 	}
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
 }
