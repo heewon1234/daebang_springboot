@@ -1,10 +1,12 @@
 package com.kdt.dto;
 
 import java.time.Instant;
-import java.util.Set;
+import java.util.List;
 
-public class BoardDTO {
-	
+import org.springframework.web.multipart.MultipartFile;
+
+public class BoardUploadDTO {
+
 	private Long seq;
 	private String boardTitle;
 	private String title;
@@ -13,14 +15,15 @@ public class BoardDTO {
 	private String header;
 	private String contents;
 	private Long viewCount;
-	private Set<ReplyDTO> replies;
 	
-	public BoardDTO() {
+	private List<MultipartFile> files;
+	
+	public BoardUploadDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public BoardDTO(Long seq, String boardTitle, String title, String writer, Instant writeDate, String header,
-			String contents, Long viewCount) {
+	public BoardUploadDTO(Long seq, String boardTitle, String title, String writer, Instant writeDate, String header,
+			String contents, Long viewCount, List<MultipartFile> files) {
 		super();
 		this.seq = seq;
 		this.boardTitle = boardTitle;
@@ -30,13 +33,7 @@ public class BoardDTO {
 		this.header = header;
 		this.contents = contents;
 		this.viewCount = viewCount;
-	}
-
-	public Set<ReplyDTO> getReplies() {
-		return replies;
-	}
-	public void setReplies(Set<ReplyDTO> replies) {
-		this.replies = replies;
+		this.files = files;
 	}
 	public Long getSeq() {
 		return seq;
@@ -86,5 +83,12 @@ public class BoardDTO {
 	public void setViewCount(Long viewCount) {
 		this.viewCount = viewCount;
 	}
+	public List<MultipartFile> getFiles() {
+		return files;
+	}
+	public void setFiles(List<MultipartFile> files) {
+		this.files = files;
+	}
+	
 	
 }
