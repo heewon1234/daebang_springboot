@@ -56,13 +56,13 @@ public class BoardService {
 					String oriName = file.getOriginalFilename();
 					String sysName = UUID.randomUUID()+"_"+oriName;
 					file.transferTo(new File(uploadPath,sysName));
-					entityFiles.add(new Files(null,oriName,sysName,parentSeq,"input"));
+					entityFiles.add(new Files(null,oriName,sysName,parentSeq));
 				}	
 			}
 		}
-		
+
 		bRepo.save(board);
-		
+
 		// 서버에 있는 쓸모없는 이미지 파일 삭제
 		delServerFile(delImgList);
 	}
@@ -77,7 +77,7 @@ public class BoardService {
 	public BoardDTO boardContents(Long seq) {
 		return bMapper.toDto(bRepo.findById(seq).get());
 	}
-	
+
 	public void delServerFile(String[] delFileList) throws Exception{
 		String filePath = "C:/uploads";
 		File uploadFilePath = new File(filePath);
@@ -86,10 +86,14 @@ public class BoardService {
 		String realPath = "C:/uploads/board";
 		File uploadPath = new File(realPath);
 		if(!uploadPath.exists()) {uploadPath.mkdir();}
-		
-		for(String delFile : delFileList) {
-			Path path = Paths.get(uploadPath + "/" + delFile);
-			java.nio.file.Files.deleteIfExists(path);
+
+		if(delFileList != null) {
+			for(String delFile : delFileList) {
+				if(delFile != null) {
+					Path path = Paths.get(uploadPath + "/" + delFile);
+					java.nio.file.Files.deleteIfExists(path);
+				}
+			}
 		}
 	}
 
