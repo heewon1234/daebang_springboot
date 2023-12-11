@@ -58,4 +58,24 @@ public class MemberService {
 		List<MemberDTO> dtos = mMapper.toDtoList(list);
 		return dtos;
 	}
+	
+	public MemberDTO myInfo(String id) {
+		Member m = mRepo.findById(id).get();
+		MemberDTO mdto = mMapper.toDto(m);
+		return mdto;
+	}
+	
+	public Boolean realPw(String id, String pw) {
+		System.out.println("아이디: " + id);
+		System.out.println("비번: " + pw);
+		String hashedPassword = passwordEncoder.encode(pw);
+		System.out.println("해시비번: " + hashedPassword);
+		Member m = mRepo.checkidpw(id,hashedPassword);
+		System.out.println(m);
+		if(m != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdt.dto.MemberDTO;
@@ -23,30 +24,30 @@ public class MemberController {
 
 	@Autowired
 	private MemberService mServ;
-	
+
 	@PostMapping("idDuplCheck")
 	public ResponseEntity<Boolean> idDuplCheck(@RequestBody MemberDTO dto) {
 		Boolean isdupl = mServ.idDuplCheck(dto);
 		return ResponseEntity.ok(isdupl);
 	}
-	
+
 	@PostMapping("signUp")
 	public ResponseEntity<Void> login(@RequestBody MemberDTO dto) {
 		mServ.signUp(dto);
 		return ResponseEntity.ok().build();
 	}
 	@GetMapping("getAll")
-    public ResponseEntity<List<MemberDTO>> getAll() {
-    	try {
-    		List<MemberDTO> dto = mServ.getAll();
-            System.out.println(dto);
-            return ResponseEntity.ok(dto);
-        } catch (Exception e) {
-            // 예외가 발생한 경우 처리
-            e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+	public ResponseEntity<List<MemberDTO>> getAll() {
+		try {
+			List<MemberDTO> dto = mServ.getAll();
+			System.out.println(dto);
+			return ResponseEntity.ok(dto);
+		} catch (Exception e) {
+			// 예외가 발생한 경우 처리
+			e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable String id){
 		mServ.deleteById(id);
@@ -57,12 +58,30 @@ public class MemberController {
 		List<MemberDTO> dto = mServ.getId(email);
 		List<String> idList = new ArrayList<>();
 		if(!(dto.size()==0)){
-		for(int i =0;i<dto.size();i++) {
-			idList.add(dto.get(i).getId());
-		}
+			for(int i =0;i<dto.size();i++) {
+				idList.add(dto.get(i).getId());
+			}
 		}
 		System.out.println(idList);
 		return ResponseEntity.ok(idList);
-		
+
+	}
+
+	@GetMapping("myInfo/{id}")
+	public ResponseEntity<MemberDTO> myInfo(@PathVariable String id) {
+		try {
+			MemberDTO dto = mServ.myInfo(id);
+			return ResponseEntity.ok(dto);
+		} catch (Exception e) {
+			// 예외가 발생한 경우 처리
+			e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	
+	@PostMapping("checkidpw")
+	public ResponseEntity<Boolean> checkidpw(@RequestParam("id") String id, @RequestParam("pw") String pw) {
+		Boolean realPw = mServ.realPw(id,pw);
+		return ResponseEntity.ok(realPw);
 	}
 }
