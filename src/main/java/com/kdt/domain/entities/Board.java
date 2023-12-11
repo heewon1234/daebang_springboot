@@ -3,6 +3,7 @@ package com.kdt.domain.entities;
 import java.sql.Timestamp;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,9 +43,13 @@ public class Board {
 	@Column(name="view_count")
 	private Long viewCount;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="parent_seq")
 	private Set<Reply> replies;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="parent_seq")
+	private Set<Files> files;
 	
 	public Board() {
 		super();
@@ -62,6 +67,14 @@ public class Board {
 		this.header = header;
 		this.contents = contents;
 		this.viewCount = viewCount;
+	}
+
+	public Set<Files> getFiles() {
+		return files;
+	}
+
+	public void setFiles(Set<Files> files) {
+		this.files = files;
 	}
 
 	public Set<Reply> getReplies() {

@@ -9,12 +9,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdt.dto.BoardDTO;
+import com.kdt.dto.BoardUploadDTO;
 import com.kdt.security.SecurityUser;
 import com.kdt.services.BoardService;
 
@@ -37,7 +36,8 @@ public class BoardController {
 	
 	// 게시글 삽입
 	@PostMapping
-	public ResponseEntity<Void> insertBoardContents(@RequestBody BoardDTO dto){
+	public ResponseEntity<Void> insertBoardContents(BoardUploadDTO dto) throws Exception{
+		System.out.println("확인");
 		dto.setWriter(getUser().getUsername());
 		bServ.insertBoardContents(dto);
 		return ResponseEntity.ok().build();
