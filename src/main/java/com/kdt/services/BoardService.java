@@ -36,11 +36,14 @@ public class BoardService {
 		Long parentSeq = bRepo.save(board).getSeq();
 		Set<Files> entityFiles = board.getFiles();
 		List<MultipartFile> multiList = dto.getFiles();
-		
-		String boardTitle = dto.getBoardTitle().equals("자유게시판") ? "freeBoard" : "roomBoard";
+
 		if(multiList != null && multiList.size() != 0) {
-			String upload = "c:/uploads/"+boardTitle;
-			File uploadPath = new File(upload);
+			String filePath = "C:/uploads";
+			File uploadFilePath = new File(filePath);
+			if(!uploadFilePath.exists()) {uploadFilePath.mkdir();}
+			
+			String realPath = "C:/uploads/board";
+			File uploadPath = new File(realPath);
 			if(!uploadPath.exists()) {uploadPath.mkdir();}
 			
 			for(MultipartFile file : multiList) {
