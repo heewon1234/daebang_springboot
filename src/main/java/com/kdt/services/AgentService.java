@@ -23,8 +23,18 @@ public class AgentService {
 		List<RealEstateAgentDTO> dtos = aMapper.toDtoList(list);
 		return dtos;
 	}
-	public void deleteById(String id) {
-		Real_Estate_Agent e = aRepo.findById(id).get();
+	public void deleteById(String email) {
+		Real_Estate_Agent e = aRepo.findById(email).get();
 		aRepo.delete(e);
+	}
+	public void approve(String email) {
+		Real_Estate_Agent e = aRepo.findById(email).get();
+		e.setEnabled(true);
+		aRepo.save(e);
+	}
+	public void revoke_approval(String email) {
+		Real_Estate_Agent e = aRepo.findById(email).get();
+		e.setEnabled(false);
+		aRepo.save(e);
 	}
 }
