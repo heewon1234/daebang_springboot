@@ -3,6 +3,7 @@ package com.kdt.services;
 
 import java.io.File;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -30,26 +31,25 @@ public class BoardService {
 	public void insertBoardContents(BoardUploadDTO dto) throws Exception{
 		dto.setViewCount(0L);
 		Board board = bMapper.toEntity(dto);
+		board.setFiles(new HashSet<>());
 		board.setWriteDate(new Timestamp(System.currentTimeMillis()));
-		
 		Long parentSeq = bRepo.save(board).getSeq();
 		Set<Files> entityFiles = board.getFiles();
 		List<MultipartFile> multiList = dto.getFiles();
 		
 		String boardTitle = dto.getBoardTitle().equals("자유게시판") ? "freeBoard" : "roomBoard";
-		
 		if(multiList != null && multiList.size() != 0) {
-			String upload = "e:/uploads/"+boardTitle;
+			String upload = "c:/uploads/"+boardTitle;
 			File uploadPath = new File(upload);
 			if(!uploadPath.exists()) {uploadPath.mkdir();}
 			
 			for(MultipartFile file : multiList) {
-				String oriName = file.getOriginalFilename();
-				String sysName = UUID.randomUUID()+"_"+oriName;
-				
-				file.transferTo(new File(uploadPath,sysName));
-				
-				entityFiles.add(new Files(null,oriName,sysName,parentSeq,"input"));
+				if(file != null) {
+					String oriName = file.getOriginalFilename();
+					String sysName = UUID.randomUUID()+"_"+oriName;
+					file.transferTo(new File(uploadPath,sysName));
+					entityFiles.add(new Files(null,oriName,sysName,parentSeq,"input"));
+				}	
 			}
 		}
 		
