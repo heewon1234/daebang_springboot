@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kdt.domain.entities.Estate;
 import com.kdt.domain.entities.EstateImage;
 import com.kdt.domain.entities.EstateOption;
+import com.kdt.dto.BoardDTO;
 import com.kdt.dto.EstateDTO;
 import com.kdt.dto.EstateOptionDTO;
 import com.kdt.mappers.EstateMapper;
@@ -47,7 +48,6 @@ public class EstateService {
 		}
 		estate.setWriteDate(new Timestamp(System.currentTimeMillis()));
 		Long parentSeq = eRepo.save(estate).getEstateId();
-
 		// <- 매물 입력
 
 		// 매물 옵션 입력 ->
@@ -75,4 +75,18 @@ public class EstateService {
 		}
 		// <- 사진 파일 입력
 	}
+	
+	public List<EstateDTO> selectAll() {
+		List<Estate> eList =  eRepo.findAll();
+		List<EstateDTO> list = eMapper.toDtoList(eList);
+		
+		return list;
+	}
+	
+	// roomName 가져오기
+//	public String getRoomTypeByRoomCode(String roomCode) {
+//		
+//		
+//		return ;
+//	}
 }
