@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kdt.domain.entities.Member;
 import com.kdt.dto.MemberDTO;
+import com.kdt.dto.UpdateMemberDTO;
 import com.kdt.mappers.MemberMapper;
 import com.kdt.repositories.MemberRepository;
 
@@ -65,17 +66,10 @@ public class MemberService {
 		return mdto;
 	}
 	
-	public Boolean realPw(String id, String pw) {
-		System.out.println("아이디: " + id);
-		System.out.println("비번: " + pw);
-		String hashedPassword = passwordEncoder.encode(pw);
-		System.out.println("해시비번: " + hashedPassword);
-		Member m = mRepo.checkidpw(id,hashedPassword);
-		System.out.println(m);
-		if(m != null) {
-			return true;
-		} else {
-			return false;
-		}
+	public void updateMyInfo(UpdateMemberDTO dto) {
+		Member m = mRepo.findById(dto.getId()).get();
+		MemberDTO mdto = new MemberDTO(m.getId(),m.getPw(),dto.getName(),dto.getPhone(),dto.getEmail(),dto.getZipcode(),dto.getAddress1(),dto.getAddress2(),null,m.getRole(),m.isEnabled());
+		mMapper.updateEntityFromDTO(mdto, m);
+		mRepo.save(m);
 	}
 }

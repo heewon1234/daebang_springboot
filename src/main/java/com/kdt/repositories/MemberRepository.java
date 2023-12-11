@@ -11,7 +11,5 @@ public interface MemberRepository extends JpaRepository<Member, String>{
 	
 	@Query("select m from Member m where m.email = ?1")
 	List<Member> selectbyemail(String email);
-	
-	@Query("select m from Member m where id=?1 and pw=?2")
-	Member checkidpw(String id, String pw);
+
 }
