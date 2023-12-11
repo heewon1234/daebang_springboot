@@ -12,14 +12,17 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kdt.domain.entities.Estate;
 import com.kdt.domain.entities.EstateImage;
 import com.kdt.domain.entities.EstateOption;
-import com.kdt.dto.BoardDTO;
+import com.kdt.domain.entities.EstateTemp;
 import com.kdt.dto.EstateDTO;
 import com.kdt.dto.EstateOptionDTO;
+import com.kdt.dto.EstateTempDTO;
 import com.kdt.mappers.EstateMapper;
 import com.kdt.mappers.EstateOptionMapper;
+import com.kdt.mappers.EstateTempMapper;
 import com.kdt.repositories.EstateImageRepository;
 import com.kdt.repositories.EstateOptionRepository;
 import com.kdt.repositories.EstateRepository;
+import com.kdt.repositories.EstateTempRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -30,6 +33,8 @@ public class EstateService {
 	private EstateMapper eMapper;
 	@Autowired
 	private EstateOptionMapper eoMapper;
+	@Autowired
+	private EstateTempMapper etMapper;
 
 	@Autowired
 	private EstateRepository eRepo;
@@ -37,6 +42,8 @@ public class EstateService {
 	private EstateOptionRepository eoRepo;
 	@Autowired
 	private EstateImageRepository eiRepo;
+	@Autowired
+	private EstateTempRepository etRepo;
 
 	@Transactional
 	public void insertEstate(EstateDTO dto, List<EstateOptionDTO> optionDTOList, List<MultipartFile> images) throws Exception {
@@ -76,17 +83,10 @@ public class EstateService {
 		// <- 사진 파일 입력
 	}
 	
-	public List<EstateDTO> selectAll() {
-		List<Estate> eList =  eRepo.findAll();
-		List<EstateDTO> list = eMapper.toDtoList(eList);
+	public List<EstateTempDTO> selectAll() {
+		List<EstateTemp> eList =  etRepo.findAll();
+		List<EstateTempDTO> list = etMapper.toDtoList(eList);
 		
 		return list;
 	}
-	
-	// roomName 가져오기
-//	public String getRoomTypeByRoomCode(String roomCode) {
-//		
-//		
-//		return ;
-//	}
 }
