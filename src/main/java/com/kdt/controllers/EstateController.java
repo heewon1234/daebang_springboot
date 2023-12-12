@@ -102,11 +102,11 @@ public class EstateController {
 		return ResponseEntity.ok(list);
 	}
 	
-	@DeleteMapping("/{estateId}")
-	public ResponseEntity<Void> delete(@PathVariable Long estateId) {
-		eServ.deleteById(estateId);
-		
-		return ResponseEntity.ok().build();
-	}
+//	@DeleteMapping("/{estateId}")
+//	public ResponseEntity<Void> delete(@PathVariable Long estateId) {
+//		eServ.deleteById(estateId);
+//		
+//		return ResponseEntity.ok().build();
+//	}
 
 }
