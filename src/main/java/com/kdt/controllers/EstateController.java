@@ -38,8 +38,9 @@ public class EstateController {
 	@RequestMapping("estateInsert1")
 	public ResponseEntity<Void> insert1(@RequestBody UploadEstateDTO dto) throws Exception {
 		// 세션 초기화
-		session.invalidate();
-		
+		session.removeAttribute("estateDTO");
+		session.removeAttribute("optionDTOList");
+
 		dto.setWriter("test1234");
 		session.setAttribute("estateDTO", dto);
 
@@ -97,14 +98,14 @@ public class EstateController {
 	@GetMapping
 	public ResponseEntity<List<EstateDTO>> selectAll() {
 		List<EstateDTO> list = eServ.selectAll();
-		
+
 		return ResponseEntity.ok(list);
 	}
-	
+
 	@DeleteMapping("/{estateId}")
 	public ResponseEntity<Void> delete(@PathVariable Long estateId) throws Exception {
 		eServ.deleteById(estateId);
-		
+
 		return ResponseEntity.ok().build();
 	}
 
