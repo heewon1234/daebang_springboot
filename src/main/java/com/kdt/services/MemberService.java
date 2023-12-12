@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kdt.domain.entities.Member;
+import com.kdt.domain.entities.Real_Estate_Agent;
 import com.kdt.dto.MemberDTO;
 import com.kdt.dto.UpdateMemberDTO;
 import com.kdt.mappers.MemberMapper;
@@ -71,5 +73,22 @@ public class MemberService {
 		MemberDTO mdto = new MemberDTO(m.getId(),m.getPw(),dto.getName(),dto.getPhone(),dto.getEmail(),dto.getZipcode(),dto.getAddress1(),dto.getAddress2(),null,m.getRole(),m.isEnabled());
 		mMapper.updateEntityFromDTO(mdto, m);
 		mRepo.save(m);
+	}
+	
+	@Transactional
+	public void changePw(String id, String pw) {
+		String hashedPassword = passwordEncoder.encode(pw);
+		mRepo.changePw(id, hashedPassword);
+	}
+	
+	public void approve(String id) {
+		Member e = mRepo.findById(id).get();
+		e.setEnabled(true);
+		mRepo.save(e);
+	}
+	public void revoke_approval(String id) {
+		Member e = mRepo.findById(id).get();
+		e.setEnabled(false);
+		mRepo.save(e);
 	}
 }

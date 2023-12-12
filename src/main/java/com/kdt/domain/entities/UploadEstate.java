@@ -1,167 +1,263 @@
-package com.kdt.dto;
+package com.kdt.domain.entities;
 
 import java.sql.Timestamp;
 
-public class EstateDTO {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="Real_Estate")
+public class UploadEstate {
+	
+	@Id
+	@Column(name="estate_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long estateId;
+	
+	@Column(name="writer")
 	private String writer;
-	private String roomType;
-	private String structureType;
-	private String buildingType;
-	private String transactionType;
-	private String heatingType;
+	
+	@Column(name="room_code")
+	private String roomCode;
+	
+	@Column(name="structure_code")
+	private String structureCode;
+	
+	@Column(name="building_code")
+	private String buildingCode;
+	
+	@Column(name="transaction_code")
+	private String transactionCode;
+	
+	@Column(name="heating_code")
+	private String heatingCode;
+	
+	@Column(name="deposit")
 	private Long deposit;
+	
+	@Column(name="price")
 	private Long price;
+	
+	@Column(name="area")
 	private float area;
+	
+	@Column(name="zipcode")
 	private Long zipcode;
+	
+	@Column(name="address")
 	private String address;
+	
+	@Column(name="latitude")
 	private float latitude;
+	
+	@Column(name="longitude")
 	private float longitude;
+	
+	@Column(name="room_floors")
 	private Long roomFloors;
-	private Long buildingFloors;
+	
+	@Column(name="building_floors")
+	private Long buildingFloors
+	;
+	@Column(name="maintenance_cost")
 	private Long maintenanceCost;
+	
+	@Column(name="title")
 	private String title;
+	
+	@Column(name="contents")
 	private String contents;
+	
+	@Column(name="memo")
 	private String memo;
+	
+	@Column(name="write_date")
 	private Timestamp writeDate;
+
 	public Long getEstateId() {
 		return estateId;
 	}
+
 	public void setEstateId(Long estateId) {
 		this.estateId = estateId;
 	}
+
 	public String getWriter() {
 		return writer;
 	}
+
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
-	public String getRoomType() {
-		return roomType;
+
+	public String getRoomCode() {
+		return roomCode;
 	}
-	public void setRoomType(String roomType) {
-		this.roomType = roomType;
+
+	public void setRoomCode(String roomCode) {
+		this.roomCode = roomCode;
 	}
-	public String getStructureType() {
-		return structureType;
+
+	public String getStructureCode() {
+		return structureCode;
 	}
-	public void setStructureType(String structureType) {
-		this.structureType = structureType;
+
+	public void setStructureCode(String structureCode) {
+		this.structureCode = structureCode;
 	}
-	public String getBuildingType() {
-		return buildingType;
+
+	public String getBuildingCode() {
+		return buildingCode;
 	}
-	public void setBuildingType(String buildingType) {
-		this.buildingType = buildingType;
+
+	public void setBuildingCode(String buildingCode) {
+		this.buildingCode = buildingCode;
 	}
-	public String getTransactionType() {
-		return transactionType;
+
+	public String getTransactionCode() {
+		return transactionCode;
 	}
-	public void setTransactionType(String transactionType) {
-		this.transactionType = transactionType;
+
+	public void setTransactionCode(String transactionCode) {
+		this.transactionCode = transactionCode;
 	}
-	public String getHeatingType() {
-		return heatingType;
+
+	public String getHeatingCode() {
+		return heatingCode;
 	}
-	public void setHeatingType(String heatingType) {
-		this.heatingType = heatingType;
+
+	public void setHeatingCode(String heatingCode) {
+		this.heatingCode = heatingCode;
 	}
+
 	public Long getDeposit() {
 		return deposit;
 	}
+
 	public void setDeposit(Long deposit) {
 		this.deposit = deposit;
 	}
+
 	public Long getPrice() {
 		return price;
 	}
+
 	public void setPrice(Long price) {
 		this.price = price;
 	}
+
 	public float getArea() {
 		return area;
 	}
+
 	public void setArea(float area) {
 		this.area = area;
 	}
+
 	public Long getZipcode() {
 		return zipcode;
 	}
+
 	public void setZipcode(Long zipcode) {
 		this.zipcode = zipcode;
 	}
+
 	public String getAddress() {
 		return address;
 	}
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
 	public float getLatitude() {
 		return latitude;
 	}
+
 	public void setLatitude(float latitude) {
 		this.latitude = latitude;
 	}
+
 	public float getLongitude() {
 		return longitude;
 	}
+
 	public void setLongitude(float longitude) {
 		this.longitude = longitude;
 	}
+
 	public Long getRoomFloors() {
 		return roomFloors;
 	}
+
 	public void setRoomFloors(Long roomFloors) {
 		this.roomFloors = roomFloors;
 	}
+
 	public Long getBuildingFloors() {
 		return buildingFloors;
 	}
+
 	public void setBuildingFloors(Long buildingFloors) {
 		this.buildingFloors = buildingFloors;
 	}
+
 	public Long getMaintenanceCost() {
 		return maintenanceCost;
 	}
+
 	public void setMaintenanceCost(Long maintenanceCost) {
 		this.maintenanceCost = maintenanceCost;
 	}
+
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	public String getContents() {
 		return contents;
 	}
+
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
+
 	public String getMemo() {
 		return memo;
 	}
+
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
+
 	public Timestamp getWriteDate() {
 		return writeDate;
 	}
+
 	public void setWriteDate(Timestamp writeDate) {
 		this.writeDate = writeDate;
 	}
-	public EstateDTO(Long estateId, String writer, String roomType, String structureType, String buildingType,
-			String transactionType, String heatingType, Long deposit, Long price, float area, Long zipcode,
+
+	public UploadEstate(Long estateId, String writer, String roomCode, String structureCode, String buildingCode,
+			String transactionCode, String heatingCode, Long deposit, Long price, float area, Long zipcode,
 			String address, float latitude, float longitude, Long roomFloors, Long buildingFloors, Long maintenanceCost,
 			String title, String contents, String memo, Timestamp writeDate) {
 		super();
 		this.estateId = estateId;
 		this.writer = writer;
-		this.roomType = roomType;
-		this.structureType = structureType;
-		this.buildingType = buildingType;
-		this.transactionType = transactionType;
-		this.heatingType = heatingType;
+		this.roomCode = roomCode;
+		this.structureCode = structureCode;
+		this.buildingCode = buildingCode;
+		this.transactionCode = transactionCode;
+		this.heatingCode = heatingCode;
 		this.deposit = deposit;
 		this.price = price;
 		this.area = area;
@@ -177,9 +273,9 @@ public class EstateDTO {
 		this.memo = memo;
 		this.writeDate = writeDate;
 	}
-	public EstateDTO() {
+
+	public UploadEstate() {
 		super();
 	}
-	
-	
+
 }
