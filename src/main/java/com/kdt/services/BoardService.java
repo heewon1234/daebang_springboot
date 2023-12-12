@@ -19,6 +19,10 @@ import com.kdt.dto.BoardDTO;
 import com.kdt.dto.BoardUploadDTO;
 import com.kdt.mappers.BoardMapper;
 import com.kdt.repositories.BoardRepository;
+import com.kdt.repositories.FileRepository;
+import com.kdt.repositories.ReplyRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class BoardService {
@@ -29,6 +33,13 @@ public class BoardService {
 	@Autowired
 	private BoardRepository bRepo;
 
+	@Autowired
+	private FileRepository fRepo;
+	
+	@Autowired
+	private ReplyRepository rRepo;
+	
+	// 게시글 등록
 	public void insertBoardContents(BoardUploadDTO dto, String[] delImgList) throws Exception{
 
 		// Board 테이블에 내용 추가
@@ -56,7 +67,7 @@ public class BoardService {
 					String oriName = file.getOriginalFilename();
 					String sysName = UUID.randomUUID()+"_"+oriName;
 					file.transferTo(new File(uploadPath,sysName));
-					entityFiles.add(new Files(null,oriName,sysName,parentSeq));
+					entityFiles.add(new Files(null,sysName,oriName,parentSeq));
 				}	
 			}
 		}
@@ -67,18 +78,40 @@ public class BoardService {
 		delServerFile(delImgList);
 	}
 
+	// 자유게시판 글 목록 불러오기
 	public List<BoardDTO> selectAllFreeBoardContents(){
 		return bMapper.toDtoList(bRepo.findAllByBoardTitle("자유게시판"));
 	}
+	
+	// 양도게시판 글 목록 불러오기
 	public List<BoardDTO> selectAllRoomBoardContents(){
 		return bMapper.toDtoList(bRepo.findAllByBoardTitle("양도게시판"));
 	}	
 
+	// 게시글 내용 불러오기
 	public BoardDTO boardContents(Long seq) {
 		return bMapper.toDto(bRepo.findById(seq).get());
 	}
 
-	public void delServerFile(String[] delFileList) throws Exception{
+	// 게시글 삭제
+	@Transactional
+	public void delBoardContents(Long seq, String[] imgList) throws Exception{
+		String[] delFileList = fRepo.findSysNameByParentSeq(seq);
+		
+		Board board = bRepo.findById(seq).get();
+
+		rRepo.deleteAll(board.getReplies());
+		fRepo.deleteAll(board.getFiles());
+		board.setFiles(null);
+		board.setReplies(null);
+		bRepo.delete(board);
+		delServerFile(delFileList); // 인풋 파일 삭제
+		delServerFile(imgList); // 이미지태그 삭제
+
+	}
+	
+	// 서버 파일 삭제 함수
+	private void delServerFile(String[] delFileList) throws Exception{
 		String filePath = "C:/uploads";
 		File uploadFilePath = new File(filePath);
 		if(!uploadFilePath.exists()) {uploadFilePath.mkdir();}
