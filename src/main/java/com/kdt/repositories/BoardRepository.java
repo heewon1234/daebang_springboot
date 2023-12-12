@@ -9,7 +9,7 @@ import com.kdt.domain.entities.Board;
 
 public interface BoardRepository extends JpaRepository<Board, Long>{
 	
-	@EntityGraph(attributePaths = {"replies"})
+	@EntityGraph(attributePaths = {"replies","files"})
 	List<Board> findAllByBoardTitle(String boardTitle);
 	
 }

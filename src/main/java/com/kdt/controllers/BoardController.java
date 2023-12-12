@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -62,6 +64,13 @@ public class BoardController {
 	public ResponseEntity<BoardDTO> boardContents(@PathVariable Long contentsSeq){
 		BoardDTO dto = bServ.boardContents(contentsSeq);
 		return ResponseEntity.ok(dto);
+	}
+	
+	// 게시글 삭제
+	@DeleteMapping("/{seq}")
+	public ResponseEntity<Void> delBoardContents(@PathVariable Long seq, @RequestBody String[] imgList) throws Exception{
+		bServ.delBoardContents(seq,imgList);
+		return ResponseEntity.ok().build();
 	}
 
 }
