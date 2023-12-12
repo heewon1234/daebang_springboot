@@ -61,6 +61,11 @@ public class MemberService {
 		List<MemberDTO> dtos = mMapper.toDtoList(list);
 		return dtos;
 	}
+	public List<MemberDTO> getDto(String id,String email){
+		List<Member> list = mRepo.findByIdAndEmail(id,email);
+		List<MemberDTO> dtos = mMapper.toDtoList(list);
+		return dtos;
+	}
 	
 	public MemberDTO myInfo(String id) {
 		Member m = mRepo.findById(id).get();
@@ -91,4 +96,5 @@ public class MemberService {
 		e.setEnabled(false);
 		mRepo.save(e);
 	}
+	
 }

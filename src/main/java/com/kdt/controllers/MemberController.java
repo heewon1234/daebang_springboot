@@ -63,7 +63,6 @@ public class MemberController {
 				idList.add(dto.get(i).getId());
 			}
 		}
-		System.out.println(idList);
 		return ResponseEntity.ok(idList);
 
 	}
