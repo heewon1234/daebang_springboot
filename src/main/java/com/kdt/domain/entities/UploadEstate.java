@@ -7,18 +7,34 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="Real_Estate")
-public class EstateTemp {
+public class UploadEstate {
 	
 	@Id
 	@Column(name="estate_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long estateId;
+	
+	@Column(name="writer")
+	private String writer;
+	
+	@Column(name="room_code")
+	private String roomCode;
+	
+	@Column(name="structure_code")
+	private String structureCode;
+	
+	@Column(name="building_code")
+	private String buildingCode;
+	
+	@Column(name="transaction_code")
+	private String transactionCode;
+	
+	@Column(name="heating_code")
+	private String heatingCode;
 	
 	@Column(name="deposit")
 	private Long deposit;
@@ -34,6 +50,12 @@ public class EstateTemp {
 	
 	@Column(name="address")
 	private String address;
+	
+	@Column(name="latitude")
+	private float latitude;
+	
+	@Column(name="longitude")
+	private float longitude;
 	
 	@Column(name="room_floors")
 	private Long roomFloors;
@@ -55,26 +77,6 @@ public class EstateTemp {
 	
 	@Column(name="write_date")
 	private Timestamp writeDate;
-	
-	@OneToOne
-    @JoinColumn(name = "room_code", referencedColumnName = "room_id")
-    private Room room;
-	
-	@OneToOne
-    @JoinColumn(name = "structure_code", referencedColumnName = "structure_id")
-    private Structure structure;
-	
-	@OneToOne
-    @JoinColumn(name = "building_code", referencedColumnName = "building_id")
-    private Building building;
-	
-	@OneToOne
-    @JoinColumn(name = "transaction_code", referencedColumnName = "transaction_id")
-    private Transaction transaction;
-	
-	@OneToOne
-    @JoinColumn(name = "heating_code", referencedColumnName = "heating_id")
-    private HeatingSystem heatingSystem;
 
 	public Long getEstateId() {
 		return estateId;
@@ -82,6 +84,54 @@ public class EstateTemp {
 
 	public void setEstateId(Long estateId) {
 		this.estateId = estateId;
+	}
+
+	public String getWriter() {
+		return writer;
+	}
+
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+
+	public String getRoomCode() {
+		return roomCode;
+	}
+
+	public void setRoomCode(String roomCode) {
+		this.roomCode = roomCode;
+	}
+
+	public String getStructureCode() {
+		return structureCode;
+	}
+
+	public void setStructureCode(String structureCode) {
+		this.structureCode = structureCode;
+	}
+
+	public String getBuildingCode() {
+		return buildingCode;
+	}
+
+	public void setBuildingCode(String buildingCode) {
+		this.buildingCode = buildingCode;
+	}
+
+	public String getTransactionCode() {
+		return transactionCode;
+	}
+
+	public void setTransactionCode(String transactionCode) {
+		this.transactionCode = transactionCode;
+	}
+
+	public String getHeatingCode() {
+		return heatingCode;
+	}
+
+	public void setHeatingCode(String heatingCode) {
+		this.heatingCode = heatingCode;
 	}
 
 	public Long getDeposit() {
@@ -122,6 +172,22 @@ public class EstateTemp {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public float getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(float latitude) {
+		this.latitude = latitude;
+	}
+
+	public float getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(float longitude) {
+		this.longitude = longitude;
 	}
 
 	public Long getRoomFloors() {
@@ -180,57 +246,25 @@ public class EstateTemp {
 		this.writeDate = writeDate;
 	}
 
-	public Room getRoom() {
-		return room;
-	}
-
-	public void setRoom(Room room) {
-		this.room = room;
-	}
-
-	public Structure getStructure() {
-		return structure;
-	}
-
-	public void setStructure(Structure structure) {
-		this.structure = structure;
-	}
-
-	public Building getBuilding() {
-		return building;
-	}
-
-	public void setBuilding(Building building) {
-		this.building = building;
-	}
-
-	public Transaction getTransaction() {
-		return transaction;
-	}
-
-	public void setTransaction(Transaction transaction) {
-		this.transaction = transaction;
-	}
-
-	public HeatingSystem getHeatingSystem() {
-		return heatingSystem;
-	}
-
-	public void setHeatingSystem(HeatingSystem heatingSystem) {
-		this.heatingSystem = heatingSystem;
-	}
-
-	public EstateTemp(Long estateId, Long deposit, Long price, float area, Long zipcode, String address,
-			Long roomFloors, Long buildingFloors, Long maintenanceCost, String title, String contents, String memo,
-			Timestamp writeDate, Room room, Structure structure, Building building, Transaction transaction,
-			HeatingSystem heatingSystem) {
+	public UploadEstate(Long estateId, String writer, String roomCode, String structureCode, String buildingCode,
+			String transactionCode, String heatingCode, Long deposit, Long price, float area, Long zipcode,
+			String address, float latitude, float longitude, Long roomFloors, Long buildingFloors, Long maintenanceCost,
+			String title, String contents, String memo, Timestamp writeDate) {
 		super();
 		this.estateId = estateId;
+		this.writer = writer;
+		this.roomCode = roomCode;
+		this.structureCode = structureCode;
+		this.buildingCode = buildingCode;
+		this.transactionCode = transactionCode;
+		this.heatingCode = heatingCode;
 		this.deposit = deposit;
 		this.price = price;
 		this.area = area;
 		this.zipcode = zipcode;
 		this.address = address;
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.roomFloors = roomFloors;
 		this.buildingFloors = buildingFloors;
 		this.maintenanceCost = maintenanceCost;
@@ -238,15 +272,10 @@ public class EstateTemp {
 		this.contents = contents;
 		this.memo = memo;
 		this.writeDate = writeDate;
-		this.room = room;
-		this.structure = structure;
-		this.building = building;
-		this.transaction = transaction;
-		this.heatingSystem = heatingSystem;
 	}
 
-	public EstateTemp() {
+	public UploadEstate() {
 		super();
 	}
-	
+
 }
