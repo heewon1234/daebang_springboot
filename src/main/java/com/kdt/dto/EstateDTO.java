@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 public class EstateDTO {
 	private Long estateId;
+	private String writer;
 	private String roomType;
 	private String structureType;
 	private String buildingType;
@@ -14,6 +15,8 @@ public class EstateDTO {
 	private float area;
 	private Long zipcode;
 	private String address;
+	private float latitude;
+	private float longitude;
 	private Long roomFloors;
 	private Long buildingFloors;
 	private Long maintenanceCost;
@@ -26,6 +29,12 @@ public class EstateDTO {
 	}
 	public void setEstateId(Long estateId) {
 		this.estateId = estateId;
+	}
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
 	public String getRoomType() {
 		return roomType;
@@ -87,6 +96,18 @@ public class EstateDTO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	public float getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(float latitude) {
+		this.latitude = latitude;
+	}
+	public float getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(float longitude) {
+		this.longitude = longitude;
+	}
 	public Long getRoomFloors() {
 		return roomFloors;
 	}
@@ -129,12 +150,13 @@ public class EstateDTO {
 	public void setWriteDate(Timestamp writeDate) {
 		this.writeDate = writeDate;
 	}
-	public EstateDTO(Long estateId, String roomType, String structureType, String buildingType,
+	public EstateDTO(Long estateId, String writer, String roomType, String structureType, String buildingType,
 			String transactionType, String heatingType, Long deposit, Long price, float area, Long zipcode,
-			String address, Long roomFloors, Long buildingFloors, Long maintenanceCost, String title, String contents,
-			String memo, Timestamp writeDate) {
+			String address, float latitude, float longitude, Long roomFloors, Long buildingFloors, Long maintenanceCost,
+			String title, String contents, String memo, Timestamp writeDate) {
 		super();
 		this.estateId = estateId;
+		this.writer = writer;
 		this.roomType = roomType;
 		this.structureType = structureType;
 		this.buildingType = buildingType;
@@ -145,6 +167,8 @@ public class EstateDTO {
 		this.area = area;
 		this.zipcode = zipcode;
 		this.address = address;
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.roomFloors = roomFloors;
 		this.buildingFloors = buildingFloors;
 		this.maintenanceCost = maintenanceCost;
@@ -156,5 +180,6 @@ public class EstateDTO {
 	public EstateDTO() {
 		super();
 	}
+	
 	
 }

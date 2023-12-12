@@ -20,6 +20,9 @@ public class Estate {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long estateId;
 	
+	@Column(name="writer")
+	private String writer;
+	
 	@Column(name="deposit")
 	private Long deposit;
 	
@@ -34,6 +37,12 @@ public class Estate {
 	
 	@Column(name="address")
 	private String address;
+	
+	@Column(name="latitude")
+	private float latitude;
+	
+	@Column(name="longitude")
+	private float longitude;
 	
 	@Column(name="room_floors")
 	private Long roomFloors;
@@ -84,6 +93,14 @@ public class Estate {
 		this.estateId = estateId;
 	}
 
+	public String getWriter() {
+		return writer;
+	}
+
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+
 	public Long getDeposit() {
 		return deposit;
 	}
@@ -122,6 +139,22 @@ public class Estate {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public float getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(float latitude) {
+		this.latitude = latitude;
+	}
+
+	public float getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(float longitude) {
+		this.longitude = longitude;
 	}
 
 	public Long getRoomFloors() {
@@ -220,17 +253,20 @@ public class Estate {
 		this.heatingSystem = heatingSystem;
 	}
 
-	public Estate(Long estateId, Long deposit, Long price, float area, Long zipcode, String address,
-			Long roomFloors, Long buildingFloors, Long maintenanceCost, String title, String contents, String memo,
-			Timestamp writeDate, Room room, Structure structure, Building building, Transaction transaction,
-			HeatingSystem heatingSystem) {
+	public Estate(Long estateId, String writer, Long deposit, Long price, float area, Long zipcode, String address,
+			float latitude, float longitude, Long roomFloors, Long buildingFloors, Long maintenanceCost, String title,
+			String contents, String memo, Timestamp writeDate, Room room, Structure structure, Building building,
+			Transaction transaction, HeatingSystem heatingSystem) {
 		super();
 		this.estateId = estateId;
+		this.writer = writer;
 		this.deposit = deposit;
 		this.price = price;
 		this.area = area;
 		this.zipcode = zipcode;
 		this.address = address;
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.roomFloors = roomFloors;
 		this.buildingFloors = buildingFloors;
 		this.maintenanceCost = maintenanceCost;
@@ -248,5 +284,6 @@ public class Estate {
 	public Estate() {
 		super();
 	}
+
 	
 }

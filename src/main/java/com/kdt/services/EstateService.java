@@ -94,9 +94,11 @@ public class EstateService {
 //	public void deleteById(Long estateId) {
 //		// 매물 정보 삭제
 //		eRepo.deleteById(estateId);
-//		
-//		eoRepo.deleteByestateCode(estateId);
-//		
+//		// 매물 옵션 정보 삭제
+//		eoRepo.deleteByEstateCode(estateId);
+//		// 사진 파일 삭제
+//		eiRepo.deledeleteByParentId(estateId);
+//		 
 //		return;
 //	}
 }
