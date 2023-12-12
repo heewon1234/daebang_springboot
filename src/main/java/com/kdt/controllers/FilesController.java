@@ -1,15 +1,22 @@
 package com.kdt.controllers;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/file")
@@ -39,6 +46,22 @@ public class FilesController {
 		}
 		
 		return ResponseEntity.ok(list);
+	}
+	
+	@GetMapping
+	public ResponseEntity<Void> downloadFile(@RequestParam String sysName,@RequestParam String oriName, HttpServletResponse response) throws Exception{
+		String realPath =  "C:/uploads/board";
+		File targetFile = new File(realPath + "/" + sysName);
+		oriName = new String(oriName.getBytes("utf8"),"ISO-8859-1");
+		response.setHeader("content-disposition", "attachment;filename="+oriName);
+
+		try(DataInputStream dis = new DataInputStream(new FileInputStream(targetFile));
+			DataOutputStream dos = new DataOutputStream(response.getOutputStream());){
+			byte[] fileContents = dis.readAllBytes();
+			dos.write(fileContents);
+			dos.flush();
+		}	
+		return ResponseEntity.ok().build();
 	}
 
 }

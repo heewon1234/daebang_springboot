@@ -14,6 +14,7 @@ public class BoardDTO {
 	private String contents;
 	private Long viewCount;
 	private Set<ReplyDTO> replies;
+	private Set<FilesDTO> files;
 	
 	public BoardDTO() {
 		super();
@@ -31,7 +32,15 @@ public class BoardDTO {
 		this.contents = contents;
 		this.viewCount = viewCount;
 	}
+	
+	
 
+	public Set<FilesDTO> getFiles() {
+		return files;
+	}
+	public void setFiles(Set<FilesDTO> files) {
+		this.files = files;
+	}
 	public Set<ReplyDTO> getReplies() {
 		return replies;
 	}

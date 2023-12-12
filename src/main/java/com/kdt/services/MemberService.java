@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kdt.domain.entities.Member;
+import com.kdt.domain.entities.Real_Estate_Agent;
 import com.kdt.dto.MemberDTO;
 import com.kdt.dto.UpdateMemberDTO;
 import com.kdt.mappers.MemberMapper;
@@ -60,6 +61,11 @@ public class MemberService {
 		List<MemberDTO> dtos = mMapper.toDtoList(list);
 		return dtos;
 	}
+	public List<MemberDTO> getDto(String id,String email){
+		List<Member> list = mRepo.findByIdAndEmail(id,email);
+		List<MemberDTO> dtos = mMapper.toDtoList(list);
+		return dtos;
+	}
 	
 	public MemberDTO myInfo(String id) {
 		Member m = mRepo.findById(id).get();
@@ -79,4 +85,16 @@ public class MemberService {
 		String hashedPassword = passwordEncoder.encode(pw);
 		mRepo.changePw(id, hashedPassword);
 	}
+	
+	public void approve(String id) {
+		Member e = mRepo.findById(id).get();
+		e.setEnabled(true);
+		mRepo.save(e);
+	}
+	public void revoke_approval(String id) {
+		Member e = mRepo.findById(id).get();
+		e.setEnabled(false);
+		mRepo.save(e);
+	}
+	
 }
