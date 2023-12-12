@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kdt.domain.entities.Member;
+import com.kdt.domain.entities.Real_Estate_Agent;
 import com.kdt.dto.MemberDTO;
 import com.kdt.dto.UpdateMemberDTO;
 import com.kdt.mappers.MemberMapper;
@@ -78,5 +79,16 @@ public class MemberService {
 	public void changePw(String id, String pw) {
 		String hashedPassword = passwordEncoder.encode(pw);
 		mRepo.changePw(id, hashedPassword);
+	}
+	
+	public void approve(String id) {
+		Member e = mRepo.findById(id).get();
+		e.setEnabled(true);
+		mRepo.save(e);
+	}
+	public void revoke_approval(String id) {
+		Member e = mRepo.findById(id).get();
+		e.setEnabled(false);
+		mRepo.save(e);
 	}
 }

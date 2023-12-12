@@ -1,11 +1,14 @@
 package com.kdt.controllers;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,20 +16,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.kdt.domain.entities.Visitor;
 import com.kdt.dto.NewMemberDTO;
 import com.kdt.dto.RealEstateAgentDTO;
 import com.kdt.dto.VisitorDTO;
 import com.kdt.services.AgentService;
+import com.kdt.services.MemberService;
 import com.kdt.services.NewMemberService;
 import com.kdt.services.VisitorService;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 @RestController
 @RequestMapping("/api/admin")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AdminController {
 	@Autowired
 	private VisitorService vServ;
@@ -34,6 +40,10 @@ public class AdminController {
 	private AgentService aServ;
 	@Autowired
 	private NewMemberService nServ;
+	@Autowired
+	private MemberService mServ;
+	
+	
 	
 	//공인중개사 관련
 	@GetMapping("/agent/getAll")
@@ -72,17 +82,28 @@ public class AdminController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-	
-	
-	@GetMapping("/userip")
-    public String getUserIP(HttpServletRequest request) {
-        String userIP = request.getHeader("X-Forwarded-For");
-        if (userIP == null || userIP.isEmpty()) {
-            userIP = request.getRemoteAddr();
+	//member ban
+	@PutMapping("/member/approve/{id}")
+    public ResponseEntity<Void> mapprove(@PathVariable String id) {
+        try {
+        	mServ.approve(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            // 예외 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        System.out.println(userIP);
-        return "User IP Address: " + userIP;
     }
+	@PutMapping("/member/revoke-approval/{id}")
+	public ResponseEntity<Void> mrevoke_approval(@PathVariable String id) {
+		try {
+			mServ.revoke_approval(id);
+			System.out.println(id);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			// 예외 처리
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 	//방문자수
     @GetMapping("/todayVisitor")
     public ResponseEntity<VisitorDTO> getTodayVisitor() {
@@ -141,24 +162,107 @@ public class AdminController {
         List<Visitor> monthlyVisitors = vServ.getMonthlyVisitors(startOfMonth, endOfMonth);
         return ResponseEntity.ok(monthlyVisitors);
     }
+//    @GetMapping("/openApi")
+//    public ResponseEntity<String> getExternalApiUrl() {
+//        // 외부 API의 URL
+//        String apiUrl = "http://api.vworld.kr/ned/data/getEBOfficeInfo";
+//
+//        // 인증키 및 다른 필요한 매개변수
+//        String authKey = "32313C80-CF6D-3E59-953F-930749A348A4";
+//        // UriComponentsBuilder를 사용하여 URL 및 매개변수 구성
+//        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl)
+//                .queryParam("key", authKey)
+//                .queryParam("domain", "http://localhost:3000")
+//                .queryParam("ldCode", "44")//"44131"
+//                .queryParam("numOfRows", "100")
+//                .queryParam("format", "json");
+//
+//        return ResponseEntity.ok().body(builder.toUriString());
+//    }
+
+//    @GetMapping("/openApi")
+//    public ResponseEntity<String> callExternalApi(
+//            @RequestParam int pageNo,
+//            @RequestParam int pageSize,
+//            @RequestParam String bsnmCmpnm
+//    ) {
+//        String apiUrl = "http://api.vworld.kr/ned/data/getEBOfficeInfo";
+//        String authKey = "32313C80-CF6D-3E59-953F-930749A348A4";
+//
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        // UriComponentsBuilder를 사용하여 URL 및 매개변수 구성
+//        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl)
+//                .queryParam("key", authKey)
+//                .queryParam("domain", "http://localhost:3000")
+////                .queryParam("ldCode", "44")
+//                .queryParam("sttusSeCode", "1")
+//                .queryParam("format", "json")
+//                .queryParam("bsnmCmpnm", bsnmCmpnm)
+//                .queryParam("numOfRows", pageSize)
+//                .queryParam("pageNo", pageNo);
+//
+//        try {
+//            ResponseEntity<String> response = restTemplate.getForEntity(builder.toUriString(), String.class);
+//            System.out.println(response.getBody());
+//
+//            return ResponseEntity.ok().body(response.getBody());
+//        } catch (HttpClientErrorException | HttpServerErrorException e) {
+//            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                                 .body("An error occurred while calling the external API");
+//        }
+//    }
     @GetMapping("/openApi")
-    public String callExternalApi() {
-        // 외부 API의 URL
-        String apiUrl = "http://openapi.nsdi.go.kr/nsdi/EstateBrkpgService/attr/getEBOfficeInfo";
+    public ResponseEntity<String> callExternalApi() {
+        String apiUrl = "http://api.vworld.kr/ned/data/getEBOfficeInfo";
+        String authKey = "32313C80-CF6D-3E59-953F-930749A348A4";
 
-        // 인증키 및 다른 필요한 매개변수
-        String authKey = "2ec1311cbdddd7356ed72a";
-        // 필요한 다른 매개변수들을 추가해주세요
-
-        // 외부 API 호출을 위한 RestTemplate 객체 생성
         RestTemplate restTemplate = new RestTemplate();
+        String bsnmCmpnm = "에이스 부동산";
 
-        // 외부 API 호출 및 응답 받기
-        String result = restTemplate.getForObject(apiUrl + "?authkey=" + authKey, String.class);
-System.out.println(result);
-        // 외부 API 응답 반환
-        return result;
+        // 한글 부분을 URLEncoder로 인코딩하여 URL에 추가
+        String encodedBsnmCmpnm = URLEncoder.encode(bsnmCmpnm, StandardCharsets.UTF_8);
+        System.out.println(encodedBsnmCmpnm);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl)
+                .queryParam("key", authKey)
+                .queryParam("domain", "http://localhost:3000")
+                .queryParam("sttusSeCode", "1")
+                .queryParam("format", "json")
+                .queryParam("bsnmCmpnm", encodedBsnmCmpnm)
+                .queryParam("pageSize", "10")
+                .queryParam("pageNo", "1");
+
+        try {
+            ResponseEntity<String> response = restTemplate.getForEntity(builder.toUriString(), String.class);
+            System.out.println(builder.toUriString());
+
+            if (response.getStatusCode().is2xxSuccessful()) {
+                System.out.println(response.getBody());
+                return ResponseEntity.ok().body(response.getBody());
+            } else {
+                System.out.println("HTTP Error: " + response.getStatusCode());
+                System.out.println("Response Body: " + response.getBody());
+                return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+            }
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            System.out.println("Exception: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+        }
     }
+
+
+
+
+
+
+
+
+
     //신규회원 등록 수
     @GetMapping("/todayNewMember")
     public ResponseEntity<NewMemberDTO> getTodayNewMamber() {
