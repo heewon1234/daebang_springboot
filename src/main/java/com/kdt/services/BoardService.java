@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kdt.domain.entities.Board;
 import com.kdt.domain.entities.Files;
+import com.kdt.domain.entities.Reply;
 import com.kdt.dto.BoardDTO;
 import com.kdt.dto.BoardUploadDTO;
 import com.kdt.mappers.BoardMapper;
@@ -35,10 +36,10 @@ public class BoardService {
 
 	@Autowired
 	private FileRepository fRepo;
-	
+
 	@Autowired
 	private ReplyRepository rRepo;
-	
+
 	// 게시글 등록
 	public void insertBoardContents(BoardUploadDTO dto, String[] delImgList) throws Exception{
 
@@ -82,7 +83,7 @@ public class BoardService {
 	public List<BoardDTO> selectAllFreeBoardContents(){
 		return bMapper.toDtoList(bRepo.findAllByBoardTitle("자유게시판"));
 	}
-	
+
 	// 양도게시판 글 목록 불러오기
 	public List<BoardDTO> selectAllRoomBoardContents(){
 		return bMapper.toDtoList(bRepo.findAllByBoardTitle("양도게시판"));
@@ -97,19 +98,16 @@ public class BoardService {
 	@Transactional
 	public void delBoardContents(Long seq, String[] imgList) throws Exception{
 		String[] delFileList = fRepo.findSysNameByParentSeq(seq);
-		
-		Board board = bRepo.findById(seq).get();
 
-		rRepo.deleteAll(board.getReplies());
-		fRepo.deleteAll(board.getFiles());
-		board.setFiles(null);
-		board.setReplies(null);
+
+		Board board = bRepo.findById(seq).get();
 		bRepo.delete(board);
+
 		delServerFile(delFileList); // 인풋 파일 삭제
 		delServerFile(imgList); // 이미지태그 삭제
 
 	}
-	
+
 	// 서버 파일 삭제 함수
 	private void delServerFile(String[] delFileList) throws Exception{
 		String filePath = "C:/uploads";

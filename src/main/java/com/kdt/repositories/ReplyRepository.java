@@ -9,4 +9,5 @@ import com.kdt.domain.entities.Reply;
 public interface ReplyRepository extends JpaRepository<Reply, Long>{
 
 	List<Reply> findAllByParentSeq(Long parentSeq);
+	void deleteByParentSeq(Long parentSeq);
 }

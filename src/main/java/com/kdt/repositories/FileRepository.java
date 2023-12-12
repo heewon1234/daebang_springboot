@@ -11,5 +11,6 @@ public interface FileRepository extends JpaRepository<Files, Long>{
 
 	@Query("select f.sysName as sys_name from Files f where f.parentSeq = ?1")
 	String[] findSysNameByParentSeq(Long parentSeq);
+	void deleteByParentSeq(Long parentSeq);
 
 }
