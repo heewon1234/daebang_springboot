@@ -99,7 +99,6 @@ public class BoardService {
 	public void delBoardContents(Long seq, String[] imgList) throws Exception{
 		String[] delFileList = fRepo.findSysNameByParentSeq(seq);
 
-
 		Board board = bRepo.findById(seq).get();
 		bRepo.delete(board);
 
