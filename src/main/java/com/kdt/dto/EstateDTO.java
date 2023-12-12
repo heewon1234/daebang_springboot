@@ -4,11 +4,11 @@ import java.sql.Timestamp;
 
 public class EstateDTO {
 	private Long estateId;
-	private String roomCode;
-	private String structureCode;
-	private String buildingCode;
-	private String transactionCode;
-	private String heatingCode;
+	private String roomType;
+	private String structureType;
+	private String buildingType;
+	private String transactionType;
+	private String heatingType;
 	private Long deposit;
 	private Long price;
 	private float area;
@@ -21,42 +21,41 @@ public class EstateDTO {
 	private String contents;
 	private String memo;
 	private Timestamp writeDate;
-	
 	public Long getEstateId() {
 		return estateId;
 	}
 	public void setEstateId(Long estateId) {
 		this.estateId = estateId;
 	}
-	public String getRoomCode() {
-		return roomCode;
+	public String getRoomType() {
+		return roomType;
 	}
-	public void setRoomCode(String roomCode) {
-		this.roomCode = roomCode;
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
 	}
-	public String getStructureCode() {
-		return structureCode;
+	public String getStructureType() {
+		return structureType;
 	}
-	public void setStructureCode(String structureCode) {
-		this.structureCode = structureCode;
+	public void setStructureType(String structureType) {
+		this.structureType = structureType;
 	}
-	public String getBuildingCode() {
-		return buildingCode;
+	public String getBuildingType() {
+		return buildingType;
 	}
-	public void setBuildingCode(String buildingCode) {
-		this.buildingCode = buildingCode;
+	public void setBuildingType(String buildingType) {
+		this.buildingType = buildingType;
 	}
-	public String getTransactionCode() {
-		return transactionCode;
+	public String getTransactionType() {
+		return transactionType;
 	}
-	public void setTransactionCode(String transactionCode) {
-		this.transactionCode = transactionCode;
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
 	}
-	public String getHeatingCode() {
-		return heatingCode;
+	public String getHeatingType() {
+		return heatingType;
 	}
-	public void setHeatingCode(String heatingCode) {
-		this.heatingCode = heatingCode;
+	public void setHeatingType(String heatingType) {
+		this.heatingType = heatingType;
 	}
 	public Long getDeposit() {
 		return deposit;
@@ -130,17 +129,17 @@ public class EstateDTO {
 	public void setWriteDate(Timestamp writeDate) {
 		this.writeDate = writeDate;
 	}
-	public EstateDTO(Long estateId, String roomCode, String structureCode, String buildingCode, String transactionCode,
-			String heatingCode, Long deposit, Long price, float area, Long zipcode, String address, Long roomFloors,
-			Long buildingFloors, Long maintenanceCost, String title, String contents, String memo,
-			Timestamp writeDate) {
+	public EstateDTO(Long estateId, String roomType, String structureType, String buildingType,
+			String transactionType, String heatingType, Long deposit, Long price, float area, Long zipcode,
+			String address, Long roomFloors, Long buildingFloors, Long maintenanceCost, String title, String contents,
+			String memo, Timestamp writeDate) {
 		super();
 		this.estateId = estateId;
-		this.roomCode = roomCode;
-		this.structureCode = structureCode;
-		this.buildingCode = buildingCode;
-		this.transactionCode = transactionCode;
-		this.heatingCode = heatingCode;
+		this.roomType = roomType;
+		this.structureType = structureType;
+		this.buildingType = buildingType;
+		this.transactionType = transactionType;
+		this.heatingType = heatingType;
 		this.deposit = deposit;
 		this.price = price;
 		this.area = area;
@@ -158,5 +157,4 @@ public class EstateDTO {
 		super();
 	}
 	
-
 }

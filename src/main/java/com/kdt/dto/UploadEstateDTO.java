@@ -2,18 +2,21 @@ package com.kdt.dto;
 
 import java.sql.Timestamp;
 
-public class EstateTempDTO {
+public class UploadEstateDTO {
 	private Long estateId;
-	private String roomType;
-	private String structureType;
-	private String buildingType;
-	private String transactionType;
-	private String heatingType;
+	private String writer;
+	private String roomCode;
+	private String structureCode;
+	private String buildingCode;
+	private String transactionCode;
+	private String heatingCode;
 	private Long deposit;
 	private Long price;
 	private float area;
 	private Long zipcode;
 	private String address;
+	private float latitude;
+	private float longitude;
 	private Long roomFloors;
 	private Long buildingFloors;
 	private Long maintenanceCost;
@@ -21,41 +24,48 @@ public class EstateTempDTO {
 	private String contents;
 	private String memo;
 	private Timestamp writeDate;
+	
 	public Long getEstateId() {
 		return estateId;
 	}
 	public void setEstateId(Long estateId) {
 		this.estateId = estateId;
 	}
-	public String getRoomType() {
-		return roomType;
+	public String getWriter() {
+		return writer;
 	}
-	public void setRoomType(String roomType) {
-		this.roomType = roomType;
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
-	public String getStructureType() {
-		return structureType;
+	public String getRoomCode() {
+		return roomCode;
 	}
-	public void setStructureType(String structureType) {
-		this.structureType = structureType;
+	public void setRoomCode(String roomCode) {
+		this.roomCode = roomCode;
 	}
-	public String getBuildingType() {
-		return buildingType;
+	public String getStructureCode() {
+		return structureCode;
 	}
-	public void setBuildingType(String buildingType) {
-		this.buildingType = buildingType;
+	public void setStructureCode(String structureCode) {
+		this.structureCode = structureCode;
 	}
-	public String getTransactionType() {
-		return transactionType;
+	public String getBuildingCode() {
+		return buildingCode;
 	}
-	public void setTransactionType(String transactionType) {
-		this.transactionType = transactionType;
+	public void setBuildingCode(String buildingCode) {
+		this.buildingCode = buildingCode;
 	}
-	public String getHeatingType() {
-		return heatingType;
+	public String getTransactionCode() {
+		return transactionCode;
 	}
-	public void setHeatingType(String heatingType) {
-		this.heatingType = heatingType;
+	public void setTransactionCode(String transactionCode) {
+		this.transactionCode = transactionCode;
+	}
+	public String getHeatingCode() {
+		return heatingCode;
+	}
+	public void setHeatingCode(String heatingCode) {
+		this.heatingCode = heatingCode;
 	}
 	public Long getDeposit() {
 		return deposit;
@@ -86,6 +96,18 @@ public class EstateTempDTO {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public float getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(float latitude) {
+		this.latitude = latitude;
+	}
+	public float getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(float longitude) {
+		this.longitude = longitude;
 	}
 	public Long getRoomFloors() {
 		return roomFloors;
@@ -129,22 +151,25 @@ public class EstateTempDTO {
 	public void setWriteDate(Timestamp writeDate) {
 		this.writeDate = writeDate;
 	}
-	public EstateTempDTO(Long estateId, String roomType, String structureType, String buildingType,
-			String transactionType, String heatingType, Long deposit, Long price, float area, Long zipcode,
-			String address, Long roomFloors, Long buildingFloors, Long maintenanceCost, String title, String contents,
-			String memo, Timestamp writeDate) {
+	public UploadEstateDTO(Long estateId, String writer, String roomCode, String structureCode, String buildingCode,
+			String transactionCode, String heatingCode, Long deposit, Long price, float area, Long zipcode,
+			String address, float latitude, float longitude, Long roomFloors, Long buildingFloors, Long maintenanceCost,
+			String title, String contents, String memo, Timestamp writeDate) {
 		super();
 		this.estateId = estateId;
-		this.roomType = roomType;
-		this.structureType = structureType;
-		this.buildingType = buildingType;
-		this.transactionType = transactionType;
-		this.heatingType = heatingType;
+		this.writer = writer;
+		this.roomCode = roomCode;
+		this.structureCode = structureCode;
+		this.buildingCode = buildingCode;
+		this.transactionCode = transactionCode;
+		this.heatingCode = heatingCode;
 		this.deposit = deposit;
 		this.price = price;
 		this.area = area;
 		this.zipcode = zipcode;
 		this.address = address;
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.roomFloors = roomFloors;
 		this.buildingFloors = buildingFloors;
 		this.maintenanceCost = maintenanceCost;
@@ -153,7 +178,7 @@ public class EstateTempDTO {
 		this.memo = memo;
 		this.writeDate = writeDate;
 	}
-	public EstateTempDTO() {
+	public UploadEstateDTO() {
 		super();
 	}
 	

@@ -9,20 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kdt.domain.entities.Estate;
+import com.kdt.domain.entities.UploadEstate;
 import com.kdt.domain.entities.EstateImage;
 import com.kdt.domain.entities.EstateOption;
-import com.kdt.domain.entities.EstateTemp;
-import com.kdt.dto.EstateDTO;
+import com.kdt.domain.entities.Estate;
+import com.kdt.dto.UploadEstateDTO;
 import com.kdt.dto.EstateOptionDTO;
-import com.kdt.dto.EstateTempDTO;
-import com.kdt.mappers.EstateMapper;
+import com.kdt.dto.EstateDTO;
+import com.kdt.mappers.UploadEstateMapper;
 import com.kdt.mappers.EstateOptionMapper;
-import com.kdt.mappers.EstateTempMapper;
+import com.kdt.mappers.EstateMapper;
 import com.kdt.repositories.EstateImageRepository;
 import com.kdt.repositories.EstateOptionRepository;
+import com.kdt.repositories.UploadEstateRepository;
 import com.kdt.repositories.EstateRepository;
-import com.kdt.repositories.EstateTempRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -30,31 +30,31 @@ import jakarta.transaction.Transactional;
 public class EstateService {
 
 	@Autowired
-	private EstateMapper eMapper;
+	private UploadEstateMapper ueMapper;
 	@Autowired
 	private EstateOptionMapper eoMapper;
 	@Autowired
-	private EstateTempMapper etMapper;
+	private EstateMapper eMapper;
 
 	@Autowired
-	private EstateRepository eRepo;
+	private UploadEstateRepository ueRepo;
 	@Autowired
 	private EstateOptionRepository eoRepo;
 	@Autowired
 	private EstateImageRepository eiRepo;
 	@Autowired
-	private EstateTempRepository etRepo;
+	private EstateRepository eRepo;
 
 	@Transactional
-	public void insertEstate(EstateDTO dto, List<EstateOptionDTO> optionDTOList, List<MultipartFile> images) throws Exception {
+	public void insertEstate(UploadEstateDTO dto, List<EstateOptionDTO> optionDTOList, List<MultipartFile> images) throws Exception {
 		// 매물 입력 ->
-		Estate estate = eMapper.toEntity(dto);
+		UploadEstate estate = ueMapper.toEntity(dto);
 
 		if(estate.getMaintenanceCost() == null) {
 			estate.setMaintenanceCost(0L);
 		}
 		estate.setWriteDate(new Timestamp(System.currentTimeMillis()));
-		Long parentSeq = eRepo.save(estate).getEstateId();
+		Long parentSeq = ueRepo.save(estate).getEstateId();
 		// <- 매물 입력
 
 		// 매물 옵션 입력 ->
@@ -83,10 +83,20 @@ public class EstateService {
 		// <- 사진 파일 입력
 	}
 	
-	public List<EstateTempDTO> selectAll() {
-		List<EstateTemp> eList =  etRepo.findAll();
-		List<EstateTempDTO> list = etMapper.toDtoList(eList);
+	public List<EstateDTO> selectAll() {
+		List<Estate> eList =  eRepo.findAll();
+		List<EstateDTO> list = eMapper.toDtoList(eList);
 		
 		return list;
 	}
+	
+//	@Transactional
+//	public void deleteById(Long estateId) {
+//		// 매물 정보 삭제
+//		eRepo.deleteById(estateId);
+//		
+//		eoRepo.deleteByestateCode(estateId);
+//		
+//		return;
+//	}
 }
