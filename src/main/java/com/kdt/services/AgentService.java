@@ -37,4 +37,8 @@ public class AgentService {
 		e.setEnabled(false);
 		aRepo.save(e);
 	}
+	public void signup(RealEstateAgentDTO RealEstateAgentDTO) {
+		Real_Estate_Agent e = aMapper.toEntity(RealEstateAgentDTO);
+		aRepo.save(e);
+	}
 }

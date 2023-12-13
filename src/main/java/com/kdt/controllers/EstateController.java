@@ -26,7 +26,6 @@ import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/estateManage/")
-@SessionAttributes({"estateDTO", "optionDTOList"})
 public class EstateController {
 
 	@Autowired
@@ -38,12 +37,13 @@ public class EstateController {
 	@PostMapping
 	@RequestMapping("estateInsert1")
 	public ResponseEntity<Void> insert1(@RequestBody UploadEstateDTO dto) throws Exception {
+		// 세션 초기화
+		session.removeAttribute("estateDTO");
+		session.removeAttribute("optionDTOList");
+
 		dto.setWriter("test1234");
 		session.setAttribute("estateDTO", dto);
-		
-		System.out.println(dto.getLatitude());
-		System.out.println(dto.getLongitude());
-		
+
 		return ResponseEntity.ok().build();
 	}
 
@@ -98,15 +98,15 @@ public class EstateController {
 	@GetMapping
 	public ResponseEntity<List<EstateDTO>> selectAll() {
 		List<EstateDTO> list = eServ.selectAll();
-		
+
 		return ResponseEntity.ok(list);
 	}
-	
-//	@DeleteMapping("/{estateId}")
-//	public ResponseEntity<Void> delete(@PathVariable Long estateId) {
-//		eServ.deleteById(estateId);
-//		
-//		return ResponseEntity.ok().build();
-//	}
+
+	@DeleteMapping("/{estateId}")
+	public ResponseEntity<Void> delete(@PathVariable Long estateId) throws Exception {
+		eServ.deleteById(estateId);
+
+		return ResponseEntity.ok().build();
+	}
 
 }
