@@ -21,12 +21,16 @@ public class SecurityConfig {
 	private MemberSecurityService mSecServ;
 	
 	@Bean
-	protected SecurityFilterChain config(HttpSecurity http) throws Exception {
+	protected SecurityFilterChain memberConfig(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		
 		http.authorizeHttpRequests()
-		//.requestMatchers(new AntPathRequestMatcher("/api/member/**")).authenticated()
-		.requestMatchers(new AntPathRequestMatcher("/api/manager/**")).hasRole("MANAGER")
+		.requestMatchers(new AntPathRequestMatcher("/api/member/updateMyInfo")).authenticated()
+		.requestMatchers(new AntPathRequestMatcher("/api/member/changePw")).authenticated()
+		.requestMatchers(new AntPathRequestMatcher("/api/member/delete/**")).authenticated()
+		.requestMatchers(new AntPathRequestMatcher("/api/member/myInfo/**")).authenticated()
+		.requestMatchers(new AntPathRequestMatcher("/api/member/getAll")).hasRole("ADMIN")
+		.requestMatchers(new AntPathRequestMatcher("/api/admin/**")).hasRole("ADMIN")
 		.requestMatchers(new AntPathRequestMatcher("/**")).permitAll();
 		
 		http.formLogin().loginProcessingUrl("/api/member/login") // 로그인 처리 url 윗윗줄에 안먹음
@@ -41,9 +45,9 @@ public class SecurityConfig {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		});
 		
-//		http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-//			response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 로그인안한 사용자가 접근할 때 네트워크 에러 대신 forbidden 띄워주기
-//		});
+		http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
+			response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 로그인안한 사용자가 접근할 때 네트워크 에러 대신 forbidden 띄워주기
+		});
 		
 		http.logout().logoutUrl("/api/member/logout").invalidateHttpSession(true)
 		.logoutSuccessHandler((request, response, authentication) -> {
