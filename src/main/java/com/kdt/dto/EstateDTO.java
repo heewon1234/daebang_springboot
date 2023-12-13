@@ -28,6 +28,7 @@ public class EstateDTO {
     private HeatingSystemDTO heatingSystem;
     private Set<EstateOptionDTO> optionList;
     private Set<EstateImageDTO> images;
+    
 	public Long getEstateId() {
 		return estateId;
 	}
