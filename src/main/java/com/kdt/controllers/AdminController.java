@@ -304,12 +304,17 @@ public class AdminController {
     	List<NewMemberDTO> list = nServ.getAll();
     	return ResponseEntity.ok(list);
     }
+    
+    @GetMapping("/agent/isEstateNumber/{number}")
+    public ResponseEntity<Boolean> isEstateNumber(@PathVariable String number) {
+        System.out.println(number);
+        boolean isDuplicate = aServ.isEstateNumber(number);
+        return ResponseEntity.ok(isDuplicate);
+    }
+
+
     @PostMapping("/agent/signup")
     public ResponseEntity<Void> signup(RealEstateAgentDTO RealEstateAgentDTO) {
-    	System.out.println(RealEstateAgentDTO.getEstateName());
-    	System.out.println(RealEstateAgentDTO.getEstateNumber());
-    	System.out.println(RealEstateAgentDTO.getEmail());
-    	System.out.println(RealEstateAgentDTO.getPhone());
         aServ.signup(RealEstateAgentDTO);
         return ResponseEntity.ok().build();
     }

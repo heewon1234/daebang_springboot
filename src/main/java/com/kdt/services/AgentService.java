@@ -41,4 +41,9 @@ public class AgentService {
 		Real_Estate_Agent e = aMapper.toEntity(RealEstateAgentDTO);
 		aRepo.save(e);
 	}
+	public boolean isEstateNumber(String number) {
+	    Real_Estate_Agent e = aRepo.findByEstateNumber(number);
+	    System.out.println(e);
+	    return e != null; // 해당 estateNumber가 존재하면 true, 존재하지 않으면 false 반환
+	}
 }
