@@ -8,6 +8,7 @@ public class DaebangApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DaebangApplication.class, args);
+		//System.out.println(new BCryptPasswordEncoder().encode("admin123"));
 	}
 
 }
