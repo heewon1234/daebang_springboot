@@ -14,7 +14,8 @@ public class UploadEstateDTO {
 	private Long price;
 	private float area;
 	private Long zipcode;
-	private String address;
+	private String address1;
+	private String address2;
 	private float latitude;
 	private float longitude;
 	private Long roomFloors;
@@ -24,7 +25,6 @@ public class UploadEstateDTO {
 	private String contents;
 	private String memo;
 	private Timestamp writeDate;
-	
 	public Long getEstateId() {
 		return estateId;
 	}
@@ -91,11 +91,17 @@ public class UploadEstateDTO {
 	public void setZipcode(Long zipcode) {
 		this.zipcode = zipcode;
 	}
-	public String getAddress() {
-		return address;
+	public String getAddress1() {
+		return address1;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+	public String getAddress2() {
+		return address2;
+	}
+	public void setAddress2(String address2) {
+		this.address2 = address2;
 	}
 	public float getLatitude() {
 		return latitude;
@@ -153,8 +159,8 @@ public class UploadEstateDTO {
 	}
 	public UploadEstateDTO(Long estateId, String writer, String roomCode, String structureCode, String buildingCode,
 			String transactionCode, String heatingCode, Long deposit, Long price, float area, Long zipcode,
-			String address, float latitude, float longitude, Long roomFloors, Long buildingFloors, Long maintenanceCost,
-			String title, String contents, String memo, Timestamp writeDate) {
+			String address1, String address2, float latitude, float longitude, Long roomFloors, Long buildingFloors,
+			Long maintenanceCost, String title, String contents, String memo, Timestamp writeDate) {
 		super();
 		this.estateId = estateId;
 		this.writer = writer;
@@ -167,7 +173,8 @@ public class UploadEstateDTO {
 		this.price = price;
 		this.area = area;
 		this.zipcode = zipcode;
-		this.address = address;
+		this.address1 = address1;
+		this.address2 = address2;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.roomFloors = roomFloors;
