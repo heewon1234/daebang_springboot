@@ -1,6 +1,9 @@
 package com.kdt.dto;
 
 import java.sql.Timestamp;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class UploadEstateDTO {
 	private Long estateId;
@@ -25,6 +28,10 @@ public class UploadEstateDTO {
 	private String contents;
 	private String memo;
 	private Timestamp writeDate;
+	
+	private String[] optionList;
+    private List<MultipartFile> images;
+    
 	public Long getEstateId() {
 		return estateId;
 	}
@@ -157,10 +164,23 @@ public class UploadEstateDTO {
 	public void setWriteDate(Timestamp writeDate) {
 		this.writeDate = writeDate;
 	}
+	public String[] getOptionList() {
+		return optionList;
+	}
+	public void setOptionList(String[] optionList) {
+		this.optionList = optionList;
+	}
+	public List<MultipartFile> getImages() {
+		return images;
+	}
+	public void setImages(List<MultipartFile> images) {
+		this.images = images;
+	}
 	public UploadEstateDTO(Long estateId, String writer, String roomCode, String structureCode, String buildingCode,
 			String transactionCode, String heatingCode, Long deposit, Long price, float area, Long zipcode,
 			String address1, String address2, float latitude, float longitude, Long roomFloors, Long buildingFloors,
-			Long maintenanceCost, String title, String contents, String memo, Timestamp writeDate) {
+			Long maintenanceCost, String title, String contents, String memo, Timestamp writeDate, String[] optionList,
+			List<MultipartFile> images) {
 		super();
 		this.estateId = estateId;
 		this.writer = writer;
@@ -184,9 +204,10 @@ public class UploadEstateDTO {
 		this.contents = contents;
 		this.memo = memo;
 		this.writeDate = writeDate;
+		this.optionList = optionList;
+		this.images = images;
 	}
 	public UploadEstateDTO() {
 		super();
-	}
-	
+	}	
 }
