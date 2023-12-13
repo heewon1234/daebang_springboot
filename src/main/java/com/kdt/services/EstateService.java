@@ -101,23 +101,32 @@ public class EstateService {
 
 	@Transactional
 	public void deleteById(Long estateId) throws Exception {
-		// 매물 옵션 정보 삭제
-		eoRepo.deleteByEstateCode(estateId);
 		
-		// 사진 파일 삭제 ->
-		// 실제로 지울 파일 이름 검색
-		List<EstateImage> eiList = eiRepo.findSysNamesByParentId(estateId);
+		Estate e = eRepo.findById(estateId).get();
+		
+		List<EstateImage> eiList = eiRepo.findAllByParentId(estateId);
 		List<String> delFileList = new ArrayList<>();
 		for (EstateImage image : eiList) {
 			delFileList.add(image.getSysName());
 		}
-		delServerFile(delFileList);
-		// DB에서 삭제
-		eiRepo.deleteByParentId(estateId);
-		// <- 사진 파일 삭제
+//		delServerFile(delFileList);
+		
+		eRepo.delete(e);
+		
+//		System.out.println(estateId);
+//		
+//		// 매물 옵션 정보 삭제
+//		eoRepo.deleteByEstateCode(estateId);
+//		
+//		// 사진 파일 삭제 ->
+//		// 실제로 지울 파일 이름 검색
 
-		// 매물 정보 삭제
-		eRepo.deleteById(estateId);
+//		// DB에서 삭제
+//		eiRepo.deleteByParentId(estateId);
+//		// <- 사진 파일 삭제
+//
+//		// 매물 정보 삭제
+//		eRepo.deleteById(estateId);
 
 		return;
 	}

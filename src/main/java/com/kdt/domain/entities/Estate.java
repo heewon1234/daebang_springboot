@@ -1,89 +1,103 @@
 package com.kdt.domain.entities;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="Real_Estate")
+@Table(name = "Real_Estate")
 public class Estate {
-	
+
 	@Id
-	@Column(name="estate_id")
+	@Column(name = "estate_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long estateId;
-	
-	@Column(name="writer")
+
+	@Column(name = "writer")
 	private String writer;
-	
-	@Column(name="deposit")
+
+	@Column(name = "deposit")
 	private Long deposit;
-	
-	@Column(name="price")
+
+	@Column(name = "price")
 	private Long price;
-	
-	@Column(name="area")
+
+	@Column(name = "area")
 	private float area;
-	
-	@Column(name="zipcode")
+
+	@Column(name = "zipcode")
 	private Long zipcode;
+
+	@Column(name = "address1")
+	private String address1;
 	
-	@Column(name="address")
-	private String address;
-	
-	@Column(name="latitude")
+	@Column(name = "address2")
+	private String address2;
+
+	@Column(name = "latitude")
 	private float latitude;
-	
-	@Column(name="longitude")
+
+	@Column(name = "longitude")
 	private float longitude;
-	
-	@Column(name="room_floors")
+
+	@Column(name = "room_floors")
 	private Long roomFloors;
+
+	@Column(name = "building_floors")
+	private Long buildingFloors;
 	
-	@Column(name="building_floors")
-	private Long buildingFloors
-	;
-	@Column(name="maintenance_cost")
+	@Column(name = "maintenance_cost")
 	private Long maintenanceCost;
-	
-	@Column(name="title")
+
+	@Column(name = "title")
 	private String title;
-	
-	@Column(name="contents")
+
+	@Column(name = "contents")
 	private String contents;
-	
-	@Column(name="memo")
+
+	@Column(name = "memo")
 	private String memo;
-	
-	@Column(name="write_date")
+
+	@Column(name = "write_date")
 	private Timestamp writeDate;
-	
+
 	@OneToOne
-    @JoinColumn(name = "room_code", referencedColumnName = "room_id")
-    private Room room;
-	
+	@JoinColumn(name = "room_code", referencedColumnName = "room_id")
+	private Room room;
+
 	@OneToOne
-    @JoinColumn(name = "structure_code", referencedColumnName = "structure_id")
-    private Structure structure;
-	
+	@JoinColumn(name = "structure_code", referencedColumnName = "structure_id")
+	private Structure structure;
+
 	@OneToOne
-    @JoinColumn(name = "building_code", referencedColumnName = "building_id")
-    private Building building;
-	
+	@JoinColumn(name = "building_code", referencedColumnName = "building_id")
+	private Building building;
+
 	@OneToOne
-    @JoinColumn(name = "transaction_code", referencedColumnName = "transaction_id")
-    private Transaction transaction;
-	
+	@JoinColumn(name = "transaction_code", referencedColumnName = "transaction_id")
+	private Transaction transaction;
+
 	@OneToOne
-    @JoinColumn(name = "heating_code", referencedColumnName = "heating_id")
-    private HeatingSystem heatingSystem;
+	@JoinColumn(name = "heating_code", referencedColumnName = "heating_id")
+	private HeatingSystem heatingSystem;
+
+	@OneToMany(cascade=CascadeType.REMOVE)
+	@JoinColumn(name = "estate_code")
+	private Set<EstateOption> optionList;
+
+	@OneToMany(cascade=CascadeType.REMOVE)
+	@JoinColumn(name = "parent_id")
+	private Set<EstateImage> images;
 
 	public Long getEstateId() {
 		return estateId;
@@ -133,12 +147,20 @@ public class Estate {
 		this.zipcode = zipcode;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getAddress1() {
+		return address1;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
 	}
 
 	public float getLatitude() {
@@ -253,10 +275,27 @@ public class Estate {
 		this.heatingSystem = heatingSystem;
 	}
 
-	public Estate(Long estateId, String writer, Long deposit, Long price, float area, Long zipcode, String address,
-			float latitude, float longitude, Long roomFloors, Long buildingFloors, Long maintenanceCost, String title,
-			String contents, String memo, Timestamp writeDate, Room room, Structure structure, Building building,
-			Transaction transaction, HeatingSystem heatingSystem) {
+	public Set<EstateOption> getOptionList() {
+		return optionList;
+	}
+
+	public void setOptionList(Set<EstateOption> optionList) {
+		this.optionList = optionList;
+	}
+
+	public Set<EstateImage> getImages() {
+		return images;
+	}
+
+	public void setImages(Set<EstateImage> images) {
+		this.images = images;
+	}
+
+	public Estate(Long estateId, String writer, Long deposit, Long price, float area, Long zipcode, String address1,
+			String address2, float latitude, float longitude, Long roomFloors, Long buildingFloors,
+			Long maintenanceCost, String title, String contents, String memo, Timestamp writeDate, Room room,
+			Structure structure, Building building, Transaction transaction, HeatingSystem heatingSystem,
+			Set<EstateOption> optionList, Set<EstateImage> images) {
 		super();
 		this.estateId = estateId;
 		this.writer = writer;
@@ -264,7 +303,8 @@ public class Estate {
 		this.price = price;
 		this.area = area;
 		this.zipcode = zipcode;
-		this.address = address;
+		this.address1 = address1;
+		this.address2 = address2;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.roomFloors = roomFloors;
@@ -279,11 +319,12 @@ public class Estate {
 		this.building = building;
 		this.transaction = transaction;
 		this.heatingSystem = heatingSystem;
+		this.optionList = optionList;
+		this.images = images;
 	}
 
 	public Estate() {
 		super();
 	}
 
-	
 }
