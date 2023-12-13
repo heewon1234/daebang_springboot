@@ -16,6 +16,9 @@ public class Real_Estate_Agent {
 	@Column(name="estate_name")
 	private String estateName;
 	
+	@Column(name="estate_number")
+	private String estateNumber;
+	
 	@Column(name="name")
 	private String name;
 	
@@ -31,21 +34,22 @@ public class Real_Estate_Agent {
 	@Column(name="enabled")
 	private boolean enabled;
 
-
-
-
-	public Real_Estate_Agent(String email, String pw, String estateName, String name, String phone,
+	public Real_Estate_Agent(String email, String pw, String estateName, String estateNumber, String name, String phone,
 			double manners_temperature, String role, boolean enabled) {
 		super();
 		this.email = email;
 		this.pw = pw;
 		this.estateName = estateName;
+		this.estateNumber = estateNumber;
 		this.name = name;
 		this.phone = phone;
 		this.manners_temperature = manners_temperature;
 		this.role = role;
 		this.enabled = enabled;
 	}
+
+
+
 
 
 
@@ -57,9 +61,15 @@ public class Real_Estate_Agent {
 
 
 
+
+
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
+
 
 
 
@@ -71,9 +81,15 @@ public class Real_Estate_Agent {
 
 
 
+
+
+
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
+
+
+
 
 
 
@@ -85,9 +101,35 @@ public class Real_Estate_Agent {
 
 
 
+
+
+
 	public void setEstateName(String estateName) {
 		this.estateName = estateName;
 	}
+
+
+
+
+
+
+
+	public String getEstateNumber() {
+		return estateNumber;
+	}
+
+
+
+
+
+
+
+	public void setEstateNumber(String estateNumber) {
+		this.estateNumber = estateNumber;
+	}
+
+
+
 
 
 
@@ -99,9 +141,15 @@ public class Real_Estate_Agent {
 
 
 
+
+
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
+
 
 
 
@@ -113,9 +161,15 @@ public class Real_Estate_Agent {
 
 
 
+
+
+
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+
+
+
 
 
 
@@ -127,9 +181,15 @@ public class Real_Estate_Agent {
 
 
 
+
+
+
 	public void setManners_temperature(double manners_temperature) {
 		this.manners_temperature = manners_temperature;
 	}
+
+
+
 
 
 
@@ -141,9 +201,15 @@ public class Real_Estate_Agent {
 
 
 
+
+
+
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+
+
 
 
 
@@ -155,9 +221,15 @@ public class Real_Estate_Agent {
 
 
 
+
+
+
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+
+
+
 
 
 
