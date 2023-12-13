@@ -99,7 +99,7 @@ public class EstateController {
 //	}
 
 	@PostMapping
-	public ResponseEntity<Void> handleFormData(@RequestParam("realEstate") String realEstateJson,
+	public ResponseEntity<Void> insert(@RequestParam("realEstate") String realEstateJson,
 			@RequestParam("optionList") String optionListJson,
 			@RequestParam("estateImages") List<MultipartFile> estateImages) {
 		
