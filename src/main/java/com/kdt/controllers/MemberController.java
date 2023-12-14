@@ -37,18 +37,7 @@ public class MemberController {
 		mServ.signUp(dto);
 		return ResponseEntity.ok().build();
 	}
-	@GetMapping("getAll")
-	public ResponseEntity<List<MemberDTO>> getAll() {
-		try {
-			List<MemberDTO> dto = mServ.getAll();
-			System.out.println(dto);
-			return ResponseEntity.ok(dto);
-		} catch (Exception e) {
-			// 예외가 발생한 경우 처리
-			e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
-	}
+	
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable String id){
 		mServ.deleteById(id);
