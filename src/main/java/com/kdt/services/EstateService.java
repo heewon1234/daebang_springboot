@@ -1,6 +1,5 @@
 package com.kdt.services;
 
-import java.awt.desktop.SystemSleepEvent;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -50,9 +49,7 @@ public class EstateService {
 	private EstateRepository eRepo;
 
 	@Transactional
-	public void insertEstate(UploadEstateDTO dto, List<EstateOptionDTO> optionDTOList, List<MultipartFile> images)
-			throws Exception {
-		// 매물 입력 ->
+	public void insertEstate(UploadEstateDTO dto, List<EstateOptionDTO> optionDTOList, List<MultipartFile> images) {
 		UploadEstate estate = ueMapper.toEntity(dto);
 
 		// 보증금 입력 안 했으면 0
@@ -67,9 +64,22 @@ public class EstateService {
 		// 작성일 입력
 		estate.setWriteDate(new Timestamp(System.currentTimeMillis()));
 
-		Long parentSeq = ueRepo.save(estate).getEstateId();
-		// <- 매물 입력
+		try {
+			// 매물 입력
+			Long parentSeq = ueRepo.save(estate).getEstateId();
+			
+			// 연관 테이블 추가
+			insertRelated(parentSeq, optionDTOList, images);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+	}
+
+	// 연관 테이블 추가
+	public void insertRelated(Long parentSeq, List<EstateOptionDTO> optionDTOList, List<MultipartFile> images)
+			throws Exception {
 		// 매물 옵션 입력 ->
 		for (EstateOptionDTO optionDTO : optionDTOList) {
 			EstateOption option = eoMapper.toEntity(optionDTO);
@@ -106,11 +116,26 @@ public class EstateService {
 	}
 
 	@Transactional
-	public void deleteById(Long estateId) throws Exception {
-		
+	public void deleteById(Long estateId) {
+
+		try {
+			// 연관 테이블 삭제
+			deleteRelatedById(estateId);
+			// 매물 정보 삭제
+			ueRepo.deleteById(estateId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	// 연관 테이블 삭제
+	@Transactional
+	public void deleteRelatedById(Long estateId) throws Exception {
 		// 매물 옵션 정보 삭제
 		eoRepo.deleteByEstateCode(estateId);
-		
+
 		// 사진 파일 삭제 ->
 		// 실제로 지울 파일 이름 검색
 		List<EstateImage> eiList = eiRepo.findAllByParentId(estateId);
@@ -122,11 +147,6 @@ public class EstateService {
 		// DB에서 삭제
 		eiRepo.deleteByParentId(estateId);
 		// <- 사진 파일 삭제
-
-		// 매물 정보 삭제
-		ueRepo.deleteById(estateId);
-
-		return;
 	}
 
 	// 사진 파일 삭제
@@ -151,5 +171,26 @@ public class EstateService {
 				}
 			}
 		}
+	}
+
+	// 매물 정보 수정
+	@Transactional
+	public void updateById(UploadEstateDTO dto, List<EstateOptionDTO> optionDTOList, List<MultipartFile> images) {
+		Long estateId = dto.getEstateId();
+
+		UploadEstate estate = ueRepo.findById(estateId).get();
+
+		try {
+			// 연관 테이블 삭제
+			deleteRelatedById(estateId);
+			// 삭제 후 재생성
+			insertRelated(estateId, optionDTOList, images);
+			ueMapper.updateEntityFromDTO(dto, estate);
+			ueRepo.save(estate);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 }
