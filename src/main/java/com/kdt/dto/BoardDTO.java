@@ -38,11 +38,6 @@ public class BoardDTO {
 		this.viewCount = viewCount;
 	}
 
-	public BoardDTO(String boardTitle) {
-		super();
-		this.boardTitle = boardTitle;
-	}
-
 	public String getFavorite() {
 		return favorite;
 	}
