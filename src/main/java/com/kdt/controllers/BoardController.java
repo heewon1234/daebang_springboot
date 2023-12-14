@@ -68,6 +68,12 @@ public class BoardController {
 		return ResponseEntity.ok(list);
 
 	}
+	
+	@GetMapping("/favBoardList")
+	public ResponseEntity<List<BoardDTO>> selectAllFavBoardContents(){
+		List<BoardDTO> list = bServ.selectAllFavBoardContents(getUser() != null ? getUser().getUsername() : null);
+		return ResponseEntity.ok(list);
+	}
 
 	// 게시글 내용 불러오기
 	@GetMapping("/boardContents/{contentsSeq}")
