@@ -3,6 +3,8 @@ package com.kdt.dto;
 import java.time.Instant;
 import java.util.Set;
 
+import org.apache.ibatis.annotations.Param;
+
 public class BoardDTO {
 	
 	private Long seq;
@@ -13,6 +15,7 @@ public class BoardDTO {
 	private String header;
 	private String contents;
 	private Long viewCount;
+	private String favorite;
 	private Set<ReplyDTO> replies;
 	private Set<FilesDTO> files;
 	
@@ -20,7 +23,9 @@ public class BoardDTO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public BoardDTO(Long seq, String boardTitle, String title, String writer, Instant writeDate, String header,
+	
+
+	public BoardDTO(Long seq, String boardTitle, String title, String writer, String header,
 			String contents, Long viewCount) {
 		super();
 		this.seq = seq;
@@ -32,8 +37,20 @@ public class BoardDTO {
 		this.contents = contents;
 		this.viewCount = viewCount;
 	}
-	
-	
+
+	public BoardDTO(String boardTitle) {
+		super();
+		this.boardTitle = boardTitle;
+	}
+
+	public String getFavorite() {
+		return favorite;
+	}
+
+	public void setFavorite(String favorite) {
+		this.favorite = favorite;
+	}
+
 
 	public Set<FilesDTO> getFiles() {
 		return files;

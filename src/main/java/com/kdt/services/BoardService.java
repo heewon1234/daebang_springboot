@@ -88,8 +88,7 @@ public class BoardService {
 	@Transactional
 	public void editBoardContents(BoardUploadDTO dto, String[] delImgList, String[] delFileList) throws Exception{
 
-		delDBFile(delFileList);
-		System.out.println(dto.getSeq()==null ? "null임" : "아님");		
+		delDBFile(delFileList);	
 		Board board = bRepo.findById(dto.getSeq()).get();
 
 		Set<Files> entityFiles = board.getFiles();
@@ -134,13 +133,22 @@ public class BoardService {
 	}
 
 	// 자유게시판 글 목록 불러오기
-	public List<BoardDTO> selectAllFreeBoardContents(){
-		return bMapper.toDtoList(bRepo.findAllByBoardTitle("자유게시판"));
+	public List<BoardDTO> selectAllFreeBoardContents(String id){
+		if(id==null) {
+			return bMapper.toDtoList(bRepo.findAllByBoardTitle("자유게시판"));
+		} else {
+			return bMapper.toDtoList(bRepo.selectBoardContentswithFav("자유게시판", id));
+		}
 	}
 
 	// 양도게시판 글 목록 불러오기
-	public List<BoardDTO> selectAllRoomBoardContents(){
-		return bMapper.toDtoList(bRepo.findAllByBoardTitle("양도게시판"));
+	public List<BoardDTO> selectAllRoomBoardContents(String id){
+		if(id==null) {
+			return bMapper.toDtoList(bRepo.findAllByBoardTitle("양도게시판"));
+		} else {
+			return bMapper.toDtoList(bRepo.selectBoardContentswithFav("양도게시판", id));
+		}
+		
 	}	
 
 	// 게시글 내용 불러오기

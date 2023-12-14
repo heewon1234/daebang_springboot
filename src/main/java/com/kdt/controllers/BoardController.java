@@ -57,14 +57,14 @@ public class BoardController {
 	// 게시글 목록 불러오기
 	@GetMapping("/freeBoardList")
 	public ResponseEntity<List<BoardDTO>> selectAllFreeBoardContents(){
-		List<BoardDTO> list = bServ.selectAllFreeBoardContents();
+		List<BoardDTO> list = bServ.selectAllFreeBoardContents(getUser() != null ? getUser().getUsername() : null);
 		return ResponseEntity.ok(list);
 
 	}
 
 	@GetMapping("/roomBoardList")
 	public ResponseEntity<List<BoardDTO>> selectAllRoomBoardContents(){
-		List<BoardDTO> list = bServ.selectAllRoomBoardContents();
+		List<BoardDTO> list = bServ.selectAllRoomBoardContents(getUser() != null ? getUser().getUsername() : null);
 		return ResponseEntity.ok(list);
 
 	}
