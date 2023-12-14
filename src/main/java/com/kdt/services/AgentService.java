@@ -3,6 +3,7 @@ package com.kdt.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.kdt.domain.entities.Real_Estate_Agent;
@@ -26,6 +27,13 @@ public class AgentService {
 	@Autowired
 	private NewEstateMapper nMapper;
 	
+	private final PasswordEncoder passwordEncoder;
+	
+	//@Autowired
+    public AgentService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+	
 	public List<RealEstateAgentDTO> getAll(){
 		List<Real_Estate_Agent> list = aRepo.findAll();
 		List<RealEstateAgentDTO> dtos = aMapper.toDtoList(list);
@@ -46,6 +54,8 @@ public class AgentService {
 		aRepo.save(e);
 	}
 	public void signup(RealEstateAgentDTO RealEstateAgentDTO) {
+		String crypPw = passwordEncoder.encode(RealEstateAgentDTO.getPw());
+		RealEstateAgentDTO.setPw(crypPw);
 		Real_Estate_Agent e = aMapper.toEntity(RealEstateAgentDTO);
 		aRepo.save(e);
 	}
