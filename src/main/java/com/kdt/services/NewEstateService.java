@@ -45,4 +45,13 @@ public class NewEstateService {
 		List<NewEstateDTO> dlist = nMapper.toDtoList(list);
 		return dlist;
 	}
+	
+	public int newEstate_sum() {
+		return nRepo.sumEstateCount();
+	}
+
+
+	public NewEstate getDailyNewEstate(LocalDate date) {
+		return nRepo.findByEstateDate(date);
+	}
 }

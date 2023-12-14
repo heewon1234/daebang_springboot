@@ -13,7 +13,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +21,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kdt.domain.entities.NewEstate;
+import com.kdt.domain.entities.NewMember;
 import com.kdt.domain.entities.Visitor;
 import com.kdt.dto.MemberDTO;
 import com.kdt.dto.NewEstateDTO;
@@ -177,58 +178,6 @@ public class AdminController {
         List<Visitor> monthlyVisitors = vServ.getMonthlyVisitors(startOfMonth, endOfMonth);
         return ResponseEntity.ok(monthlyVisitors);
     }
-//    @GetMapping("/openApi")
-//    public ResponseEntity<String> getExternalApiUrl() {
-//        // 외부 API의 URL
-//        String apiUrl = "http://api.vworld.kr/ned/data/getEBOfficeInfo";
-//
-//        // 인증키 및 다른 필요한 매개변수
-//        String authKey = "32313C80-CF6D-3E59-953F-930749A348A4";
-//        // UriComponentsBuilder를 사용하여 URL 및 매개변수 구성
-//        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl)
-//                .queryParam("key", authKey)
-//                .queryParam("domain", "http://localhost:3000")
-//                .queryParam("ldCode", "44")//"44131"
-//                .queryParam("numOfRows", "100")
-//                .queryParam("format", "json");
-//
-//        return ResponseEntity.ok().body(builder.toUriString());
-//    }
-
-//    @GetMapping("/openApi")
-//    public ResponseEntity<String> callExternalApi(
-//            @RequestParam int pageNo,
-//            @RequestParam int pageSize,
-//            @RequestParam String bsnmCmpnm
-//    ) {
-//        String apiUrl = "http://api.vworld.kr/ned/data/getEBOfficeInfo";
-//        String authKey = "32313C80-CF6D-3E59-953F-930749A348A4";
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        // UriComponentsBuilder를 사용하여 URL 및 매개변수 구성
-//        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl)
-//                .queryParam("key", authKey)
-//                .queryParam("domain", "http://localhost:3000")
-////                .queryParam("ldCode", "44")
-//                .queryParam("sttusSeCode", "1")
-//                .queryParam("format", "json")
-//                .queryParam("bsnmCmpnm", bsnmCmpnm)
-//                .queryParam("numOfRows", pageSize)
-//                .queryParam("pageNo", pageNo);
-//
-//        try {
-//            ResponseEntity<String> response = restTemplate.getForEntity(builder.toUriString(), String.class);
-//            System.out.println(response.getBody());
-//
-//            return ResponseEntity.ok().body(response.getBody());
-//        } catch (HttpClientErrorException | HttpServerErrorException e) {
-//            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                                 .body("An error occurred while calling the external API");
-//        }
-//    }
     @GetMapping("/openApi/{bsnmCmpnm}")
     public ResponseEntity<String> callExternalApi(@PathVariable String bsnmCmpnm) {
         String apiUrl = "https://api.vworld.kr/ned/data/getEBOfficeInfo";
@@ -376,20 +325,19 @@ public class AdminController {
   //회원 누적 방문자수
     @GetMapping("/newMember/sum")
     public ResponseEntity<Integer> newMember_sum() {
-        int num = vServ.sum();
+        int num = nServ.newMember_sum();
         return ResponseEntity.ok(num);
     }
   //오늘 회원등록수
     @GetMapping("/dailyMember")
-    public ResponseEntity<Visitor> getDailyMember() {
+    public ResponseEntity<NewMember> getDailyMember() {
         LocalDate today = LocalDate.now();
-        Visitor dailyVisitors = vServ.getDailyVisitors(today);
-        return ResponseEntity.ok(dailyVisitors);
+        NewMember dailyNewMember = nServ.getDailyNewMember(today);
+        return ResponseEntity.ok(dailyNewMember);
     }
     
     @GetMapping("/agent/isEstateNumber/{number}")
     public ResponseEntity<Boolean> isEstateNumber(@PathVariable String number) {
-        System.out.println(number);
         boolean isDuplicate = aServ.isEstateNumber(number);
         return ResponseEntity.ok(isDuplicate);
     }
@@ -436,14 +384,14 @@ public class AdminController {
   //부동산 누적 방문자수
     @GetMapping("/agent/sum")
     public ResponseEntity<Integer> agent_sum() {
-        int num = vServ.sum();
+        int num = neServ.newEstate_sum();
         return ResponseEntity.ok(num);
     }
   //오늘 공인중개사 등록수
     @GetMapping("/dailyEstate")
-    public ResponseEntity<Visitor> getDailyEstate() {
+    public ResponseEntity<NewEstate> getDailyEstate() {
         LocalDate today = LocalDate.now();
-        Visitor dailyVisitors = vServ.getDailyVisitors(today);
-        return ResponseEntity.ok(dailyVisitors);
+        NewEstate dailyEstate = neServ.getDailyNewEstate(today);
+        return ResponseEntity.ok(dailyEstate);
     }
 }
