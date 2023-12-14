@@ -1,13 +1,20 @@
 package com.kdt.controllers;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/file")
@@ -49,19 +54,24 @@ public class FilesController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Void> downloadFile(@RequestParam String sysName,@RequestParam String oriName, HttpServletResponse response) throws Exception{
-		String realPath =  "C:/uploads/board";
-		File targetFile = new File(realPath + "/" + sysName);
-		oriName = new String(oriName.getBytes("utf8"),"ISO-8859-1");
-		response.setHeader("content-disposition", "attachment;filename="+oriName);
-
-		try(DataInputStream dis = new DataInputStream(new FileInputStream(targetFile));
-			DataOutputStream dos = new DataOutputStream(response.getOutputStream());){
-			byte[] fileContents = dis.readAllBytes();
-			dos.write(fileContents);
-			dos.flush();
-		}	
-		return ResponseEntity.ok().build();
+	public ResponseEntity<Object> downloadFile(@RequestParam String sysName,@RequestParam String oriName) throws Exception{
+		System.out.println(sysName + "d");
+		String realPath =  "C:/uploads/board/"+sysName;
+		
+		try {
+			Path filePath = Paths.get(realPath);
+			Resource resource = new InputStreamResource(Files.newInputStream(filePath));
+			
+			File file = new File(realPath);
+			
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentDisposition(ContentDisposition.builder("attachment").filename(URLEncoder.encode(file.getName(), StandardCharsets.UTF_8)).build());
+			
+			return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
+			
+		} catch(Exception e) {
+			return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
+		}
 	}
 
 }
