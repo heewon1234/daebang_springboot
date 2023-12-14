@@ -10,5 +10,5 @@ public interface EstateImageRepository extends JpaRepository<EstateImage, Long>{
 	Long deleteByParentId(Long parentId);
 	
 	// 지울 파일 이름 검색
-	List<EstateImage> findSysNamesByParentId(Long parentId);
+	List<EstateImage> findAllByParentId(Long parentId);
 }

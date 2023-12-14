@@ -48,8 +48,11 @@ public class UploadEstate {
 	@Column(name="zipcode")
 	private Long zipcode;
 	
-	@Column(name="address")
-	private String address;
+	@Column(name="address1")
+	private String address1;
+	
+	@Column(name="address2")
+	private String address2;
 	
 	@Column(name="latitude")
 	private float latitude;
@@ -166,12 +169,20 @@ public class UploadEstate {
 		this.zipcode = zipcode;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getAddress1() {
+		return address1;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
 	}
 
 	public float getLatitude() {
@@ -248,8 +259,8 @@ public class UploadEstate {
 
 	public UploadEstate(Long estateId, String writer, String roomCode, String structureCode, String buildingCode,
 			String transactionCode, String heatingCode, Long deposit, Long price, float area, Long zipcode,
-			String address, float latitude, float longitude, Long roomFloors, Long buildingFloors, Long maintenanceCost,
-			String title, String contents, String memo, Timestamp writeDate) {
+			String address1, String address2, float latitude, float longitude, Long roomFloors, Long buildingFloors,
+			Long maintenanceCost, String title, String contents, String memo, Timestamp writeDate) {
 		super();
 		this.estateId = estateId;
 		this.writer = writer;
@@ -262,7 +273,8 @@ public class UploadEstate {
 		this.price = price;
 		this.area = area;
 		this.zipcode = zipcode;
-		this.address = address;
+		this.address1 = address1;
+		this.address2 = address2;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.roomFloors = roomFloors;
