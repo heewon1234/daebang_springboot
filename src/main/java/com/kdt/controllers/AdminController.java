@@ -13,7 +13,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,18 +21,22 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kdt.domain.entities.NewEstate;
+import com.kdt.domain.entities.NewMember;
 import com.kdt.domain.entities.Visitor;
+import com.kdt.dto.MemberDTO;
+import com.kdt.dto.NewEstateDTO;
 import com.kdt.dto.NewMemberDTO;
 import com.kdt.dto.RealEstateAgentDTO;
 import com.kdt.dto.VisitorDTO;
 import com.kdt.services.AgentService;
 import com.kdt.services.MemberService;
+import com.kdt.services.NewEstateService;
 import com.kdt.services.NewMemberService;
 import com.kdt.services.VisitorService;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin(origins = "http://localhost:3000")
 public class AdminController {
 	@Autowired
 	private VisitorService vServ;
@@ -43,8 +46,20 @@ public class AdminController {
 	private NewMemberService nServ;
 	@Autowired
 	private MemberService mServ;
+	@Autowired
+	private NewEstateService neServ;
 	
-	
+	//회원관리
+	@GetMapping("getMember")
+	public ResponseEntity<List<MemberDTO>> getMember() {
+		try {
+			List<MemberDTO> dto = mServ.getMember();
+			return ResponseEntity.ok(dto);
+		} catch (Exception e) {
+			e.printStackTrace(); 
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 	
 	//공인중개사 관련
 	@GetMapping("/agent/getAll")
@@ -163,58 +178,6 @@ public class AdminController {
         List<Visitor> monthlyVisitors = vServ.getMonthlyVisitors(startOfMonth, endOfMonth);
         return ResponseEntity.ok(monthlyVisitors);
     }
-//    @GetMapping("/openApi")
-//    public ResponseEntity<String> getExternalApiUrl() {
-//        // 외부 API의 URL
-//        String apiUrl = "http://api.vworld.kr/ned/data/getEBOfficeInfo";
-//
-//        // 인증키 및 다른 필요한 매개변수
-//        String authKey = "32313C80-CF6D-3E59-953F-930749A348A4";
-//        // UriComponentsBuilder를 사용하여 URL 및 매개변수 구성
-//        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl)
-//                .queryParam("key", authKey)
-//                .queryParam("domain", "http://localhost:3000")
-//                .queryParam("ldCode", "44")//"44131"
-//                .queryParam("numOfRows", "100")
-//                .queryParam("format", "json");
-//
-//        return ResponseEntity.ok().body(builder.toUriString());
-//    }
-
-//    @GetMapping("/openApi")
-//    public ResponseEntity<String> callExternalApi(
-//            @RequestParam int pageNo,
-//            @RequestParam int pageSize,
-//            @RequestParam String bsnmCmpnm
-//    ) {
-//        String apiUrl = "http://api.vworld.kr/ned/data/getEBOfficeInfo";
-//        String authKey = "32313C80-CF6D-3E59-953F-930749A348A4";
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        // UriComponentsBuilder를 사용하여 URL 및 매개변수 구성
-//        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl)
-//                .queryParam("key", authKey)
-//                .queryParam("domain", "http://localhost:3000")
-////                .queryParam("ldCode", "44")
-//                .queryParam("sttusSeCode", "1")
-//                .queryParam("format", "json")
-//                .queryParam("bsnmCmpnm", bsnmCmpnm)
-//                .queryParam("numOfRows", pageSize)
-//                .queryParam("pageNo", pageNo);
-//
-//        try {
-//            ResponseEntity<String> response = restTemplate.getForEntity(builder.toUriString(), String.class);
-//            System.out.println(response.getBody());
-//
-//            return ResponseEntity.ok().body(response.getBody());
-//        } catch (HttpClientErrorException | HttpServerErrorException e) {
-//            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                                 .body("An error occurred while calling the external API");
-//        }
-//    }
     @GetMapping("/openApi/{bsnmCmpnm}")
     public ResponseEntity<String> callExternalApi(@PathVariable String bsnmCmpnm) {
         String apiUrl = "https://api.vworld.kr/ned/data/getEBOfficeInfo";
@@ -270,6 +233,61 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
         }
     }
+//    @GetMapping("/xyopenApi")
+//    public ResponseEntity<String> callXYApi(@PathVariable String bsnmCmpnm) {
+//        String apiUrl = "https://api.vworld.kr/ned/data/getEBOfficeInfo";
+//        String authKey = "32313C80-CF6D-3E59-953F-930749A348A4";
+//        
+//        try {
+//            // 한글 부분을 URLEncoder로 인코딩하여 URL에 추가
+//            String encodedBsnmCmpnm = URLEncoder.encode(bsnmCmpnm, StandardCharsets.UTF_8.toString());
+//
+//            // URL 및 파라미터 설정
+//            String urlString = apiUrl + "?key=" + authKey +
+//                    "&domain=http://localhost:3000" +
+//                    "&sttusSeCode=1" +
+//                    "&ldCode=44" +
+//                    "&format=json" +
+//                    "&bsnmCmpnm=" + encodedBsnmCmpnm +
+//                    "&pageSize=10" +
+//                    "&pageNo=1";
+//
+//            // URL 객체 생성
+//            URL url = new URL(urlString);
+//
+//            // HttpURLConnection을 이용한 요청 설정
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//            connection.setRequestMethod("GET");
+//            connection.setRequestProperty("Content-Type", "application/json");
+//
+//            // 요청 전송
+//            int responseCode = connection.getResponseCode();
+//            System.out.println("Response Code: " + responseCode);
+//
+//            // 응답 처리
+//            BufferedReader in;
+//            StringBuilder response = new StringBuilder();
+//            if (responseCode >= 200 && responseCode < 300) {
+//                in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//            } else {
+//                in = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+//            }
+//
+//            String inputLine;
+//            while ((inputLine = in.readLine()) != null) {
+//                response.append(inputLine);
+//            }
+//            in.close();
+//
+//            // 응답 출력
+//            System.out.println("response.toString()"+response.toString());
+//
+//            return ResponseEntity.ok().body(response.toString());
+//        } catch (IOException e) {
+//            System.out.println("Exception: " + e.getMessage());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+//        }
+//    }
 
     //신규회원 등록 수
     @GetMapping("/todayNewMember")
@@ -304,10 +322,22 @@ public class AdminController {
     	List<NewMemberDTO> list = nServ.getAll();
     	return ResponseEntity.ok(list);
     }
+  //회원 누적 방문자수
+    @GetMapping("/newMember/sum")
+    public ResponseEntity<Integer> newMember_sum() {
+        int num = nServ.newMember_sum();
+        return ResponseEntity.ok(num);
+    }
+  //오늘 회원등록수
+    @GetMapping("/dailyMember")
+    public ResponseEntity<NewMember> getDailyMember() {
+        LocalDate today = LocalDate.now();
+        NewMember dailyNewMember = nServ.getDailyNewMember(today);
+        return ResponseEntity.ok(dailyNewMember);
+    }
     
     @GetMapping("/agent/isEstateNumber/{number}")
     public ResponseEntity<Boolean> isEstateNumber(@PathVariable String number) {
-        System.out.println(number);
         boolean isDuplicate = aServ.isEstateNumber(number);
         return ResponseEntity.ok(isDuplicate);
     }
@@ -317,5 +347,51 @@ public class AdminController {
     public ResponseEntity<Void> signup(RealEstateAgentDTO RealEstateAgentDTO) {
         aServ.signup(RealEstateAgentDTO);
         return ResponseEntity.ok().build();
+    }
+  //부동산 신규회원 등록 수
+    @GetMapping("/agent/todayNewEstate")
+    public ResponseEntity<NewEstateDTO> getTodayNewEstate() {
+    	try {
+    		NewEstateDTO dto = neServ.getTodayNewEstate();
+            System.out.println(dto);
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
+            // 예외가 발생한 경우 처리
+            e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @PostMapping("/agent/createNewEstate")
+    public ResponseEntity<Void> createNewEstate() {
+    	neServ.createNewEstate();
+        return ResponseEntity.ok().build();
+    }
+    @PutMapping("/agent/incrementNewEstate/{seq}")
+    public ResponseEntity<Void> incrementNewEstate(@PathVariable Long seq) {
+        try {
+        	neServ.incrementNewEstate(seq);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            // 예외 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @GetMapping("/agent/newEstate/getAll")
+    public ResponseEntity<List<NewEstateDTO>> newEstateGetAll() {
+    	List<NewEstateDTO> list = neServ.getAll();
+    	return ResponseEntity.ok(list);
+    }
+  //부동산 누적 방문자수
+    @GetMapping("/agent/sum")
+    public ResponseEntity<Integer> agent_sum() {
+        int num = neServ.newEstate_sum();
+        return ResponseEntity.ok(num);
+    }
+  //오늘 공인중개사 등록수
+    @GetMapping("/dailyEstate")
+    public ResponseEntity<NewEstate> getDailyEstate() {
+        LocalDate today = LocalDate.now();
+        NewEstate dailyEstate = neServ.getDailyNewEstate(today);
+        return ResponseEntity.ok(dailyEstate);
     }
 }

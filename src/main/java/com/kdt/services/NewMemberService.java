@@ -47,4 +47,12 @@ public class NewMemberService {
 		List<NewMemberDTO> dlist = nMapper.toDtoList(list);
 		return dlist;
 	}
+	public int newMember_sum() {
+		return nRepo.sumNewMemberCount();
+	}
+
+
+	public NewMember getDailyNewMember(LocalDate date) {
+		return nRepo.findByNewMemberDate(date);
+	}
 }
