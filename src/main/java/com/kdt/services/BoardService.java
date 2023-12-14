@@ -150,6 +150,14 @@ public class BoardService {
 		}
 		
 	}	
+	
+	// 즐겨찾기 게시판 글 목록 불러오기
+	public List<BoardDTO> selectAllFavBoardContents(String id){
+		if(id==null) {
+			return new ArrayList<BoardDTO>();
+		}
+		return bMapper.toDtoList(bRepo.selectFavBoardContents(id));
+	}
 
 	// 게시글 내용 불러오기
 	public BoardDTO boardContents(Long seq) {
