@@ -1,6 +1,9 @@
 package com.kdt.dto;
 
 import java.sql.Timestamp;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class UploadEstateDTO {
 	private Long estateId;
@@ -25,6 +28,7 @@ public class UploadEstateDTO {
 	private String contents;
 	private String memo;
 	private Timestamp writeDate;
+	
 	public Long getEstateId() {
 		return estateId;
 	}
@@ -188,5 +192,4 @@ public class UploadEstateDTO {
 	public UploadEstateDTO() {
 		super();
 	}
-	
 }
