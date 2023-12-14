@@ -25,7 +25,7 @@ public class BoardDTO {
 	}
 	
 
-	public BoardDTO(Long seq, String boardTitle, String title, String writer, String header,
+	public BoardDTO(Long seq, String boardTitle, String title, String writer, Instant writeDate, String header,
 			String contents, Long viewCount) {
 		super();
 		this.seq = seq;
