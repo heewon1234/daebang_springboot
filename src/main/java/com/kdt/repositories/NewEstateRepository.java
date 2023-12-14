@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.kdt.domain.entities.NewEstate;
@@ -13,4 +14,7 @@ import com.kdt.domain.entities.NewMember;
 public interface NewEstateRepository extends JpaRepository<NewEstate, Long> {
 	NewEstate findByEstateDate(LocalDate estateDate);
 	List<NewEstate> findByEstateDateBetween(LocalDate startDate, LocalDate endDate);
+	
+	@Query("SELECT SUM(n.estateCount) FROM NewEstate n")
+    Integer sumEstateCount();
 }
