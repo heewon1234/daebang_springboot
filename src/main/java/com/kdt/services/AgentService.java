@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import com.kdt.domain.entities.Real_Estate_Agent;
 import com.kdt.dto.RealEstateAgentDTO;
 import com.kdt.mappers.AgentMapper;
+import com.kdt.mappers.NewEstateMapper;
 import com.kdt.repositories.AgentRepository;
+import com.kdt.repositories.NewEstateRepository;
 
 @Service
 public class AgentService {
@@ -17,6 +19,12 @@ public class AgentService {
 	
 	@Autowired
 	private AgentMapper aMapper;
+	
+	@Autowired
+	private NewEstateRepository nRepo;
+	
+	@Autowired
+	private NewEstateMapper nMapper;
 	
 	public List<RealEstateAgentDTO> getAll(){
 		List<Real_Estate_Agent> list = aRepo.findAll();
