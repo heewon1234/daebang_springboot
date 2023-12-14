@@ -1,5 +1,6 @@
 package com.kdt.services;
 
+import java.awt.desktop.SystemSleepEvent;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -54,13 +55,18 @@ public class EstateService {
 		// 매물 입력 ->
 		UploadEstate estate = ueMapper.toEntity(dto);
 
+		// 보증금 입력 안 했으면 0
+		if (estate.getDeposit() == null) {
+			estate.setDeposit(0L);
+		}
+
 		// 관리비 입력 안 했으면 0
 		if (estate.getMaintenanceCost() == null) {
 			estate.setMaintenanceCost(0L);
 		}
 		// 작성일 입력
 		estate.setWriteDate(new Timestamp(System.currentTimeMillis()));
-		
+
 		Long parentSeq = ueRepo.save(estate).getEstateId();
 		// <- 매물 입력
 
@@ -101,12 +107,13 @@ public class EstateService {
 
 	@Transactional
 	public void deleteById(Long estateId) throws Exception {
+		
 		// 매물 옵션 정보 삭제
 		eoRepo.deleteByEstateCode(estateId);
 		
 		// 사진 파일 삭제 ->
 		// 실제로 지울 파일 이름 검색
-		List<EstateImage> eiList = eiRepo.findSysNamesByParentId(estateId);
+		List<EstateImage> eiList = eiRepo.findAllByParentId(estateId);
 		List<String> delFileList = new ArrayList<>();
 		for (EstateImage image : eiList) {
 			delFileList.add(image.getSysName());
@@ -117,7 +124,7 @@ public class EstateService {
 		// <- 사진 파일 삭제
 
 		// 매물 정보 삭제
-		eRepo.deleteById(estateId);
+		ueRepo.deleteById(estateId);
 
 		return;
 	}

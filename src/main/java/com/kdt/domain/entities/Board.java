@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="Board")
@@ -52,9 +53,26 @@ public class Board {
 	@JoinColumn(name="parent_seq")
 	private Set<Files> files;
 	
+	@Transient
+	private String favorite;
+	
 	public Board() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public Board(Long seq, String boardTitle, String title, String writer, Timestamp writeDate, String header,
+			String contents, Long viewCount, String favorite) {
+		super();
+		this.seq = seq;
+		this.boardTitle = boardTitle;
+		this.title = title;
+		this.writer = writer;
+		this.writeDate = writeDate;
+		this.header = header;
+		this.contents = contents;
+		this.viewCount = viewCount;
+		this.favorite = favorite;
 	}
 
 	public Board(Long seq, String boardTitle, String title, String writer, Timestamp writeDate, String header,
@@ -70,6 +88,13 @@ public class Board {
 		this.viewCount = viewCount;
 	}
 
+	public String getFavorite() {
+		return favorite;
+	}
+
+	public void setFavorite(String favorite) {
+		this.favorite = favorite;
+	}
 	public Set<Files> getFiles() {
 		return files;
 	}
@@ -149,4 +174,5 @@ public class Board {
 	public void setViewCount(Long viewCount) {
 		this.viewCount = viewCount;
 	}
+	
 }
