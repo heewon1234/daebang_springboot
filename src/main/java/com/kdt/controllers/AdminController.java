@@ -147,90 +147,7 @@ public class AdminController {
         return ResponseEntity.ok(monthlyVisitors);
     }
     
-//    @GetMapping("/xyopenApi")
-//    public ResponseEntity<String> callXYApi(@PathVariable String bsnmCmpnm) {
-//        String apiUrl = "https://api.vworld.kr/ned/data/getEBOfficeInfo";
-//        String authKey = "32313C80-CF6D-3E59-953F-930749A348A4";
-//        
-//        try {
-//            // 한글 부분을 URLEncoder로 인코딩하여 URL에 추가
-//            String encodedBsnmCmpnm = URLEncoder.encode(bsnmCmpnm, StandardCharsets.UTF_8.toString());
-//
-//            // URL 및 파라미터 설정
-//            String urlString = apiUrl + "?key=" + authKey +
-//                    "&domain=http://localhost:3000" +
-//                    "&sttusSeCode=1" +
-//                    "&ldCode=44" +
-//                    "&format=json" +
-//                    "&bsnmCmpnm=" + encodedBsnmCmpnm +
-//                    "&pageSize=10" +
-//                    "&pageNo=1";
-//
-//            // URL 객체 생성
-//            URL url = new URL(urlString);
-//
-//            // HttpURLConnection을 이용한 요청 설정
-//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//            connection.setRequestMethod("GET");
-//            connection.setRequestProperty("Content-Type", "application/json");
-//
-//            // 요청 전송
-//            int responseCode = connection.getResponseCode();
-//            System.out.println("Response Code: " + responseCode);
-//
-//            // 응답 처리
-//            BufferedReader in;
-//            StringBuilder response = new StringBuilder();
-//            if (responseCode >= 200 && responseCode < 300) {
-//                in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//            } else {
-//                in = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-//            }
-//
-//            String inputLine;
-//            while ((inputLine = in.readLine()) != null) {
-//                response.append(inputLine);
-//            }
-//            in.close();
-//
-//            // 응답 출력
-//            System.out.println("response.toString()"+response.toString());
-//
-//            return ResponseEntity.ok().body(response.toString());
-//        } catch (IOException e) {
-//            System.out.println("Exception: " + e.getMessage());
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
-//        }
-//    }
-
-    //신규회원 등록 수
-    @GetMapping("/todayNewMember")
-    public ResponseEntity<NewMemberDTO> getTodayNewMamber() {
-    	try {
-    		NewMemberDTO dto = nServ.getTodayNewMamber();
-            System.out.println(dto);
-            return ResponseEntity.ok(dto);
-        } catch (Exception e) {
-            // 예외가 발생한 경우 처리
-            e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-    @PostMapping("/createNewMember")
-    public ResponseEntity<Void> createNewMember() {
-    	nServ.createNewMamber();
-        return ResponseEntity.ok().build();
-    }
-    @PutMapping("/incrementNewMember/{seq}")
-    public ResponseEntity<Void> incrementNewMember(@PathVariable Long seq) {
-        try {
-        	nServ.incrementNewMember(seq);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            // 예외 처리
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+    
     @GetMapping("/newMember/getAll")
     public ResponseEntity<List<NewMemberDTO>> newMemberGetAll() {
     	List<NewMemberDTO> list = nServ.getAll();
@@ -250,34 +167,7 @@ public class AdminController {
         return ResponseEntity.ok(dailyNewMember);
     }
     
-  //부동산 신규회원 등록 수
-    @GetMapping("/agent/todayNewEstate")
-    public ResponseEntity<NewEstateDTO> getTodayNewEstate() {
-    	try {
-    		NewEstateDTO dto = neServ.getTodayNewEstate();
-            System.out.println(dto);
-            return ResponseEntity.ok(dto);
-        } catch (Exception e) {
-            // 예외가 발생한 경우 처리
-            e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-    @PostMapping("/agent/createNewEstate")
-    public ResponseEntity<Void> createNewEstate() {
-    	neServ.createNewEstate();
-        return ResponseEntity.ok().build();
-    }
-    @PutMapping("/agent/incrementNewEstate/{seq}")
-    public ResponseEntity<Void> incrementNewEstate(@PathVariable Long seq) {
-        try {
-        	neServ.incrementNewEstate(seq);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            // 예외 처리
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+ 
     @GetMapping("/agent/newEstate/getAll")
     public ResponseEntity<List<NewEstateDTO>> newEstateGetAll() {
     	List<NewEstateDTO> list = neServ.getAll();

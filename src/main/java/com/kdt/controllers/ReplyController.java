@@ -25,7 +25,7 @@ public class ReplyController {
 	@Autowired
 	private ReplyService rServ;
 	
-	public SecurityUser getUser() {
+	private SecurityUser getUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		if(auth!=null && auth.getPrincipal() instanceof SecurityUser) {
