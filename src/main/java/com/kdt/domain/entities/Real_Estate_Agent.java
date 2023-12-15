@@ -22,6 +22,9 @@ public class Real_Estate_Agent {
 	@Column(name="name")
 	private String name;
 	
+	@Column(name="address")
+	private String address;
+	
 	@Column(name="phone")
 	private String phone;
 	
@@ -34,14 +37,15 @@ public class Real_Estate_Agent {
 	@Column(name="enabled")
 	private boolean enabled;
 
-	public Real_Estate_Agent(String email, String pw, String estateName, String estateNumber, String name, String phone,
-			double manners_temperature, String role, boolean enabled) {
+	public Real_Estate_Agent(String email, String pw, String estateName, String estateNumber, String name,
+			String address, String phone, double manners_temperature, String role, boolean enabled) {
 		super();
 		this.email = email;
 		this.pw = pw;
 		this.estateName = estateName;
 		this.estateNumber = estateNumber;
 		this.name = name;
+		this.address = address;
 		this.phone = phone;
 		this.manners_temperature = manners_temperature;
 		this.role = role;
@@ -146,6 +150,26 @@ public class Real_Estate_Agent {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+
+
+
+
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+
+
+
+
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 

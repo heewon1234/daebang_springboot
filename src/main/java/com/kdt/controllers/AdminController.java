@@ -147,62 +147,6 @@ public class AdminController {
         return ResponseEntity.ok(monthlyVisitors);
     }
     
-//    @GetMapping("/xyopenApi")
-//    public ResponseEntity<String> callXYApi(@PathVariable String bsnmCmpnm) {
-//        String apiUrl = "https://api.vworld.kr/ned/data/getEBOfficeInfo";
-//        String authKey = "32313C80-CF6D-3E59-953F-930749A348A4";
-//        
-//        try {
-//            // 한글 부분을 URLEncoder로 인코딩하여 URL에 추가
-//            String encodedBsnmCmpnm = URLEncoder.encode(bsnmCmpnm, StandardCharsets.UTF_8.toString());
-//
-//            // URL 및 파라미터 설정
-//            String urlString = apiUrl + "?key=" + authKey +
-//                    "&domain=http://localhost:3000" +
-//                    "&sttusSeCode=1" +
-//                    "&ldCode=44" +
-//                    "&format=json" +
-//                    "&bsnmCmpnm=" + encodedBsnmCmpnm +
-//                    "&pageSize=10" +
-//                    "&pageNo=1";
-//
-//            // URL 객체 생성
-//            URL url = new URL(urlString);
-//
-//            // HttpURLConnection을 이용한 요청 설정
-//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//            connection.setRequestMethod("GET");
-//            connection.setRequestProperty("Content-Type", "application/json");
-//
-//            // 요청 전송
-//            int responseCode = connection.getResponseCode();
-//            System.out.println("Response Code: " + responseCode);
-//
-//            // 응답 처리
-//            BufferedReader in;
-//            StringBuilder response = new StringBuilder();
-//            if (responseCode >= 200 && responseCode < 300) {
-//                in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//            } else {
-//                in = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-//            }
-//
-//            String inputLine;
-//            while ((inputLine = in.readLine()) != null) {
-//                response.append(inputLine);
-//            }
-//            in.close();
-//
-//            // 응답 출력
-//            System.out.println("response.toString()"+response.toString());
-//
-//            return ResponseEntity.ok().body(response.toString());
-//        } catch (IOException e) {
-//            System.out.println("Exception: " + e.getMessage());
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
-//        }
-//    }
-
     //신규회원 등록 수
     @GetMapping("/todayNewMember")
     public ResponseEntity<NewMemberDTO> getTodayNewMamber() {

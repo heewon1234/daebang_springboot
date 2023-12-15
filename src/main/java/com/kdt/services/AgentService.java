@@ -57,6 +57,8 @@ public class AgentService {
 	public void signup(RealEstateAgentDTO RealEstateAgentDTO) {
 		String crypPw = passwordEncoder.encode(RealEstateAgentDTO.getPw());
 		RealEstateAgentDTO.setPw(crypPw);
+		RealEstateAgentDTO.setAddress("천안시");//나중에 지움
+		RealEstateAgentDTO.setManners_temperature(36.5);
 		Real_Estate_Agent e = aMapper.toEntity(RealEstateAgentDTO);
 		aRepo.save(e);
 	}
