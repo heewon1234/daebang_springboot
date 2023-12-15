@@ -72,6 +72,13 @@ public class EstateController {
 		return ResponseEntity.ok(list);
 	}
 	
+	@GetMapping("estateUpdate/{estateId}")
+	public ResponseEntity<UploadEstateDTO> selectById(@PathVariable String estateId) {
+		UploadEstateDTO dto = eServ.selectById(Long.parseLong(estateId));
+		
+		return ResponseEntity.ok(dto);
+	}
+	
 	@PutMapping("/estateUpdate/{estateId}")
 	public ResponseEntity<Void> updateById(@PathVariable String estateId, 
 			@RequestParam("realEstate") String realEstateJson,

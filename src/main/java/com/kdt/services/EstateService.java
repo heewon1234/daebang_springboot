@@ -114,6 +114,13 @@ public class EstateService {
 
 		return list;
 	}
+	
+	public UploadEstateDTO selectById(Long estateId) {
+		UploadEstate estate = ueRepo.findById(estateId).get();
+		UploadEstateDTO dto = ueMapper.toDto(estate);
+		
+		return dto;
+	}
 
 	@Transactional
 	public void deleteById(Long estateId) {
