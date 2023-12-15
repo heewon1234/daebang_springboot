@@ -25,6 +25,7 @@ public class MapController {
 	@Autowired
 	private EstateService eServ;
 
+	// 첫 로딩시 모든 매물 정보 가져오기
 	@GetMapping("getAll")
 	public ResponseEntity<List<EstateDTO>> getAll() {
 		try {
@@ -37,6 +38,7 @@ public class MapController {
 		}
 	}
 
+	// 키워드 검색
 	@GetMapping("getKeywordSearch")
 	public ResponseEntity<List<MapRegionDTO>> getKeywordSearch(@RequestParam("keyword") String keyword) {
 		try {
