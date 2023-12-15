@@ -1,12 +1,5 @@
 package com.kdt.controllers;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -34,6 +27,9 @@ import com.kdt.services.MemberService;
 import com.kdt.services.NewEstateService;
 import com.kdt.services.NewMemberService;
 import com.kdt.services.VisitorService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -120,35 +116,7 @@ public class AdminController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-	//방문자수
-    @GetMapping("/todayVisitor")
-    public ResponseEntity<VisitorDTO> getTodayVisitor() {
-    	try {
-            VisitorDTO dto = vServ.getTodayVisitor();
-            return ResponseEntity.ok(dto);
-        } catch (Exception e) {
-            // 예외가 발생한 경우 처리
-            e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-    
-    @PostMapping("/createVisitor")
-    public ResponseEntity<Void> createVisitor() {
-        vServ.createVisitor();
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/incrementVisitor/{seq}")
-    public ResponseEntity<Void> incrementVisitor(@PathVariable Long seq) {
-        try {
-            vServ.incrementVisitor(seq);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            // 예외 처리
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+	
 
     //오늘 방문자수
     @GetMapping("/dailyVisitors")
