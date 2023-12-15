@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kdt.domain.entities.Real_Estate_Agent;
+import com.kdt.dto.MemberDTO;
 import com.kdt.dto.RealEstateAgentDTO;
+import com.kdt.dto.UpdateEstateDTO;
 import com.kdt.mappers.AgentMapper;
 import com.kdt.mappers.NewEstateMapper;
 import com.kdt.repositories.AgentRepository;
@@ -81,5 +83,13 @@ public class AgentService {
 	public void changePw(String id, String pw) {
 		String hashedPassword = passwordEncoder.encode(pw);
 		aRepo.changePw(id, hashedPassword);
+	}
+	
+	// 공인중개사 정보 변경
+	public void updateMyInfo(UpdateEstateDTO dto) {
+		Real_Estate_Agent a = aRepo.findById(dto.getId()).get();
+		RealEstateAgentDTO adto = new RealEstateAgentDTO(a.getEmail(),a.getPw(),a.getEstateName(),a.getEstateNumber(),dto.getName(),dto.getAddress(),dto.getPhone(),a.getManners_temperature(),a.getRole(),a.isEnabled());
+		aMapper.updateEntityFromDTO(adto, a);
+		aRepo.save(a);
 	}
 }
