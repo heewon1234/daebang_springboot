@@ -204,4 +204,11 @@ public class EstateService {
 		}
 
 	}
+	
+	// 마이페이지 매물 불러오기
+	public EstateDTO selectEstate(Long id) {
+		Estate e = eRepo.findById(id).get();
+		EstateDTO edto = eMapper.toDto(e);
+		return edto;
+	}
 }
