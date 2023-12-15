@@ -26,18 +26,10 @@ public class SecurityConfig {
 	private EstateSecurityService eSecServ;
 	
 	@Bean
-	@Order(0)
 	protected SecurityFilterChain memberConfig(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		
-		http.securityMatcher("/api/member/**").authorizeHttpRequests()
-		.requestMatchers(new AntPathRequestMatcher("/api/member/updateMyInfo")).authenticated()
-		.requestMatchers(new AntPathRequestMatcher("/api/member/changePw")).authenticated()
-		.requestMatchers(new AntPathRequestMatcher("/api/member/delete/**")).authenticated()
-		.requestMatchers(new AntPathRequestMatcher("/api/member/myInfo/**")).authenticated()
-		.requestMatchers(new AntPathRequestMatcher("/api/member/getAll")).hasRole("ADMIN")
-		.requestMatchers(new AntPathRequestMatcher("/api/admin/**")).hasRole("ADMIN")
-		.requestMatchers(new AntPathRequestMatcher("/**")).permitAll();
+		http.securityMatcher("/api/member/**");
 		
 		http.userDetailsService(mSecServ)
 		.formLogin().loginPage("/login").loginProcessingUrl("/api/member/login") // 로그인 처리 url 윗윗줄에 안먹음
@@ -66,11 +58,10 @@ public class SecurityConfig {
 	}
 	
 	@Bean
-	@Order(1)
 	protected SecurityFilterChain estateConfig(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		
-		http.securityMatcher("/api/estate/**").authorizeHttpRequests().requestMatchers(new AntPathRequestMatcher("/api/estate/**")).permitAll();
+		http.securityMatcher("/api/estate/**");
 		
 		http.userDetailsService(eSecServ)
 		.formLogin().loginProcessingUrl("/api/estate/login") // 로그인 처리 url 윗윗줄에 안먹음
@@ -94,6 +85,22 @@ public class SecurityConfig {
 			System.out.println("로그아웃 성공");
 			response.setStatus(HttpServletResponse.SC_OK);
 		});
+		
+		return http.build();
+	}
+	
+	@Bean
+	protected SecurityFilterChain rightConfig(HttpSecurity http) throws Exception {
+		http.csrf().disable();
+		
+		http.authorizeHttpRequests()
+		.requestMatchers(new AntPathRequestMatcher("/api/member/updateMyInfo")).hasAnyRole("ADMIN","MEMBER")
+		.requestMatchers(new AntPathRequestMatcher("/api/member/changePw")).hasAnyRole("ADMIN","MEMBER")
+		.requestMatchers(new AntPathRequestMatcher("/api/member/delete/**")).hasAnyRole("ADMIN","MEMBER")
+		.requestMatchers(new AntPathRequestMatcher("/api/member/myInfo/**")).hasAnyRole("ADMIN","MEMBER")
+		.requestMatchers(new AntPathRequestMatcher("/api/member/getAll")).hasRole("ADMIN")
+		.requestMatchers(new AntPathRequestMatcher("/api/admin/**")).hasRole("ADMIN")
+		.requestMatchers(new AntPathRequestMatcher("/**")).permitAll();
 		
 		return http.build();
 	}
