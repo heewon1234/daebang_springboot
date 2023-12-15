@@ -27,10 +27,13 @@ import com.kdt.repositories.EstateOptionRepository;
 import com.kdt.repositories.EstateRepository;
 import com.kdt.repositories.UploadEstateRepository;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 
 @Service
 public class EstateService {
+	@Autowired
+	private HttpSession session;
 
 	@Autowired
 	private UploadEstateMapper ueMapper;
@@ -108,8 +111,9 @@ public class EstateService {
 		// <- 사진 파일 입력
 	}
 
-	public List<EstateDTO> selectAll() {
-		List<Estate> eList = eRepo.findAll();
+	public List<EstateDTO> selectAll(String loginId) {
+		
+		List<Estate> eList = eRepo.findAllByWriter(loginId);
 		List<EstateDTO> list = eMapper.toDtoList(eList);
 
 		return list;

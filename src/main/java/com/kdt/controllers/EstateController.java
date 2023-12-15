@@ -30,15 +30,14 @@ import jakarta.servlet.http.HttpSession;
 public class EstateController {
 
 	@Autowired
-	private HttpSession session;
-
-	@Autowired
 	private EstateService eServ;
 
 	@PostMapping
 	public ResponseEntity<Void> insert(@RequestParam("realEstate") String realEstateJson,
 			@RequestParam("optionList") String optionListJson,
 			@RequestParam("estateImages") List<MultipartFile> estateImages) {
+		
+		System.out.println(realEstateJson);
 		
 		List<EstateOptionDTO> optionDTOList = new ArrayList<>();
 
@@ -47,8 +46,6 @@ public class EstateController {
 		try {
 			// realEstateJson 문자열을 UploadEstateDTO 객체로 변환
 			UploadEstateDTO estateDTO = objectMapper.readValue(realEstateJson, UploadEstateDTO.class);
-			//임시 아이디(나중에 삭제해야 하는 코드)
-			estateDTO.setWriter("test1234");
 			
 			// optionListJson를 파싱하여 EstateOptionDTO 객체 리스트로 변환
 	        String[] optionArray = objectMapper.readValue(optionListJson, String[].class);
@@ -66,10 +63,9 @@ public class EstateController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<EstateDTO>> selectAll() {
-		List<EstateDTO> list = eServ.selectAll();
-		
-		return ResponseEntity.ok(list);
+	public ResponseEntity<List<EstateDTO>> selectAll(@RequestParam String loginId) {
+	    List<EstateDTO> list = eServ.selectAll(loginId);
+	    return ResponseEntity.ok(list);
 	}
 	
 	@GetMapping("estateUpdate/{estateId}")
