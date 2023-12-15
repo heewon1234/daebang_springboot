@@ -37,8 +37,6 @@ public class EstateController {
 			@RequestParam("optionList") String optionListJson,
 			@RequestParam("estateImages") List<MultipartFile> estateImages) {
 		
-		System.out.println(realEstateJson);
-		
 		List<EstateOptionDTO> optionDTOList = new ArrayList<>();
 
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -61,12 +59,19 @@ public class EstateController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-
+	
 	@GetMapping
-	public ResponseEntity<List<EstateDTO>> selectAll(@RequestParam String loginId) {
-	    List<EstateDTO> list = eServ.selectAll(loginId);
-	    return ResponseEntity.ok(list);
+	public ResponseEntity<List<EstateDTO>> selectAll() {
+		List<EstateDTO> list = eServ.selectAll();
+		
+		return ResponseEntity.ok(list);
 	}
+
+//	@GetMapping
+//	public ResponseEntity<List<EstateDTO>> selectAll(@RequestParam String loginId) {
+//	    List<EstateDTO> list = eServ.selectAll(loginId);
+//	    return ResponseEntity.ok(list);
+//	}
 	
 	@GetMapping("estateUpdate/{estateId}")
 	public ResponseEntity<UploadEstateDTO> selectById(@PathVariable String estateId) {
