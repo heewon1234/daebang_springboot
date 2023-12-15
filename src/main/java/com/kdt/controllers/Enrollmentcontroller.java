@@ -14,17 +14,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kdt.dto.NewEstateDTO;
+import com.kdt.dto.NewMemberDTO;
 import com.kdt.dto.RealEstateAgentDTO;
 import com.kdt.services.AgentService;
+import com.kdt.services.NewEstateService;
+import com.kdt.services.NewMemberService;
 
 @RestController
 @RequestMapping("/api/enrollment")
 public class Enrollmentcontroller {
 	@Autowired
 	private AgentService aServ;
+	
+	@Autowired
+	private NewEstateService neServ;
+	
 	@GetMapping("/openApi/{bsnmCmpnm}")
 	public ResponseEntity<String> callExternalApi(@PathVariable String bsnmCmpnm) {
 		String apiUrl = "https://api.vworld.kr/ned/data/getEBOfficeInfo";
@@ -90,4 +99,36 @@ public class Enrollmentcontroller {
 		aServ.signup(RealEstateAgentDTO);
 		return ResponseEntity.ok().build();
 	}
+	 //부동산 신규회원 등록 수
+    @GetMapping("/agent/todayNewEstate")
+    public ResponseEntity<NewEstateDTO> getTodayNewEstate() {
+    	try {
+    		NewEstateDTO dto = neServ.getTodayNewEstate();
+            System.out.println(dto);
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
+            // 예외가 발생한 경우 처리
+            e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @PostMapping("/agent/createNewEstate")
+    public ResponseEntity<Void> createNewEstate() {
+    	neServ.createNewEstate();
+        return ResponseEntity.ok().build();
+    }
+    @PutMapping("/agent/incrementNewEstate/{seq}")
+    public ResponseEntity<Void> incrementNewEstate(@PathVariable Long seq) {
+        try {
+        	neServ.incrementNewEstate(seq);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            // 예외 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+	
+	
+	
+	
 }

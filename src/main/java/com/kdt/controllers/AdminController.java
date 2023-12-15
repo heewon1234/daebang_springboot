@@ -147,34 +147,7 @@ public class AdminController {
         return ResponseEntity.ok(monthlyVisitors);
     }
     
-    //신규회원 등록 수
-    @GetMapping("/todayNewMember")
-    public ResponseEntity<NewMemberDTO> getTodayNewMamber() {
-    	try {
-    		NewMemberDTO dto = nServ.getTodayNewMamber();
-            System.out.println(dto);
-            return ResponseEntity.ok(dto);
-        } catch (Exception e) {
-            // 예외가 발생한 경우 처리
-            e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-    @PostMapping("/createNewMember")
-    public ResponseEntity<Void> createNewMember() {
-    	nServ.createNewMamber();
-        return ResponseEntity.ok().build();
-    }
-    @PutMapping("/incrementNewMember/{seq}")
-    public ResponseEntity<Void> incrementNewMember(@PathVariable Long seq) {
-        try {
-        	nServ.incrementNewMember(seq);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            // 예외 처리
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+    
     @GetMapping("/newMember/getAll")
     public ResponseEntity<List<NewMemberDTO>> newMemberGetAll() {
     	List<NewMemberDTO> list = nServ.getAll();
@@ -194,34 +167,7 @@ public class AdminController {
         return ResponseEntity.ok(dailyNewMember);
     }
     
-  //부동산 신규회원 등록 수
-    @GetMapping("/agent/todayNewEstate")
-    public ResponseEntity<NewEstateDTO> getTodayNewEstate() {
-    	try {
-    		NewEstateDTO dto = neServ.getTodayNewEstate();
-            System.out.println(dto);
-            return ResponseEntity.ok(dto);
-        } catch (Exception e) {
-            // 예외가 발생한 경우 처리
-            e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-    @PostMapping("/agent/createNewEstate")
-    public ResponseEntity<Void> createNewEstate() {
-    	neServ.createNewEstate();
-        return ResponseEntity.ok().build();
-    }
-    @PutMapping("/agent/incrementNewEstate/{seq}")
-    public ResponseEntity<Void> incrementNewEstate(@PathVariable Long seq) {
-        try {
-        	neServ.incrementNewEstate(seq);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            // 예외 처리
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+ 
     @GetMapping("/agent/newEstate/getAll")
     public ResponseEntity<List<NewEstateDTO>> newEstateGetAll() {
     	List<NewEstateDTO> list = neServ.getAll();

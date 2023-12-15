@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdt.dto.MemberDTO;
+import com.kdt.dto.NewMemberDTO;
 import com.kdt.dto.UpdateMemberDTO;
 import com.kdt.services.MemberService;
+import com.kdt.services.NewMemberService;
 
 @RestController
 @RequestMapping("/api/member/")
@@ -25,6 +28,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberService mServ;
+	
+	@Autowired
+	private NewMemberService nServ;
 
 	@PostMapping("idDuplCheck")
 	public ResponseEntity<Boolean> idDuplCheck(@RequestBody MemberDTO dto) {
@@ -79,4 +85,32 @@ public class MemberController {
 		mServ.changePw(id,pw);
 		return ResponseEntity.ok().build();
 	}
+	//신규회원 등록 수
+    @GetMapping("/todayNewMember")
+    public ResponseEntity<NewMemberDTO> getTodayNewMamber() {
+    	try {
+    		NewMemberDTO dto = nServ.getTodayNewMamber();
+            System.out.println(dto);
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
+            // 예외가 발생한 경우 처리
+            e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @PostMapping("/createNewMember")
+    public ResponseEntity<Void> createNewMember() {
+    	nServ.createNewMamber();
+        return ResponseEntity.ok().build();
+    }
+    @PutMapping("/incrementNewMember/{seq}")
+    public ResponseEntity<Void> incrementNewMember(@PathVariable Long seq) {
+        try {
+        	nServ.incrementNewMember(seq);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            // 예외 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
