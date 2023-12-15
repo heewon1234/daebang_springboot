@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kdt.domain.entities.Real_Estate_Agent;
 import com.kdt.dto.RealEstateAgentDTO;
@@ -63,5 +64,20 @@ public class AgentService {
 	    Real_Estate_Agent e = aRepo.findByEstateNumber(number);
 	    System.out.println(e);
 	    return e != null; // 해당 estateNumber가 존재하면 true, 존재하지 않으면 false 반환
+	}
+	
+	
+	// 마이페이지 정보 띄우기
+	public RealEstateAgentDTO estateInfo(String id) {
+		Real_Estate_Agent a = aRepo.findById(id).get();
+		RealEstateAgentDTO adto = aMapper.toDto(a);
+		return adto;
+	}
+	
+	// 공인중개사 비밀번호 변경
+	@Transactional
+	public void changePw(String id, String pw) {
+		String hashedPassword = passwordEncoder.encode(pw);
+		aRepo.changePw(id, hashedPassword);
 	}
 }
