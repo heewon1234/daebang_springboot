@@ -26,68 +26,68 @@ public class Enrollmentcontroller {
 	@Autowired
 	private AgentService aServ;
 	@GetMapping("/openApi/{bsnmCmpnm}")
-    public ResponseEntity<String> callExternalApi(@PathVariable String bsnmCmpnm) {
-        String apiUrl = "https://api.vworld.kr/ned/data/getEBOfficeInfo";
-        String authKey = "32313C80-CF6D-3E59-953F-930749A348A4";
-        
-        try {
-            // 한글 부분을 URLEncoder로 인코딩하여 URL에 추가
-            String encodedBsnmCmpnm = URLEncoder.encode(bsnmCmpnm, StandardCharsets.UTF_8.toString());
+	public ResponseEntity<String> callExternalApi(@PathVariable String bsnmCmpnm) {
+		String apiUrl = "https://api.vworld.kr/ned/data/getEBOfficeInfo";
+		String authKey = "32313C80-CF6D-3E59-953F-930749A348A4";
 
-            // URL 및 파라미터 설정
-            String urlString = apiUrl + "?key=" + authKey +
-                    "&domain=http://localhost:3000" +
-                    "&sttusSeCode=1" +
-                    "&ldCode=44" +
-                    "&format=json" +
-                    "&bsnmCmpnm=" + encodedBsnmCmpnm +
-                    "&pageSize=10" +
-                    "&pageNo=1";
+		try {
+			// 한글 부분을 URLEncoder로 인코딩하여 URL에 추가
+			String encodedBsnmCmpnm = URLEncoder.encode(bsnmCmpnm, StandardCharsets.UTF_8.toString());
 
-            // URL 객체 생성
-            URL url = new URL(urlString);
+			// URL 및 파라미터 설정
+			String urlString = apiUrl + "?key=" + authKey +
+					"&domain=http://localhost:3000" +
+					"&sttusSeCode=1" +
+					"&ldCode=44" +
+					"&format=json" +
+					"&bsnmCmpnm=" + encodedBsnmCmpnm +
+					"&pageSize=10" +
+					"&pageNo=1";
 
-            // HttpURLConnection을 이용한 요청 설정
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Content-Type", "application/json");
+			// URL 객체 생성
+			URL url = new URL(urlString);
 
-            // 요청 전송
-            int responseCode = connection.getResponseCode();
-            System.out.println("Response Code: " + responseCode);
+			// HttpURLConnection을 이용한 요청 설정
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("Content-Type", "application/json");
 
-            // 응답 처리
-            BufferedReader in;
-            StringBuilder response = new StringBuilder();
-            if (responseCode >= 200 && responseCode < 300) {
-                in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            } else {
-                in = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-            }
+			// 요청 전송
+			int responseCode = connection.getResponseCode();
+			System.out.println("Response Code: " + responseCode);
 
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
+			// 응답 처리
+			BufferedReader in;
+			StringBuilder response = new StringBuilder();
+			if (responseCode >= 200 && responseCode < 300) {
+				in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			} else {
+				in = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+			}
 
-            // 응답 출력
-            System.out.println("response.toString()"+response.toString());
+			String inputLine;
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
 
-            return ResponseEntity.ok().body(response.toString());
-        } catch (IOException e) {
-            System.out.println("Exception: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
-        }
-    }
-	 @GetMapping("/agent/isEstateNumber/{number}")
-	    public ResponseEntity<Boolean> isEstateNumber(@PathVariable String number) {
-	        boolean isDuplicate = aServ.isEstateNumber(number);
-	        return ResponseEntity.ok(isDuplicate);
-	    }
-	 @PostMapping("/agent/signup")
-	    public ResponseEntity<Void> signup(RealEstateAgentDTO RealEstateAgentDTO) {
-	        aServ.signup(RealEstateAgentDTO);
-	        return ResponseEntity.ok().build();
-	    }
+			// 응답 출력
+			System.out.println("response.toString()"+response.toString());
+
+			return ResponseEntity.ok().body(response.toString());
+		} catch (IOException e) {
+			System.out.println("Exception: " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+		}
+	}
+	@GetMapping("/agent/isEstateNumber/{number}")
+	public ResponseEntity<Boolean> isEstateNumber(@PathVariable String number) {
+		boolean isDuplicate = aServ.isEstateNumber(number);
+		return ResponseEntity.ok(isDuplicate);
+	}
+	@PostMapping("/agent/signup")
+	public ResponseEntity<Void> signup(RealEstateAgentDTO RealEstateAgentDTO) {
+		aServ.signup(RealEstateAgentDTO);
+		return ResponseEntity.ok().build();
+	}
 }
