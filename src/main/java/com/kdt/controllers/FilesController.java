@@ -28,14 +28,19 @@ import org.springframework.web.multipart.MultipartFile;
 public class FilesController {
 
 	@PostMapping("/upload")
-	public ResponseEntity<List<String>> uploadFile(MultipartFile[] files) throws Exception{
-	
+	public ResponseEntity<List<String>> uploadFile(MultipartFile[] files, String path) throws Exception{
+		System.out.println("dd");
 		List<String> list = new ArrayList<>();
 		String filePath = "C:/uploads";
 		File uploadFilePath = new File(filePath);
 		if(!uploadFilePath.exists()) {uploadFilePath.mkdir();}
 		
-		String realPath = "C:/uploads/board";
+		String realPath="";
+		if(path==null) {
+			realPath = "C:/uploads/board";
+		} else if(path.equals("review")) {
+			realPath = "C:/uploads/review";
+		}
 		File uploadPath = new File(realPath);
 		if(!uploadPath.exists()) {uploadPath.mkdir();}
 		
