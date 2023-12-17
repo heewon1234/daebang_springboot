@@ -31,14 +31,22 @@ public class Real_Estate_Agent {
 	@Column(name="manners_temperature")
 	private double manners_temperature;
 	
+	@Column(name = "latitude")
+	private double latitude;
+
+	@Column(name = "longitude")
+	private double longitude;
+	
 	@Column(name="role")
 	private String role;
 	
 	@Column(name="enabled")
 	private boolean enabled;
 
+	
 	public Real_Estate_Agent(String email, String pw, String estateName, String estateNumber, String name,
-			String address, String phone, double manners_temperature, String role, boolean enabled) {
+			String address, String phone, double manners_temperature, double latitude, double longitude, String role,
+			boolean enabled) {
 		super();
 		this.email = email;
 		this.pw = pw;
@@ -48,14 +56,11 @@ public class Real_Estate_Agent {
 		this.address = address;
 		this.phone = phone;
 		this.manners_temperature = manners_temperature;
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.role = role;
 		this.enabled = enabled;
 	}
-
-
-
-
-
 
 
 	public String getEmail() {
@@ -63,19 +68,9 @@ public class Real_Estate_Agent {
 	}
 
 
-
-
-
-
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-
-
-
-
 
 
 	public String getPw() {
@@ -83,19 +78,9 @@ public class Real_Estate_Agent {
 	}
 
 
-
-
-
-
-
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
-
-
-
-
-
 
 
 	public String getEstateName() {
@@ -103,19 +88,9 @@ public class Real_Estate_Agent {
 	}
 
 
-
-
-
-
-
 	public void setEstateName(String estateName) {
 		this.estateName = estateName;
 	}
-
-
-
-
-
 
 
 	public String getEstateNumber() {
@@ -123,19 +98,9 @@ public class Real_Estate_Agent {
 	}
 
 
-
-
-
-
-
 	public void setEstateNumber(String estateNumber) {
 		this.estateNumber = estateNumber;
 	}
-
-
-
-
-
 
 
 	public String getName() {
@@ -143,19 +108,9 @@ public class Real_Estate_Agent {
 	}
 
 
-
-
-
-
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
-
-
-
 
 
 	public String getAddress() {
@@ -163,19 +118,9 @@ public class Real_Estate_Agent {
 	}
 
 
-
-
-
-
-
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
-
-
-
-
 
 
 	public String getPhone() {
@@ -183,19 +128,9 @@ public class Real_Estate_Agent {
 	}
 
 
-
-
-
-
-
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
-
-
-
-
 
 
 	public double getManners_temperature() {
@@ -203,19 +138,29 @@ public class Real_Estate_Agent {
 	}
 
 
-
-
-
-
-
 	public void setManners_temperature(double manners_temperature) {
 		this.manners_temperature = manners_temperature;
 	}
 
 
+	public double getLatitude() {
+		return latitude;
+	}
 
 
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
 
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
 
 
 	public String getRole() {
@@ -223,19 +168,9 @@ public class Real_Estate_Agent {
 	}
 
 
-
-
-
-
-
 	public void setRole(String role) {
 		this.role = role;
 	}
-
-
-
-
-
 
 
 	public boolean isEnabled() {
@@ -243,19 +178,9 @@ public class Real_Estate_Agent {
 	}
 
 
-
-
-
-
-
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-
-
-
-
-
 
 
 	public Real_Estate_Agent() {
