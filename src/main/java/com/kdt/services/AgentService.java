@@ -57,13 +57,14 @@ public class AgentService {
 		aRepo.save(e);
 	}
 	public void signup(RealEstateAgentDTO RealEstateAgentDTO) {
-		String crypPw = passwordEncoder.encode(RealEstateAgentDTO.getPw());
-		RealEstateAgentDTO.setPw(crypPw);
-		RealEstateAgentDTO.setAddress("천안시");//나중에 지움
-		RealEstateAgentDTO.setManners_temperature(36.5);
-		Real_Estate_Agent e = aMapper.toEntity(RealEstateAgentDTO);
-		aRepo.save(e);
+	    String crypPw = passwordEncoder.encode(RealEstateAgentDTO.getPw());
+	    RealEstateAgentDTO.setPw(crypPw);
+	    RealEstateAgentDTO.setManners_temperature(36.5);
+	    System.out.println("위도"+RealEstateAgentDTO.getLatitude());
+	    Real_Estate_Agent e = aMapper.toEntity(RealEstateAgentDTO);
+	    aRepo.save(e);
 	}
+
 	public boolean isEstateNumber(String number) {
 	    Real_Estate_Agent e = aRepo.findByEstateNumber(number);
 	    System.out.println(e);
@@ -85,11 +86,11 @@ public class AgentService {
 		aRepo.changePw(id, hashedPassword);
 	}
 	
-	// 공인중개사 정보 변경
-	public void updateMyInfo(UpdateEstateDTO dto) {
-		Real_Estate_Agent a = aRepo.findById(dto.getId()).get();
-		RealEstateAgentDTO adto = new RealEstateAgentDTO(a.getEmail(),a.getPw(),a.getEstateName(),a.getEstateNumber(),dto.getName(),dto.getAddress(),dto.getPhone(),a.getManners_temperature(),a.getRole(),a.isEnabled());
-		aMapper.updateEntityFromDTO(adto, a);
-		aRepo.save(a);
-	}
+//	// 공인중개사 정보 변경
+//	public void updateMyInfo(UpdateEstateDTO dto) {
+//		Real_Estate_Agent a = aRepo.findById(dto.getId()).get();
+//		RealEstateAgentDTO adto = new RealEstateAgentDTO(a.getEmail(),a.getPw(),a.getEstateName(),a.getEstateNumber(),dto.getName(),dto.getAddress(),dto.getPhone(),a.getManners_temperature(),a.getRole(),a.isEnabled());
+//		aMapper.updateEntityFromDTO(adto, a);
+//		aRepo.save(a);
+//	}
 }
