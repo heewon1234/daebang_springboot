@@ -9,11 +9,16 @@ private String email;
 	private String address;
 	private String phone;
 	private double manners_temperature;
+	private double latitude;
+	private double longitude;
 	private String role;
 	private boolean enabled;
+
 	
+
 	public RealEstateAgentDTO(String email, String pw, String estateName, String estateNumber, String name,
-			String address, String phone, double manners_temperature, String role, boolean enabled) {
+			String address, String phone, double manners_temperature, double latitude, double longitude, String role,
+			boolean enabled) {
 		super();
 		this.email = email;
 		this.pw = pw;
@@ -23,10 +28,11 @@ private String email;
 		this.address = address;
 		this.phone = phone;
 		this.manners_temperature = manners_temperature;
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.role = role;
 		this.enabled = enabled;
 	}
-
 
 
 
@@ -36,11 +42,9 @@ private String email;
 
 
 
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 
 
 
@@ -50,11 +54,9 @@ private String email;
 
 
 
-
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
-
 
 
 
@@ -64,11 +66,9 @@ private String email;
 
 
 
-
 	public void setEstateName(String estateName) {
 		this.estateName = estateName;
 	}
-
 
 
 
@@ -78,11 +78,9 @@ private String email;
 
 
 
-
 	public void setEstateNumber(String estateNumber) {
 		this.estateNumber = estateNumber;
 	}
-
 
 
 
@@ -92,11 +90,9 @@ private String email;
 
 
 
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 
 
@@ -106,11 +102,9 @@ private String email;
 
 
 
-
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
 
 
 
@@ -120,11 +114,9 @@ private String email;
 
 
 
-
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
 
 
 
@@ -134,11 +126,33 @@ private String email;
 
 
 
-
 	public void setManners_temperature(double manners_temperature) {
 		this.manners_temperature = manners_temperature;
 	}
 
+
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
 
 
 
@@ -148,11 +162,9 @@ private String email;
 
 
 
-
 	public void setRole(String role) {
 		this.role = role;
 	}
-
 
 
 
@@ -162,11 +174,9 @@ private String email;
 
 
 
-
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-
 
 
 

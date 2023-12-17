@@ -96,6 +96,7 @@ public class Enrollmentcontroller {
 	}
 	@PostMapping("/agent/signup")
 	public ResponseEntity<Void> signup(RealEstateAgentDTO RealEstateAgentDTO) {
+		System.out.println("주소 : " + RealEstateAgentDTO.getAddress());
 		aServ.signup(RealEstateAgentDTO);
 		return ResponseEntity.ok().build();
 	}
