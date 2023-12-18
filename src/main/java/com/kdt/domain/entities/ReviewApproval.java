@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -13,32 +15,20 @@ public class ReviewApproval {
 
 	@Id
 	@Column(name="seq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long seq;
 	
 	@Column(name="user_id")
-	private String user_id;
+	private String userId;
 	
 	@Column(name="estate_code")
-	private Long estate_code;
+	private Long estateCode;
 	
 	@Column(name="approval_code")
-	private String approval_code;
+	private String approvalCode;
 	
 	@Column(name="write_date")
-	private Timestamp write_date;
-
-	public ReviewApproval() {
-		super();
-	}
-
-	public ReviewApproval(Long seq, String user_id, Long estate_code, String approval_code, Timestamp write_date) {
-		super();
-		this.seq = seq;
-		this.user_id = user_id;
-		this.estate_code = estate_code;
-		this.approval_code = approval_code;
-		this.write_date = write_date;
-	}
+	private Timestamp writeDate;
 
 	public Long getSeq() {
 		return seq;
@@ -48,37 +38,49 @@ public class ReviewApproval {
 		this.seq = seq;
 	}
 
-	public String getUser_id() {
-		return user_id;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public Long getEstate_code() {
-		return estate_code;
+	public Long getEstateCode() {
+		return estateCode;
 	}
 
-	public void setEstate_code(Long estate_code) {
-		this.estate_code = estate_code;
+	public void setEstateCode(Long estateCode) {
+		this.estateCode = estateCode;
 	}
 
-	public String getApproval_code() {
-		return approval_code;
+	public String getApprovalCode() {
+		return approvalCode;
 	}
 
-	public void setApproval_code(String approval_code) {
-		this.approval_code = approval_code;
+	public void setApprovalCode(String approvalCode) {
+		this.approvalCode = approvalCode;
 	}
 
-	public Timestamp getWrite_date() {
-		return write_date;
+	public Timestamp getWriteDate() {
+		return writeDate;
 	}
 
-	public void setWrite_date(Timestamp write_date) {
-		this.write_date = write_date;
+	public void setWriteDate(Timestamp writeDate) {
+		this.writeDate = writeDate;
 	}
-	
-	
+
+	public ReviewApproval(Long seq, String userId, Long estateCode, String approvalCode, Timestamp writeDate) {
+		super();
+		this.seq = seq;
+		this.userId = userId;
+		this.estateCode = estateCode;
+		this.approvalCode = approvalCode;
+		this.writeDate = writeDate;
+	}
+
+	public ReviewApproval() {
+		super();
+	}
+
 }

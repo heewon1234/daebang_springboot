@@ -67,11 +67,11 @@ public class EstateController {
 		return ResponseEntity.ok(list);
 	}
 
-//	@GetMapping
-//	public ResponseEntity<List<EstateDTO>> selectAll(@RequestParam String loginId) {
-//	    List<EstateDTO> list = eServ.selectAll(loginId);
-//	    return ResponseEntity.ok(list);
-//	}
+	@GetMapping("estateBoard")
+	public ResponseEntity<List<EstateDTO>> selectAll(@RequestParam String loginId) {
+	    List<EstateDTO> list = eServ.selectById(loginId);
+	    return ResponseEntity.ok(list);
+	}
 	
 	@GetMapping("estateUpdate/{estateId}")
 	public ResponseEntity<UploadEstateDTO> selectById(@PathVariable String estateId) {

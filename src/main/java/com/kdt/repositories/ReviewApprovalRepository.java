@@ -10,6 +10,7 @@ import com.kdt.dto.ReviewApprovalDTO;
 
 public interface ReviewApprovalRepository extends JpaRepository<ReviewApproval, Long>{
 
-	@Query("select new com.kdt.dto.ReviewApprovalDTO(r.seq, r.user_id, r.estate_code, r.approval_code, r.write_date) from ReviewApproval r where user_id=?1")
-	List<ReviewApprovalDTO> findAllByUserId(String loginId);
+	List<ReviewApproval> findAllByUserId(String loginId);
+	
+	ReviewApproval findByApprovalCodeAndEstateCode(String approvalCode, Long estateCode);
 }
