@@ -8,24 +8,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kdt.domain.entities.ReviewApproval;
+import com.kdt.domain.entities.SawEstate;
 import com.kdt.domain.entities.UploadEstate;
 import com.kdt.dto.ReviewApprovalDTO;
-import com.kdt.mappers.EstateMapper;
+import com.kdt.dto.SawEstateDTO;
 import com.kdt.mappers.ReviewApprovalMapper;
-import com.kdt.repositories.EstateRepository;
+import com.kdt.mappers.SawEstateMapper;
 import com.kdt.repositories.ReviewApprovalRepository;
+import com.kdt.repositories.SawEstateRepository;
 import com.kdt.repositories.UploadEstateRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class ReviewApprovalService {
 
 	@Autowired
 	private ReviewApprovalMapper rMapper;
+	
+	@Autowired
+	private SawEstateMapper sMapper;
 
 	@Autowired
 	private ReviewApprovalRepository rRepo;
 	@Autowired
 	private UploadEstateRepository ueRepo;
+	
+	@Autowired
+	private SawEstateRepository sRepo;
+	
+	
 
 	public List<ReviewApprovalDTO> selectAll(String loginId) {
 		List<ReviewApproval> rList = rRepo.findAllByUserId(loginId);
@@ -57,5 +69,22 @@ public class ReviewApprovalService {
 		ra.setWriteDate(new Timestamp(System.currentTimeMillis()));
 		
 		rRepo.save(ra);
+	}
+	
+	@Transactional
+	public void updateStatus(ReviewApprovalDTO dto) {
+		ReviewApproval ra = rMapper.toEntity(dto);
+		
+		System.out.println(ra.getSeq());
+		System.out.println(ra.getApprovalCode());
+		
+		rRepo.updateStatue(ra.getSeq(), ra.getApprovalCode());
+		
+	}
+	
+	public List<SawEstateDTO> selectSawEstate(String id) {
+		List<SawEstate> list = sRepo.selectSawEstate(id);
+		List<SawEstateDTO> dtos = sMapper.toDtoList(list);
+		return dtos;
 	}
 }

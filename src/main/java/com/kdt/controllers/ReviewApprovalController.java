@@ -7,14 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdt.dto.EstateDTO;
 import com.kdt.dto.ReviewApprovalDTO;
-import com.kdt.dto.UploadEstateDTO;
+import com.kdt.dto.SawEstateDTO;
 import com.kdt.services.EstateService;
 import com.kdt.services.ReviewApprovalService;
 
@@ -49,11 +49,26 @@ public class ReviewApprovalController {
 
 	@PostMapping
 	public ResponseEntity<Void> insert(@RequestBody ReviewApprovalDTO reviewApprovalDTO) {
-	    System.out.println(reviewApprovalDTO.getEstateCode());
-	    System.out.println(reviewApprovalDTO.getUserId());
-	    
-	    rServ.insert(reviewApprovalDTO);
+		System.out.println(reviewApprovalDTO.getEstateCode());
+		System.out.println(reviewApprovalDTO.getUserId());
 
-	    return ResponseEntity.ok().build();
+		rServ.insert(reviewApprovalDTO);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@PutMapping("updateStatus/{seq}")
+	public ResponseEntity<Void> updateStatus(@PathVariable Long seq, @RequestBody ReviewApprovalDTO dto) {
+		dto.setSeq(seq);
+
+		rServ.updateStatus(dto);
+
+		return ResponseEntity.ok().build();
+	}
+	
+	@GetMapping("sawEstate/{id}")
+	public ResponseEntity<List<SawEstateDTO>> selectSawEstate(@PathVariable String id) {
+		List<SawEstateDTO> list = rServ.selectSawEstate(id);
+		return ResponseEntity.ok(list);
 	}
 }
