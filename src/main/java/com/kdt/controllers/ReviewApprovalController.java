@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdt.dto.EstateDTO;
 import com.kdt.dto.ReviewApprovalDTO;
-import com.kdt.dto.UploadEstateDTO;
+import com.kdt.dto.SawEstateDTO;
 import com.kdt.services.EstateService;
 import com.kdt.services.ReviewApprovalService;
 
@@ -65,5 +64,11 @@ public class ReviewApprovalController {
 		rServ.updateStatus(dto);
 
 		return ResponseEntity.ok().build();
+	}
+	
+	@GetMapping("sawEstate/{id}")
+	public ResponseEntity<List<SawEstateDTO>> selectSawEstate(@PathVariable String id) {
+		List<SawEstateDTO> list = rServ.selectSawEstate(id);
+		return ResponseEntity.ok(list);
 	}
 }
