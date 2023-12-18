@@ -86,11 +86,11 @@ public class AgentService {
 		aRepo.changePw(id, hashedPassword);
 	}
 	
-//	// 공인중개사 정보 변경
-//	public void updateMyInfo(UpdateEstateDTO dto) {
-//		Real_Estate_Agent a = aRepo.findById(dto.getId()).get();
-//		RealEstateAgentDTO adto = new RealEstateAgentDTO(a.getEmail(),a.getPw(),a.getEstateName(),a.getEstateNumber(),dto.getName(),dto.getAddress(),dto.getPhone(),a.getManners_temperature(),a.getRole(),a.isEnabled());
-//		aMapper.updateEntityFromDTO(adto, a);
-//		aRepo.save(a);
-//	}
+	// 공인중개사 정보 변경
+	public void updateMyInfo(UpdateEstateDTO dto) {
+		Real_Estate_Agent a = aRepo.findById(dto.getId()).get();
+		RealEstateAgentDTO adto = new RealEstateAgentDTO(a.getEmail(),a.getPw(),a.getEstateName(),a.getEstateNumber(),dto.getName(),dto.getAddress(),dto.getPhone(),a.getManners_temperature(),dto.getLatitude(),dto.getLongitude(),a.getRole(),a.isEnabled());
+		aMapper.updateEntityFromDTO(adto, a);
+		aRepo.save(a);
+	}
 }
