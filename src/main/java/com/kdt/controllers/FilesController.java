@@ -28,14 +28,19 @@ import org.springframework.web.multipart.MultipartFile;
 public class FilesController {
 
 	@PostMapping("/upload")
-	public ResponseEntity<List<String>> uploadFile(MultipartFile[] files) throws Exception{
-	
+	public ResponseEntity<List<String>> uploadFile(MultipartFile[] files, String path) throws Exception{
+		System.out.println("dd");
 		List<String> list = new ArrayList<>();
 		String filePath = "C:/uploads";
 		File uploadFilePath = new File(filePath);
 		if(!uploadFilePath.exists()) {uploadFilePath.mkdir();}
 		
-		String realPath = "C:/uploads/board";
+		String realPath="";
+		if(path==null) {
+			realPath = "C:/uploads/board";
+		} else if(path.equals("review")) {
+			realPath = "C:/uploads/temp_review";
+		}
 		File uploadPath = new File(realPath);
 		if(!uploadPath.exists()) {uploadPath.mkdir();}
 		
@@ -45,7 +50,11 @@ public class FilesController {
 					String ori_name = file.getOriginalFilename();
 					String sys_name = UUID.randomUUID() + "_" + ori_name;
 					file.transferTo(new File(uploadPath+"/"+sys_name));
-					list.add("/uploads/board/"+sys_name);
+					if(path.equals("review")) {
+						list.add("/uploads/temp_review/"+sys_name);
+					} else {
+						list.add("/uploads/board/"+sys_name);
+					}
 				}
 			}
 		}
