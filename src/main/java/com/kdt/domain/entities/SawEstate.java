@@ -20,6 +20,9 @@ public class SawEstate {
 	@Column(name="img")
 	private String img;
 
+	@Column(name="estate_id")
+	private Long estateId;
+	
 	public SawEstate() {
 		super();
 	}
@@ -30,6 +33,23 @@ public class SawEstate {
 		this.title = title;
 		this.approvalCode = approvalCode;
 		this.img = img;
+	}
+
+	public SawEstate(String address, String title, String approvalCode, String img, Long estateId) {
+		super();
+		this.address = address;
+		this.title = title;
+		this.approvalCode = approvalCode;
+		this.img = img;
+		this.estateId=estateId;
+	}
+	
+	public Long getestateId() {
+		return estateId;
+	}
+
+	public void setestateId(Long estateId) {
+		this.estateId = estateId;
 	}
 
 	public String getAddress() {
