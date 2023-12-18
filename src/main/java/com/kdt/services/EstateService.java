@@ -111,13 +111,13 @@ public class EstateService {
 		// <- 사진 파일 입력
 	}
 
-//	public List<EstateDTO> selectAll(String loginId) {
-//		
-//		List<Estate> eList = eRepo.findAllByWriter(loginId);
-//		List<EstateDTO> list = eMapper.toDtoList(eList);
-//
-//		return list;
-//	}
+	public List<EstateDTO> selectById(String loginId) {
+		
+		List<Estate> eList = eRepo.findAllByWriter(loginId);
+		List<EstateDTO> list = eMapper.toDtoList(eList);
+
+		return list;
+	}
 	
 	public List<EstateDTO> selectAll() {
 		List<Estate> eList = eRepo.findAll();
