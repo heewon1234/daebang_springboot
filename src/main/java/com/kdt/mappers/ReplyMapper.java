@@ -8,4 +8,5 @@ import com.kdt.dto.ReplyDTO;
 @Mapper(componentModel = "spring")
 public interface ReplyMapper extends GenericMapper<ReplyDTO, Reply>{
 
+
 }
