@@ -19,6 +19,7 @@ public class UploadReviewDTO {
 	private Long score;
 	private Instant writeDate;
 	private List<MultipartFile> files;
+	
 	public UploadReviewDTO() {
 		super();
 		// TODO Auto-generated constructor stub
