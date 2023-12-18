@@ -71,4 +71,29 @@ public class ReviewApprovalController {
 		List<SawEstateDTO> list = rServ.selectSawEstate(id);
 		return ResponseEntity.ok(list);
 	}
+	//관리자 승인
+	@GetMapping("admin/selectByAdmin")
+	public ResponseEntity<List<ReviewApprovalDTO>> selectByAdmin() {
+		List<ReviewApprovalDTO> list = rServ.selectByAdmin();
+		return ResponseEntity.ok(list);
+	}
+	@PutMapping("admin/revoke-approval/{seq}")
+	public ResponseEntity<Void> revoke(@PathVariable Long seq) {
+		rServ.revoke_approval(seq);
+		System.out.println("번호"+seq);
+		return ResponseEntity.ok().build();
+	}
+	
+	@PutMapping("admin/approval/{seq}")
+	public ResponseEntity<Void> approval(@PathVariable Long seq) {
+		rServ.approval(seq);
+		
+		return ResponseEntity.ok().build();
+	}
+	@PutMapping("admin/return/{seq}")
+	public ResponseEntity<Void> back(@PathVariable Long seq) {
+		rServ.back(seq);
+		System.out.println("번호리턴"+seq);
+		return ResponseEntity.ok().build();
+	}
 }
