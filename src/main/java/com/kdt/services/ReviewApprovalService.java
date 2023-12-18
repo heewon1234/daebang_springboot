@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import com.kdt.domain.entities.ReviewApproval;
 import com.kdt.domain.entities.UploadEstate;
 import com.kdt.dto.ReviewApprovalDTO;
-import com.kdt.mappers.EstateMapper;
 import com.kdt.mappers.ReviewApprovalMapper;
-import com.kdt.repositories.EstateRepository;
 import com.kdt.repositories.ReviewApprovalRepository;
 import com.kdt.repositories.UploadEstateRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class ReviewApprovalService {
@@ -57,5 +57,16 @@ public class ReviewApprovalService {
 		ra.setWriteDate(new Timestamp(System.currentTimeMillis()));
 		
 		rRepo.save(ra);
+	}
+	
+	@Transactional
+	public void updateStatus(ReviewApprovalDTO dto) {
+		ReviewApproval ra = rMapper.toEntity(dto);
+		
+		System.out.println(ra.getSeq());
+		System.out.println(ra.getApprovalCode());
+		
+		rRepo.updateStatue(ra.getSeq(), ra.getApprovalCode());
+		
 	}
 }
