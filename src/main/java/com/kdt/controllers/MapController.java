@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kdt.dto.EstateDTO;
 import com.kdt.dto.MapRegionDTO;
+import com.kdt.dto.MapSchoolDTO;
 import com.kdt.dto.MapSubwayDTO;
 import com.kdt.services.EstateService;
 import com.kdt.services.MapService;
@@ -28,7 +29,7 @@ public class MapController {
 	@Autowired
 	private EstateService eServ;
 
-	// 첫 로딩시 모든 매물 정보 가져오기
+	// 지도 로딩시 정보 가져오기
 	@GetMapping("getAll")
 	public ResponseEntity<List<EstateDTO>> getAll() {
 		try {
@@ -46,10 +47,15 @@ public class MapController {
 	public ResponseEntity<Map<String, Object>> getKeywordSearch(@RequestParam("keyword") String keyword) {
 	    try {
 	        Map<String, Object> result = new HashMap<>();
+	        
 	        List<MapRegionDTO> regionList = mServ.selectRegion(keyword);
 	        List<MapSubwayDTO> subwayList = mServ.selectSubway(keyword);
+	        List<MapSchoolDTO> schoolList = mServ.selectSchool(keyword);
+	        
 	        result.put("regionList", regionList);
 	        result.put("subwayList", subwayList);
+	        result.put("schoolList", schoolList);
+	        
 	        return ResponseEntity.ok(result);
 	    } catch (Exception e) {
 	        e.printStackTrace();
