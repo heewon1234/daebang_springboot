@@ -9,21 +9,17 @@ import com.kdt.domain.entities.SawEstate;
 
 public interface SawEstateRepository extends JpaRepository<SawEstate, String>{
 	
-<<<<<<< HEAD
 //	@Query("SELECT new com.kdt.domain.entities.SawEstate(e.address1, e.title, a.approvalCode, "
 //			+ "(SELECT i.sysName FROM EstateImage i WHERE i.parentId = e.estateId ORDER BY i.seq ASC LIMIT 1)) "
 //			+ "FROM Estate e "
 //			+ "JOIN ReviewApproval a ON e.estateId = a.estateCode "
 //			+ "WHERE a.userId = ?1")
 //	List<SawEstate> selectSawEstate(String id);
-=======
-	@Query("SELECT new com.kdt.domain.entities.SawEstate(e.address1, e.title, a.approvalCode,"
-			+ "(SELECT i.sysName FROM EstateImage i WHERE i.parentId = e.estateId ORDER BY i.seq ASC LIMIT 1), e.estateId) "
-			+ "FROM Estate e "
-			+ "JOIN ReviewApproval a ON e.estateId = a.estateCode "
-			+ "WHERE a.userId = ?1")
-	List<SawEstate> selectSawEstate(String id);
-	
->>>>>>> bb1da8562eb4cf6ebbe81c08756dec9274306533
+//	@Query("SELECT new com.kdt.domain.entities.SawEstate(e.address1, e.title, a.approvalCode,"
+//			+ "(SELECT i.sysName FROM EstateImage i WHERE i.parentId = e.estateId ORDER BY i.seq ASC LIMIT 1), e.estateId) "
+//			+ "FROM Estate e "
+//			+ "JOIN ReviewApproval a ON e.estateId = a.estateCode "
+//			+ "WHERE a.userId = ?1")
+//	List<SawEstate> selectSawEstate(String id);
 
 }
