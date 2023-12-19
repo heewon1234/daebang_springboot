@@ -24,6 +24,10 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
 			+ "CASE WHEN (b.seq = fb.parentSeq) THEN 'true' ELSE 'false' END) FROM Board b "
 			+ "LEFT JOIN FavoriteBoard fb ON b.seq = fb.parentSeq and fb.id = ?2 WHERE b.boardTitle = ?1 ORDER BY b.seq DESC")
 	List<Board> selectBoardContentswithFav(String boardTitle, String id);
+	@Query("SELECT new com.kdt.domain.entities.Board(b.seq, b.boardTitle, b.title, b.writer,b.writeDate, b.header, b.contents, b.viewCount,"
+			+ "CASE WHEN (b.seq = fb.parentSeq) THEN 'true' ELSE 'false' END) FROM Board b "
+			+ "LEFT JOIN FavoriteBoard fb ON b.seq = fb.parentSeq and fb.id = ?2 WHERE b.boardTitle = ?1 ORDER BY b.seq DESC LIMIT 6")
+	List<Board> selectTop6BoardContentswithFav(String boardTitle, String id);
 	
 	@Query("SELECT new com.kdt.domain.entities.Board(b.seq, b.boardTitle, b.title, b.writer,b.writeDate, b.header, b.contents, b.viewCount,"
 			+ "CASE WHEN (b.seq = fb.parentSeq) THEN 'true' ELSE 'false' END) FROM Board b "

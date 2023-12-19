@@ -154,7 +154,7 @@ public class BoardService {
 		if(id==null) {
 			return bMapper.toDtoList(bRepo.findTop6ByBoardTitleOrderBySeqDesc("자유게시판"));
 		} else {
-			return bMapper.toDtoList(bRepo.selectBoardContentswithFav("자유게시판", id));
+			return bMapper.toDtoList(bRepo.selectTop6BoardContentswithFav("자유게시판", id));
 		}
 	}
 
@@ -163,7 +163,7 @@ public class BoardService {
 		if(id==null) {
 			return bMapper.toDtoList(bRepo.findTop6ByBoardTitleOrderBySeqDesc("양도게시판"));
 		} else {
-			return bMapper.toDtoList(bRepo.selectBoardContentswithFav("양도게시판", id));
+			return bMapper.toDtoList(bRepo.selectTop6BoardContentswithFav("양도게시판", id));
 		}
 	}
 	
