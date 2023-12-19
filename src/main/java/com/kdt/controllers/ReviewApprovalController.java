@@ -95,7 +95,11 @@ public class ReviewApprovalController {
 	@PutMapping("admin/return/{seq}")
 	public ResponseEntity<Void> back(@PathVariable Long seq) {
 		rServ.back(seq);
-		System.out.println("번호리턴"+seq);
+		return ResponseEntity.ok().build();
+	}
+	@PutMapping("admin/finalBack/{seq}")
+	public ResponseEntity<Void> finalBack(@PathVariable Long seq) {
+		rServ.finalBack(seq);
 		return ResponseEntity.ok().build();
 	}
 }
