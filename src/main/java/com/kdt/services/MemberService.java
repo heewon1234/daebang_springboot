@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kdt.domain.entities.Member;
-import com.kdt.domain.entities.Real_Estate_Agent;
 import com.kdt.dto.MemberDTO;
 import com.kdt.dto.UpdateMemberDTO;
 import com.kdt.mappers.MemberMapper;

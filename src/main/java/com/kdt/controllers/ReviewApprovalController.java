@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kdt.dto.EstateDTO;
 import com.kdt.dto.ReviewApprovalDTO;
 import com.kdt.dto.SawEstateDTO;
+import com.kdt.dto.UploadReviewApprovalDTO;
 import com.kdt.services.EstateService;
 import com.kdt.services.ReviewApprovalService;
 
@@ -35,8 +36,8 @@ public class ReviewApprovalController {
 	}
 
 	@GetMapping("agentReview/{loginId}")
-	public ResponseEntity<List<ReviewApprovalDTO>> selectById(@PathVariable String loginId) {
-		List<ReviewApprovalDTO> list = rServ.selectByAgent(loginId);
+	public ResponseEntity<List<UploadReviewApprovalDTO>> selectById(@PathVariable String loginId) {
+		List<UploadReviewApprovalDTO> list = rServ.selectByAgent(loginId);
 
 		return ResponseEntity.ok(list);
 	}
@@ -48,12 +49,12 @@ public class ReviewApprovalController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> insert(@RequestBody ReviewApprovalDTO reviewApprovalDTO) {
-//		System.out.println(reviewApprovalDTO.getEstateCode());
-		System.out.println(reviewApprovalDTO.getEstate().getEstateId());//확인해보셈
-		System.out.println(reviewApprovalDTO.getUserId());
+	public ResponseEntity<Void> insert(@RequestBody UploadReviewApprovalDTO dto) {
 
-		rServ.insert(reviewApprovalDTO);
+		System.out.println(dto.getEstateCode());//확인해보셈
+		System.out.println(dto.getUserId());
+
+		rServ.insert(dto);
 
 		return ResponseEntity.ok().build();
 	}
@@ -73,12 +74,12 @@ public class ReviewApprovalController {
 		return ResponseEntity.ok(list);
 	}
 	//관리자 승인
-	@GetMapping("admin/selectByAdmin")
-	public ResponseEntity<List<ReviewApprovalDTO>> selectByAdmin() {
-		List<ReviewApprovalDTO> list = rServ.selectByAdmin();
-		System.out.println(list.get(0).getEstateName());
-		return ResponseEntity.ok(list);
-	}
+//	@GetMapping("admin/selectByAdmin")
+//	public ResponseEntity<List<ReviewApprovalDTO>> selectByAdmin() {
+//		List<ReviewApprovalDTO> list = rServ.selectByAdmin();
+//		System.out.println(list.get(0).getEstateName());
+//		return ResponseEntity.ok(list);
+//	}
 	@PutMapping("admin/revoke-approval/{seq}")
 	public ResponseEntity<Void> revoke(@PathVariable Long seq) {
 		rServ.revoke_approval(seq);
