@@ -21,5 +21,11 @@ public interface SawEstateRepository extends JpaRepository<SawEstate, String>{
 //			+ "JOIN ReviewApproval a ON e.estateId = a.estateCode "
 //			+ "WHERE a.userId = ?1")
 //	List<SawEstate> selectSawEstate(String id);
+	
+	@Query("SELECT new com.kdt.domain.entities.SawEstate(a.estate.address1, a.estate.title, a.approvalCode,"
+	+ "(SELECT i.sysName FROM EstateImage i WHERE i.parentId = a.estate.estateId ORDER BY i.seq ASC LIMIT 1), a.estate.estateId) "
+	+ "FROM ReviewApproval a "
+	+ "WHERE a.userId = ?1")
+	List<SawEstate> selectSawEstate(String id);
 
 }
