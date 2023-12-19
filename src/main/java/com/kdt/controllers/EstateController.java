@@ -106,6 +106,8 @@ public class EstateController {
 			}
 
 			estateDTO.setEstateId(Long.parseLong(estateId));
+			
+			System.out.println(estateDTO.getAddress1());
 
 			eServ.updateById(estateDTO, optionDTOList, estateImages);
 

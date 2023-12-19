@@ -7,15 +7,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.kdt.domain.entities.ReviewApproval;
+import com.kdt.domain.entities.UploadReviewApproval;
 
 public interface ReviewApprovalRepository extends JpaRepository<ReviewApproval, Long>{
 
 	List<ReviewApproval> findAllByUserId(String loginId);
 	//관리자
 	List<ReviewApproval> findAllByApprovalCodeIn(List<String> approvalCodes);
-	
-//	ReviewApproval findByApprovalCodeAndEstateCode(String approvalCode, Long estateCode);
-	ReviewApproval findByApprovalCodeAndEstateEstateId(String approvalCode, Long estateId);
 	
 	@Modifying
 	@Query("UPDATE ReviewApproval ra SET ra.approvalCode = :approvalCode WHERE ra.seq = :seq")

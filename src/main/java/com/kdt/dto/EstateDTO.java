@@ -3,8 +3,6 @@ package com.kdt.dto;
 import java.sql.Timestamp;
 import java.util.Set;
 
-import com.kdt.domain.entities.Real_Estate_Agent;
-
 public class EstateDTO {
 	private Long estateId;
 //    private String writer;
