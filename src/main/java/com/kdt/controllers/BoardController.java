@@ -91,13 +91,11 @@ public class BoardController {
 	@GetMapping("/limitFreeBoardList")
 	public ResponseEntity<List<BoardDTO>> selectAlllimitFreeBoardList(){
 		List<BoardDTO> list = bServ.selectAllLimitFreeBoardContents(getUser() != null ? getUser().getUsername() : null);
-		System.out.println("freeboard"+list.size());
 		return ResponseEntity.ok(list);
 	}
 	@GetMapping("/limitRoomBoardList")
 	public ResponseEntity<List<BoardDTO>> selectAlllimitRoomBoardList(){
 		List<BoardDTO> list = bServ.selectAllLimitRoomBoardContents(getUser() != null ? getUser().getUsername() : null);
-		System.out.println("roomboard"+list.size());
 		return ResponseEntity.ok(list);
 	}
 
