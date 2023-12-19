@@ -14,6 +14,7 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
 
 	@EntityGraph(attributePaths = {"replies","files"})
 	List<Board> findAllByBoardTitle(String boardTitle);
+	
 	@EntityGraph(attributePaths = {"seq"})
 	List<Board> findTop6ByBoardTitleOrderBySeqDesc(String boardTitle);
 

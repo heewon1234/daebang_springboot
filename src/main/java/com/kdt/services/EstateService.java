@@ -119,8 +119,13 @@ public class EstateService {
 
 		return list;
 	}
+	public List<EstateDTO> selectLimitAll() {
+		List<Estate> eList = eRepo.findTop6ByOrderByEstateIdDesc();
+		List<EstateDTO> list = eMapper.toDtoList(eList);
+
+		return list;
+	}
 	public List<EstateDTO> selectWatchAll(List<Long> recent) {
-		System.out.println(recent);
 	    // ID 순서를 유지하기 위해 LinkedHashMap 사용
 	    Map<Long, Estate> estateMap = new LinkedHashMap<>();
 	    for (Long id : recent) {
@@ -130,7 +135,6 @@ public class EstateService {
 	        }
 	    }
 	    List<EstateDTO> list = eMapper.toDtoList(new ArrayList<>(estateMap.values()));
-	    System.out.println(list.get(0).getEstateId());
 	    return list;
 	}
 
