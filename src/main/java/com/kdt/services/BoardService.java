@@ -160,7 +160,10 @@ public class BoardService {
 	}
 
 	// 게시글 내용 불러오기
+	@Transactional
 	public BoardDTO boardContents(Long seq) {
+		System.out.println("d12213");
+		bRepo.increaseViewCount(seq);
 		return bMapper.toDto(bRepo.findById(seq).get());
 	}
 

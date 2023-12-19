@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.kdt.domain.entities.Board;
@@ -27,4 +28,7 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
 			+ "INNER JOIN FavoriteBoard fb ON b.seq = fb.parentSeq and fb.id = ?1 ORDER BY b.seq DESC")
 	List<Board> selectFavBoardContents(String id);
 	
+	@Modifying
+	@Query("update Board b set b.viewCount=b.viewCount+1 where b.seq=?1")
+	void increaseViewCount(Long seq);
 }
