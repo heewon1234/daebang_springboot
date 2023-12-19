@@ -5,6 +5,7 @@ public class SawEstateDTO {
 	private String title;
 	private String approvalCode;
 	private String img;
+	private Long estateId;
 	public SawEstateDTO() {
 		super();
 	}
@@ -14,6 +15,20 @@ public class SawEstateDTO {
 		this.title = title;
 		this.approvalCode = approvalCode;
 		this.img = img;
+	}
+	public SawEstateDTO(String address, String title, String approvalCode, String img,Long estateId) {
+		super();
+		this.address = address;
+		this.title = title;
+		this.approvalCode = approvalCode;
+		this.img = img;
+		this.estateId = estateId;
+	}
+	public Long getestateId() {
+		return estateId;
+	}
+	public void setestateId(Long estateId) {
+		this.estateId = estateId;
 	}
 	public String getAddress() {
 		return address;

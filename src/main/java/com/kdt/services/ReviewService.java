@@ -1,6 +1,8 @@
 package com.kdt.services;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -134,9 +136,11 @@ public class ReviewService {
 			}
 		}
 		rRepo.save(review);
-
+		entityManager.flush();
+		delServerFile(delFileList);	
 	}
 	
+	// DB 파일 삭제
 	private void delDBFile(String[] delFileList) {
 		if(delFileList!=null) {
 			for(String delFile : delFileList) {
@@ -147,6 +151,26 @@ public class ReviewService {
 						entityManager.flush();
 					}
 					
+				}
+			}
+		}
+	}
+	
+	// 서버 파일 삭제
+	private void delServerFile(String[] delFileList) throws Exception{
+		String filePath = "C:/uploads";
+		File uploadFilePath = new File(filePath);
+		if(!uploadFilePath.exists()) {uploadFilePath.mkdir();}
+
+		String realPath = "C:/uploads/review";
+		File uploadPath = new File(realPath);
+		if(!uploadPath.exists()) {uploadPath.mkdir();}
+
+		if(delFileList != null) {
+			for(String delFile : delFileList) {
+				if(delFile != null) {
+					Path path = Paths.get(uploadPath + "/" + delFile);
+					java.nio.file.Files.deleteIfExists(path);
 				}
 			}
 		}
