@@ -113,4 +113,9 @@ public class ReviewApprovalService {
 		e.setApprovalCode("b1");
 		rRepo.save(e);
 	}
+	public void finalBack(Long seq) {
+		ReviewApproval e = rRepo.findById(seq).get();
+		e.setApprovalCode("a4");
+		rRepo.save(e);
+	}
 }
