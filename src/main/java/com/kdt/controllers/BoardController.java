@@ -59,7 +59,6 @@ public class BoardController {
 	public ResponseEntity<List<BoardDTO>> selectAllFreeBoardContents(){
 		List<BoardDTO> list = bServ.selectAllFreeBoardContents(getUser() != null ? getUser().getUsername() : null);
 		return ResponseEntity.ok(list);
-
 	}
 
 	@GetMapping("/roomBoardList")
@@ -87,6 +86,17 @@ public class BoardController {
 	public ResponseEntity<Void> delBoardContents(@PathVariable Long seq, @RequestBody String[] imgList) throws Exception{
 		bServ.delBoardContents(seq,imgList);
 		return ResponseEntity.ok().build();
+	}
+	// 게시글 최근 5개만 불러오기
+	@GetMapping("/limitFreeBoardList")
+	public ResponseEntity<List<BoardDTO>> selectAlllimitFreeBoardList(){
+		List<BoardDTO> list = bServ.selectAllLimitFreeBoardContents(getUser() != null ? getUser().getUsername() : null);
+		return ResponseEntity.ok(list);
+	}
+	@GetMapping("/limitRoomBoardList")
+	public ResponseEntity<List<BoardDTO>> selectAlllimitRoomBoardList(){
+		List<BoardDTO> list = bServ.selectAllLimitRoomBoardContents(getUser() != null ? getUser().getUsername() : null);
+		return ResponseEntity.ok(list);
 	}
 
 }

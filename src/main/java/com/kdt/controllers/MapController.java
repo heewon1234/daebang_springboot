@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +42,18 @@ public class MapController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+	// 지도 로딩시 정보 가져오기
+		@GetMapping("getLimitAll")
+		public ResponseEntity<List<EstateDTO>> getLimitAll() {
+			try {
+				List<EstateDTO> list = eServ.selectLimitAll();
+				return ResponseEntity.ok(list);
+			} catch (Exception e) {
+				// 예외가 발생한 경우 처리
+				e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			}
+		}
 
 	// 키워드 검색
 	@GetMapping("getKeywordSearch")
@@ -61,6 +74,17 @@ public class MapController {
 	        e.printStackTrace();
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	    }
+	}
+	@GetMapping("getWatchAll/{recent}")
+	public ResponseEntity<List<EstateDTO>> getWatchAll(@PathVariable List<Long> recent) {
+		try {
+			List<EstateDTO> list = eServ.selectWatchAll(recent);
+			return ResponseEntity.ok(list);
+		} catch (Exception e) {
+			// 예외가 발생한 경우 처리
+			e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 
 }

@@ -148,8 +148,25 @@ public class BoardService {
 		} else {
 			return bMapper.toDtoList(bRepo.selectBoardContentswithFav("양도게시판", id));
 		}
-		
 	}	
+	// 자유게시판 글 목록 5개 불러오기
+	public List<BoardDTO> selectAllLimitFreeBoardContents(String id){
+		if(id==null) {
+			return bMapper.toDtoList(bRepo.findTop6ByBoardTitleOrderBySeqDesc("자유게시판"));
+		} else {
+			return bMapper.toDtoList(bRepo.selectTop6BoardContentswithFav("자유게시판", id));
+		}
+	}
+
+	// 양도게시판 글 목록 5개 불러오기
+	public List<BoardDTO> selectAllLimitRoomBoardContents(String id){
+		if(id==null) {
+			return bMapper.toDtoList(bRepo.findTop6ByBoardTitleOrderBySeqDesc("양도게시판"));
+		} else {
+			return bMapper.toDtoList(bRepo.selectTop6BoardContentswithFav("양도게시판", id));
+		}
+	}
+	
 	
 	// 즐겨찾기 게시판 글 목록 불러오기
 	public List<BoardDTO> selectAllFavBoardContents(String id){
@@ -160,7 +177,10 @@ public class BoardService {
 	}
 
 	// 게시글 내용 불러오기
+	@Transactional
 	public BoardDTO boardContents(Long seq) {
+		System.out.println("d12213");
+		bRepo.increaseViewCount(seq);
 		return bMapper.toDto(bRepo.findById(seq).get());
 	}
 

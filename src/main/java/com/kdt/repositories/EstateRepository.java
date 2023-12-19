@@ -12,4 +12,7 @@ public interface EstateRepository extends JpaRepository<Estate, Long> {
 			"optionList","realEstateAgent" })
 //	List<Estate> findAllByWriter(String loginId);
 	List<Estate> findAllByRealEstateAgentEmail(String email);
+	
+	@EntityGraph(attributePaths = {"estateId"})
+	 List<Estate> findTop6ByOrderByEstateIdDesc();
 }

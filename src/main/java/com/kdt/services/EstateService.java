@@ -5,7 +5,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,6 @@ import com.kdt.repositories.EstateRepository;
 import com.kdt.repositories.UploadEstateOptionRepository;
 import com.kdt.repositories.UploadEstateRepository;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -117,6 +118,24 @@ public class EstateService {
 		List<EstateDTO> list = eMapper.toDtoList(eList);
 
 		return list;
+	}
+	public List<EstateDTO> selectLimitAll() {
+		List<Estate> eList = eRepo.findTop6ByOrderByEstateIdDesc();
+		List<EstateDTO> list = eMapper.toDtoList(eList);
+
+		return list;
+	}
+	public List<EstateDTO> selectWatchAll(List<Long> recent) {
+	    // ID 순서를 유지하기 위해 LinkedHashMap 사용
+	    Map<Long, Estate> estateMap = new LinkedHashMap<>();
+	    for (Long id : recent) {
+	        Estate estate = eRepo.findById(id).orElse(null);
+	        if (estate != null) {
+	            estateMap.put(id, estate);
+	        }
+	    }
+	    List<EstateDTO> list = eMapper.toDtoList(new ArrayList<>(estateMap.values()));
+	    return list;
 	}
 
 	public UploadEstateDTO selectById(Long estateId) {
