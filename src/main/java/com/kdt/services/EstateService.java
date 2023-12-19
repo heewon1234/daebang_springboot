@@ -105,7 +105,8 @@ public class EstateService {
 
 	public List<EstateDTO> selectById(String loginId) {
 
-		List<Estate> eList = eRepo.findAllByWriter(loginId);
+		List<Estate> eList = eRepo.findAllByRealEstateAgentEmail(loginId);
+		
 		List<EstateDTO> list = eMapper.toDtoList(eList);
 
 		return list;

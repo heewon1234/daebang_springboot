@@ -11,8 +11,11 @@ import com.kdt.domain.entities.ReviewApproval;
 public interface ReviewApprovalRepository extends JpaRepository<ReviewApproval, Long>{
 
 	List<ReviewApproval> findAllByUserId(String loginId);
+	//관리자
+	List<ReviewApproval> findAllByApprovalCodeIn(List<String> approvalCodes);
 	
-	ReviewApproval findByApprovalCodeAndEstateCode(String approvalCode, Long estateCode);
+//	ReviewApproval findByApprovalCodeAndEstateCode(String approvalCode, Long estateCode);
+	ReviewApproval findByApprovalCodeAndEstateEstateId(String approvalCode, Long estateId);
 	
 	@Modifying
 	@Query("UPDATE ReviewApproval ra SET ra.approvalCode = :approvalCode WHERE ra.seq = :seq")

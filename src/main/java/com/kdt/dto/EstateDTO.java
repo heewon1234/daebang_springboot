@@ -3,9 +3,11 @@ package com.kdt.dto;
 import java.sql.Timestamp;
 import java.util.Set;
 
+import com.kdt.domain.entities.Real_Estate_Agent;
+
 public class EstateDTO {
 	private Long estateId;
-    private String writer;
+//    private String writer;
     private Long deposit;
     private Long price;
     private double area;
@@ -33,12 +35,6 @@ public class EstateDTO {
 	}
 	public void setEstateId(Long estateId) {
 		this.estateId = estateId;
-	}
-	public String getWriter() {
-		return writer;
-	}
-	public void setWriter(String writer) {
-		this.writer = writer;
 	}
 	public Long getDeposit() {
 		return deposit;
@@ -172,14 +168,13 @@ public class EstateDTO {
 	public void setImages(Set<EstateImageDTO> images) {
 		this.images = images;
 	}
-	public EstateDTO(Long estateId, String writer, Long deposit, Long price, double area, Long zipcode, String address1,
+	public EstateDTO(Long estateId, Long deposit, Long price, double area, Long zipcode, String address1,
 			String address2, double latitude, double longitude, Long roomFloors, Long buildingFloors,
 			Long maintenanceCost, String title, String contents, String memo, Timestamp writeDate, RoomDTO room,
 			StructureDTO structure, BuildingDTO building, TransactionDTO transaction, HeatingSystemDTO heatingSystem,
 			Set<EstateOptionDTO> optionList, Set<EstateImageDTO> images) {
 		super();
 		this.estateId = estateId;
-		this.writer = writer;
 		this.deposit = deposit;
 		this.price = price;
 		this.area = area;
@@ -206,6 +201,5 @@ public class EstateDTO {
 	public EstateDTO() {
 		super();
 	}
-    
 	
 }

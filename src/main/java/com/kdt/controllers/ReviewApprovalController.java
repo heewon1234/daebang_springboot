@@ -10,12 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdt.dto.EstateDTO;
 import com.kdt.dto.ReviewApprovalDTO;
-import com.kdt.dto.UploadEstateDTO;
 import com.kdt.services.EstateService;
 import com.kdt.services.ReviewApprovalService;
 
@@ -50,7 +48,8 @@ public class ReviewApprovalController {
 
 	@PostMapping
 	public ResponseEntity<Void> insert(@RequestBody ReviewApprovalDTO reviewApprovalDTO) {
-		System.out.println(reviewApprovalDTO.getEstateCode());
+//		System.out.println(reviewApprovalDTO.getEstateCode());
+		System.out.println(reviewApprovalDTO.getEstate().getEstateId());//확인해보셈
 		System.out.println(reviewApprovalDTO.getUserId());
 
 		rServ.insert(reviewApprovalDTO);
@@ -64,6 +63,38 @@ public class ReviewApprovalController {
 
 		rServ.updateStatus(dto);
 
+		return ResponseEntity.ok().build();
+	}
+	
+//	@GetMapping("sawEstate/{id}")
+//	public ResponseEntity<List<SawEstateDTO>> selectSawEstate(@PathVariable String id) {
+//		List<SawEstateDTO> list = rServ.selectSawEstate(id);
+//		return ResponseEntity.ok(list);
+//	}
+	//관리자 승인
+	@GetMapping("admin/selectByAdmin")
+	public ResponseEntity<List<ReviewApprovalDTO>> selectByAdmin() {
+		List<ReviewApprovalDTO> list = rServ.selectByAdmin();
+		System.out.println(list.get(0).getEstateName());
+		return ResponseEntity.ok(list);
+	}
+	@PutMapping("admin/revoke-approval/{seq}")
+	public ResponseEntity<Void> revoke(@PathVariable Long seq) {
+		rServ.revoke_approval(seq);
+		System.out.println("번호"+seq);
+		return ResponseEntity.ok().build();
+	}
+	
+	@PutMapping("admin/approval/{seq}")
+	public ResponseEntity<Void> approval(@PathVariable Long seq) {
+		rServ.approval(seq);
+		
+		return ResponseEntity.ok().build();
+	}
+	@PutMapping("admin/return/{seq}")
+	public ResponseEntity<Void> back(@PathVariable Long seq) {
+		rServ.back(seq);
+		System.out.println("번호리턴"+seq);
 		return ResponseEntity.ok().build();
 	}
 }

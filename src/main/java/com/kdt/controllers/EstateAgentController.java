@@ -47,9 +47,9 @@ public class EstateAgentController {
 		return ResponseEntity.ok().build();
 	}
 	
-//	@PostMapping("updateMyInfo")
-//	public ResponseEntity<Void> updateMyInfo(@RequestBody UpdateEstateDTO dto) {
-//		aServ.updateMyInfo(dto);
-//		return ResponseEntity.ok().build();
-//	}
+	@PostMapping("updateMyInfo")
+	public ResponseEntity<Void> updateMyInfo(@RequestBody UpdateEstateDTO dto) {
+		aServ.updateMyInfo(dto);
+		return ResponseEntity.ok().build();
+	}
 }

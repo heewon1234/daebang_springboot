@@ -1,18 +1,36 @@
-package com.kdt.dto;
+package com.kdt.domain.entities;
 
-public class MapSchoolDTO {
-	private String seq;
-    private String name;
-    private String address;
-    private String latitude;
-    private String longitude;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="map_search_subway")
+public class MapSubway {
+
+    @Id // 기본 키 필드가 있다고 가정합니다.
+    @Column(name="seq")
+    private String seq;
     
-	public MapSchoolDTO() {
+	@Column(name = "name")
+	private String name;
+	
+	@Column(name = "address")
+	private String address;
+
+    @Column(name="latitude")
+    private String latitude;
+
+    @Column(name="longitude")
+    private String longitude;
+
+	public MapSubway() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public MapSchoolDTO(String seq, String name, String address, String latitude, String longitude) {
+	public MapSubway(String seq, String name, String address, String latitude, String longitude) {
 		super();
 		this.seq = seq;
 		this.name = name;
@@ -60,4 +78,6 @@ public class MapSchoolDTO {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
+
+	
 }

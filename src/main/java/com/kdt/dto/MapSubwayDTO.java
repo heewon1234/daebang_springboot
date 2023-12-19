@@ -3,20 +3,22 @@ package com.kdt.dto;
 public class MapSubwayDTO {
 	private String seq;
     private String name;
+    private String address;
     private String latitude;
     private String longitude;
     
-	public MapSubwayDTO(String seq, String name, String latitude, String longitude) {
-		super();
-		this.seq = seq;
-		this.name = name;
-		this.latitude = latitude;
-		this.longitude = longitude;
-	}
-
 	public MapSubwayDTO() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public MapSubwayDTO(String seq, String name, String address, String latitude, String longitude) {
+		super();
+		this.seq = seq;
+		this.name = name;
+		this.address = address;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	public String getSeq() {
@@ -35,6 +37,14 @@ public class MapSubwayDTO {
 		this.name = name;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public String getLatitude() {
 		return latitude;
 	}
@@ -50,4 +60,6 @@ public class MapSubwayDTO {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
+    
+    
 }

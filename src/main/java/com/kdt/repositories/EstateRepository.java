@@ -9,6 +9,7 @@ import com.kdt.domain.entities.Estate;
 
 public interface EstateRepository extends JpaRepository<Estate, Long> {
 	@EntityGraph(attributePaths = { "building", "heatingSystem", "room", "structure", "transaction", "images",
-			"optionList" })
-	List<Estate> findAllByWriter(String loginId);
+			"optionList","realEstateAgent" })
+//	List<Estate> findAllByWriter(String loginId);
+	List<Estate> findAllByRealEstateAgentEmail(String email);
 }
