@@ -42,6 +42,18 @@ public class MapController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+	// 지도 로딩시 정보 가져오기
+		@GetMapping("getLimitAll")
+		public ResponseEntity<List<EstateDTO>> getLimitAll() {
+			try {
+				List<EstateDTO> list = eServ.selectLimitAll();
+				return ResponseEntity.ok(list);
+			} catch (Exception e) {
+				// 예외가 발생한 경우 처리
+				e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			}
+		}
 
 	// 키워드 검색
 	@GetMapping("getKeywordSearch")
