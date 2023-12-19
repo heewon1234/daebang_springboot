@@ -10,12 +10,12 @@ public class EstateDTO {
 //    private String writer;
     private Long deposit;
     private Long price;
-    private float area;
+    private double area;
     private Long zipcode;
     private String address1;
     private String address2;
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
     private Long roomFloors;
     private Long buildingFloors;
     private Long maintenanceCost;
@@ -30,27 +30,12 @@ public class EstateDTO {
     private HeatingSystemDTO heatingSystem;
     private Set<EstateOptionDTO> optionList;
     private Set<EstateImageDTO> images;
-    private Real_Estate_Agent realEstateAgent;
-    
-    
-	public Real_Estate_Agent getRealEstateAgent() {
-		return realEstateAgent;
-	}
-	public void setRealEstateAgent(Real_Estate_Agent realEstateAgent) {
-		this.realEstateAgent = realEstateAgent;
-	}
 	public Long getEstateId() {
 		return estateId;
 	}
 	public void setEstateId(Long estateId) {
 		this.estateId = estateId;
 	}
-//	public String getWriter() {
-//		return writer;
-//	}
-//	public void setWriter(String writer) {
-//		this.writer = writer;
-//	}
 	public Long getDeposit() {
 		return deposit;
 	}
@@ -63,10 +48,10 @@ public class EstateDTO {
 	public void setPrice(Long price) {
 		this.price = price;
 	}
-	public float getArea() {
+	public double getArea() {
 		return area;
 	}
-	public void setArea(float area) {
+	public void setArea(double area) {
 		this.area = area;
 	}
 	public Long getZipcode() {
@@ -87,16 +72,16 @@ public class EstateDTO {
 	public void setAddress2(String address2) {
 		this.address2 = address2;
 	}
-	public float getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(float latitude) {
+	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
-	public float getLongitude() {
+	public double getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(float longitude) {
+	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 	public Long getRoomFloors() {
@@ -183,12 +168,11 @@ public class EstateDTO {
 	public void setImages(Set<EstateImageDTO> images) {
 		this.images = images;
 	}
-	
-public EstateDTO(Long estateId, Long deposit, Long price, float area, Long zipcode, String address1,
-			String address2, float latitude, float longitude, Long roomFloors, Long buildingFloors,
+	public EstateDTO(Long estateId, Long deposit, Long price, double area, Long zipcode, String address1,
+			String address2, double latitude, double longitude, Long roomFloors, Long buildingFloors,
 			Long maintenanceCost, String title, String contents, String memo, Timestamp writeDate, RoomDTO room,
 			StructureDTO structure, BuildingDTO building, TransactionDTO transaction, HeatingSystemDTO heatingSystem,
-			Set<EstateOptionDTO> optionList, Set<EstateImageDTO> images, Real_Estate_Agent realEstateAgent) {
+			Set<EstateOptionDTO> optionList, Set<EstateImageDTO> images) {
 		super();
 		this.estateId = estateId;
 		this.deposit = deposit;
@@ -213,40 +197,9 @@ public EstateDTO(Long estateId, Long deposit, Long price, float area, Long zipco
 		this.heatingSystem = heatingSystem;
 		this.optionList = optionList;
 		this.images = images;
-		this.realEstateAgent = realEstateAgent;
 	}
-	//	public EstateDTO(Long estateId, String writer, Long deposit, Long price, float area, Long zipcode, String address1,
-//			String address2, float latitude, float longitude, Long roomFloors, Long buildingFloors,
-//			Long maintenanceCost, String title, String contents, String memo, Timestamp writeDate, RoomDTO room,
-//			StructureDTO structure, BuildingDTO building, TransactionDTO transaction, HeatingSystemDTO heatingSystem,
-//			Set<EstateOptionDTO> optionList, Set<EstateImageDTO> images) {
-//		super();
-//		this.estateId = estateId;
-//		this.writer = writer;
-//		this.deposit = deposit;
-//		this.price = price;
-//		this.area = area;
-//		this.zipcode = zipcode;
-//		this.address1 = address1;
-//		this.address2 = address2;
-//		this.latitude = latitude;
-//		this.longitude = longitude;
-//		this.roomFloors = roomFloors;
-//		this.buildingFloors = buildingFloors;
-//		this.maintenanceCost = maintenanceCost;
-//		this.title = title;
-//		this.contents = contents;
-//		this.memo = memo;
-//		this.writeDate = writeDate;
-//		this.room = room;
-//		this.structure = structure;
-//		this.building = building;
-//		this.transaction = transaction;
-//		this.heatingSystem = heatingSystem;
-//		this.optionList = optionList;
-//		this.images = images;
-//	}
 	public EstateDTO() {
 		super();
 	}
+	
 }
