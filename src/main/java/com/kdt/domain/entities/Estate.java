@@ -33,7 +33,7 @@ public class Estate {
 	private Long price;
 
 	@Column(name = "area")
-	private float area;
+	private double area;
 
 	@Column(name = "zipcode")
 	private Long zipcode;
@@ -45,10 +45,10 @@ public class Estate {
 	private String address2;
 
 	@Column(name = "latitude")
-	private float latitude;
+	private double latitude;
 
 	@Column(name = "longitude")
-	private float longitude;
+	private double longitude;
 
 	@Column(name = "room_floors")
 	private Long roomFloors;
@@ -131,11 +131,11 @@ public class Estate {
 		this.price = price;
 	}
 
-	public float getArea() {
+	public double getArea() {
 		return area;
 	}
 
-	public void setArea(float area) {
+	public void setArea(double area) {
 		this.area = area;
 	}
 
@@ -163,19 +163,19 @@ public class Estate {
 		this.address2 = address2;
 	}
 
-	public float getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(float latitude) {
+	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
 
-	public float getLongitude() {
+	public double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(float longitude) {
+	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 
@@ -291,8 +291,8 @@ public class Estate {
 		this.images = images;
 	}
 
-	public Estate(Long estateId, String writer, Long deposit, Long price, float area, Long zipcode, String address1,
-			String address2, float latitude, float longitude, Long roomFloors, Long buildingFloors,
+	public Estate(Long estateId, String writer, Long deposit, Long price, double area, Long zipcode, String address1,
+			String address2, double latitude, double longitude, Long roomFloors, Long buildingFloors,
 			Long maintenanceCost, String title, String contents, String memo, Timestamp writeDate, Room room,
 			Structure structure, Building building, Transaction transaction, HeatingSystem heatingSystem,
 			Set<EstateOption> optionList, Set<EstateImage> images) {
@@ -326,5 +326,6 @@ public class Estate {
 	public Estate() {
 		super();
 	}
+	
 
 }

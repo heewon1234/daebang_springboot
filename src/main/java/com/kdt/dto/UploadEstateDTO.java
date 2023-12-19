@@ -15,12 +15,12 @@ public class UploadEstateDTO {
 	private String heatingCode;
 	private Long deposit;
 	private Long price;
-	private float area;
+	private double area;
 	private Long zipcode;
 	private String address1;
 	private String address2;
-	private float latitude;
-	private float longitude;
+	private double latitude;
+	private double longitude;
 	private Long roomFloors;
 	private Long buildingFloors;
 	private Long maintenanceCost;
@@ -28,7 +28,6 @@ public class UploadEstateDTO {
 	private String contents;
 	private String memo;
 	private Timestamp writeDate;
-	
 	public Long getEstateId() {
 		return estateId;
 	}
@@ -83,10 +82,10 @@ public class UploadEstateDTO {
 	public void setPrice(Long price) {
 		this.price = price;
 	}
-	public float getArea() {
+	public double getArea() {
 		return area;
 	}
-	public void setArea(float area) {
+	public void setArea(double area) {
 		this.area = area;
 	}
 	public Long getZipcode() {
@@ -107,16 +106,16 @@ public class UploadEstateDTO {
 	public void setAddress2(String address2) {
 		this.address2 = address2;
 	}
-	public float getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(float latitude) {
+	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
-	public float getLongitude() {
+	public double getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(float longitude) {
+	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 	public Long getRoomFloors() {
@@ -162,8 +161,8 @@ public class UploadEstateDTO {
 		this.writeDate = writeDate;
 	}
 	public UploadEstateDTO(Long estateId, String writer, String roomCode, String structureCode, String buildingCode,
-			String transactionCode, String heatingCode, Long deposit, Long price, float area, Long zipcode,
-			String address1, String address2, float latitude, float longitude, Long roomFloors, Long buildingFloors,
+			String transactionCode, String heatingCode, Long deposit, Long price, double area, Long zipcode,
+			String address1, String address2, double latitude, double longitude, Long roomFloors, Long buildingFloors,
 			Long maintenanceCost, String title, String contents, String memo, Timestamp writeDate) {
 		super();
 		this.estateId = estateId;

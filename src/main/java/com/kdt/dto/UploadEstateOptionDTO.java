@@ -1,9 +1,9 @@
 package com.kdt.dto;
 
-public class EstateOptionDTO {
+public class UploadEstateOptionDTO {
 	private Long seq;
 	private Long estateCode;
-	private OptionTitleDTO optionTitle;
+	private String optionCode;
 	
 	public Long getSeq() {
 		return seq;
@@ -17,21 +17,20 @@ public class EstateOptionDTO {
 	public void setEstateCode(Long estateCode) {
 		this.estateCode = estateCode;
 	}
-	public OptionTitleDTO getOptionTitle() {
-		return optionTitle;
+	public String getOptionCode() {
+		return optionCode;
 	}
-	public void setOptionTitle(OptionTitleDTO optionTitle) {
-		this.optionTitle = optionTitle;
+	public void setOptionCode(String optionCode) {
+		this.optionCode = optionCode;
 	}
-	public EstateOptionDTO(Long seq, Long estateCode, OptionTitleDTO optionTitle) {
+	public UploadEstateOptionDTO(Long seq, Long estateCode, String optionCode) {
 		super();
 		this.seq = seq;
 		this.estateCode = estateCode;
-		this.optionTitle = optionTitle;
+		this.optionCode = optionCode;
 	}
-	public EstateOptionDTO() {
+	public UploadEstateOptionDTO() {
 		super();
 	}
-	
 	
 }

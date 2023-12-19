@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="Estate_Option")
-public class EstateOption {
+public class UploadEstateOption {
 	
 	@Id
 	@Column(name="seq")
@@ -21,9 +21,8 @@ public class EstateOption {
 	@Column(name="estate_code")
 	private Long estateCode;
 	
-	@OneToOne
-	@JoinColumn(name = "option_code", referencedColumnName = "option_id")
-	private OptionTitle optionTitle;
+	@Column(name="option_code")
+	private String optionCode;
 
 	public Long getSeq() {
 		return seq;
@@ -41,22 +40,22 @@ public class EstateOption {
 		this.estateCode = estateCode;
 	}
 
-	public OptionTitle getOptionTitle() {
-		return optionTitle;
+	public String getOptionCode() {
+		return optionCode;
 	}
 
-	public void setOptionTitle(OptionTitle optionTitle) {
-		this.optionTitle = optionTitle;
+	public void setOptionCode(String optionCode) {
+		this.optionCode = optionCode;
 	}
 
-	public EstateOption(Long seq, Long estateCode, OptionTitle optionTitle) {
+	public UploadEstateOption(Long seq, Long estateCode, String optionCode) {
 		super();
 		this.seq = seq;
 		this.estateCode = estateCode;
-		this.optionTitle = optionTitle;
+		this.optionCode = optionCode;
 	}
 
-	public EstateOption() {
+	public UploadEstateOption() {
 		super();
 	}
 	
