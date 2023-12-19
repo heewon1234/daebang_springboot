@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kdt.domain.entities.Real_Estate_Agent;
 import com.kdt.domain.entities.ReviewApproval;
 import com.kdt.domain.entities.SawEstate;
 import com.kdt.domain.entities.UploadEstate;
@@ -85,11 +84,11 @@ public class ReviewApprovalService {
 		
 	}
 	
-//	public List<SawEstateDTO> selectSawEstate(String id) {
-//		List<SawEstate> list = sRepo.selectSawEstate(id);
-//		List<SawEstateDTO> dtos = sMapper.toDtoList(list);
-//		return dtos;
-//	}
+	public List<SawEstateDTO> selectSawEstate(String id) {
+		List<SawEstate> list = sRepo.selectSawEstate(id);
+		List<SawEstateDTO> dtos = sMapper.toDtoList(list);
+		return dtos;
+	}
 	//관리자 페이지
 	public List<ReviewApprovalDTO> selectByAdmin() {
 		List<String> approvalCodes = Arrays.asList("a2", "a3", "a4","b1");
