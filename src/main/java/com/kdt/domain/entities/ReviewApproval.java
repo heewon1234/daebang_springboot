@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,14 +23,28 @@ public class ReviewApproval {
 	@Column(name="user_id")
 	private String userId;
 	
-	@Column(name="estate_code")
-	private Long estateCode;
+//	@Column(name="estate_code")
+//	private Long estateCode;
 	
 	@Column(name="approval_code")
 	private String approvalCode;
 	
 	@Column(name="write_date")
 	private Timestamp writeDate;
+	
+	@ManyToOne
+    @JoinColumn(name = "estate_code", referencedColumnName = "estate_id")
+    private Estate estate;
+	
+	
+
+	public Estate getEstate() {
+		return estate;
+	}
+
+	public void setEstate(Estate estate) {
+		this.estate = estate;
+	}
 
 	public Long getSeq() {
 		return seq;
@@ -46,13 +62,13 @@ public class ReviewApproval {
 		this.userId = userId;
 	}
 
-	public Long getEstateCode() {
-		return estateCode;
-	}
-
-	public void setEstateCode(Long estateCode) {
-		this.estateCode = estateCode;
-	}
+//	public Long getEstateCode() {
+//		return estateCode;
+//	}
+//
+//	public void setEstateCode(Long estateCode) {
+//		this.estateCode = estateCode;
+//	}
 
 	public String getApprovalCode() {
 		return approvalCode;
@@ -69,15 +85,25 @@ public class ReviewApproval {
 	public void setWriteDate(Timestamp writeDate) {
 		this.writeDate = writeDate;
 	}
+	
 
-	public ReviewApproval(Long seq, String userId, Long estateCode, String approvalCode, Timestamp writeDate) {
+public ReviewApproval(Long seq, String userId, String approvalCode, Timestamp writeDate, Estate estate) {
 		super();
 		this.seq = seq;
 		this.userId = userId;
-		this.estateCode = estateCode;
 		this.approvalCode = approvalCode;
 		this.writeDate = writeDate;
+		this.estate = estate;
 	}
+
+//	public ReviewApproval(Long seq, String userId, Long estateCode, String approvalCode, Timestamp writeDate) {
+//		super();
+//		this.seq = seq;
+//		this.userId = userId;
+//		this.estateCode = estateCode;
+//		this.approvalCode = approvalCode;
+//		this.writeDate = writeDate;
+//	}
 
 	public ReviewApproval() {
 		super();
