@@ -23,8 +23,8 @@ public class Estate {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long estateId;
 
-	@Column(name = "writer")
-	private String writer;
+//	@Column(name = "writer")
+//	private String writer;
 
 	@Column(name = "deposit")
 	private Long deposit;
@@ -70,7 +70,7 @@ public class Estate {
 
 	@Column(name = "write_date")
 	private Timestamp writeDate;
-
+	
 	@OneToOne
 	@JoinColumn(name = "room_code", referencedColumnName = "room_id")
 	private Room room;
@@ -98,6 +98,10 @@ public class Estate {
 	@OneToMany(cascade=CascadeType.REMOVE)
 	@JoinColumn(name = "parent_id")
 	private Set<EstateImage> images;
+	
+	@OneToOne
+    @JoinColumn(name = "writer", referencedColumnName = "email")
+    private Real_Estate_Agent realEstateAgent;
 
 	public Long getEstateId() {
 		return estateId;
@@ -107,12 +111,20 @@ public class Estate {
 		this.estateId = estateId;
 	}
 
-	public String getWriter() {
-		return writer;
+//	public String getWriter() {
+//		return writer;
+//	}
+//
+//	public void setWriter(String writer) {
+//		this.writer = writer;
+//	}
+
+	public Real_Estate_Agent getRealEstateAgent() {
+		return realEstateAgent;
 	}
 
-	public void setWriter(String writer) {
-		this.writer = writer;
+	public void setRealEstateAgent(Real_Estate_Agent realEstateAgent) {
+		this.realEstateAgent = realEstateAgent;
 	}
 
 	public Long getDeposit() {
@@ -291,40 +303,72 @@ public class Estate {
 		this.images = images;
 	}
 
-	public Estate(Long estateId, String writer, Long deposit, Long price, float area, Long zipcode, String address1,
-			String address2, float latitude, float longitude, Long roomFloors, Long buildingFloors,
-			Long maintenanceCost, String title, String contents, String memo, Timestamp writeDate, Room room,
-			Structure structure, Building building, Transaction transaction, HeatingSystem heatingSystem,
-			Set<EstateOption> optionList, Set<EstateImage> images) {
-		super();
-		this.estateId = estateId;
-		this.writer = writer;
-		this.deposit = deposit;
-		this.price = price;
-		this.area = area;
-		this.zipcode = zipcode;
-		this.address1 = address1;
-		this.address2 = address2;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.roomFloors = roomFloors;
-		this.buildingFloors = buildingFloors;
-		this.maintenanceCost = maintenanceCost;
-		this.title = title;
-		this.contents = contents;
-		this.memo = memo;
-		this.writeDate = writeDate;
-		this.room = room;
-		this.structure = structure;
-		this.building = building;
-		this.transaction = transaction;
-		this.heatingSystem = heatingSystem;
-		this.optionList = optionList;
-		this.images = images;
-	}
+//	public Estate(Long estateId, String writer, Long deposit, Long price, float area, Long zipcode, String address1,
+//			String address2, float latitude, float longitude, Long roomFloors, Long buildingFloors,
+//			Long maintenanceCost, String title, String contents, String memo, Timestamp writeDate, Room room,
+//			Structure structure, Building building, Transaction transaction, HeatingSystem heatingSystem,
+//			Set<EstateOption> optionList, Set<EstateImage> images) {
+//		super();
+//		this.estateId = estateId;
+//		this.writer = writer;
+//		this.deposit = deposit;
+//		this.price = price;
+//		this.area = area;
+//		this.zipcode = zipcode;
+//		this.address1 = address1;
+//		this.address2 = address2;
+//		this.latitude = latitude;
+//		this.longitude = longitude;
+//		this.roomFloors = roomFloors;
+//		this.buildingFloors = buildingFloors;
+//		this.maintenanceCost = maintenanceCost;
+//		this.title = title;
+//		this.contents = contents;
+//		this.memo = memo;
+//		this.writeDate = writeDate;
+//		this.room = room;
+//		this.structure = structure;
+//		this.building = building;
+//		this.transaction = transaction;
+//		this.heatingSystem = heatingSystem;
+//		this.optionList = optionList;
+//		this.images = images;
+//	}
 
 	public Estate() {
 		super();
 	}
+
+public Estate(Long estateId, Long deposit, Long price, float area, Long zipcode, String address1, String address2,
+		float latitude, float longitude, Long roomFloors, Long buildingFloors, Long maintenanceCost, String title,
+		String contents, String memo, Timestamp writeDate, Room room, Structure structure, Building building,
+		Transaction transaction, HeatingSystem heatingSystem, Set<EstateOption> optionList, Set<EstateImage> images,
+		Real_Estate_Agent realEstateAgent) {
+	super();
+	this.estateId = estateId;
+	this.deposit = deposit;
+	this.price = price;
+	this.area = area;
+	this.zipcode = zipcode;
+	this.address1 = address1;
+	this.address2 = address2;
+	this.latitude = latitude;
+	this.longitude = longitude;
+	this.roomFloors = roomFloors;
+	this.buildingFloors = buildingFloors;
+	this.maintenanceCost = maintenanceCost;
+	this.title = title;
+	this.contents = contents;
+	this.memo = memo;
+	this.writeDate = writeDate;
+	this.room = room;
+	this.structure = structure;
+	this.building = building;
+	this.transaction = transaction;
+	this.heatingSystem = heatingSystem;
+	this.optionList = optionList;
+	this.images = images;
+	this.realEstateAgent = realEstateAgent;
+}
 
 }

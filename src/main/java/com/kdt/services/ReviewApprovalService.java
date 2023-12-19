@@ -52,8 +52,9 @@ public class ReviewApprovalService {
 		List<ReviewApproval> rList = new ArrayList<>();
 
 		for (UploadEstate estate : estateList) {
-			System.out.println("estateCode" + estate.getEstateId());
-			ReviewApproval result = rRepo.findByApprovalCodeAndEstateCode("a1", estate.getEstateId());
+//			System.out.printlnde" + estate.getEstateId());
+//			ReviewApproval result = rRepo.findByApprovalCodeAnd("a1", estate.getEstateId());
+			ReviewApproval result = rRepo.findByApprovalCodeAndEstateEstateId("a1", estate.getEstateId());
 			if (result != null) {
 				rList.add(result);
 			}
@@ -84,11 +85,11 @@ public class ReviewApprovalService {
 		
 	}
 	
-	public List<SawEstateDTO> selectSawEstate(String id) {
-		List<SawEstate> list = sRepo.selectSawEstate(id);
-		List<SawEstateDTO> dtos = sMapper.toDtoList(list);
-		return dtos;
-	}
+//	public List<SawEstateDTO> selectSawEstate(String id) {
+//		List<SawEstate> list = sRepo.selectSawEstate(id);
+//		List<SawEstateDTO> dtos = sMapper.toDtoList(list);
+//		return dtos;
+//	}
 	//관리자 페이지
 	public List<ReviewApprovalDTO> selectByAdmin() {
 		List<String> approvalCodes = Arrays.asList("a2", "a3", "a4","b1");

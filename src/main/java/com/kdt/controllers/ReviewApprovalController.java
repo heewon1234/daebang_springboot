@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kdt.dto.EstateDTO;
 import com.kdt.dto.ReviewApprovalDTO;
-import com.kdt.dto.SawEstateDTO;
 import com.kdt.services.EstateService;
 import com.kdt.services.ReviewApprovalService;
 
@@ -49,7 +48,8 @@ public class ReviewApprovalController {
 
 	@PostMapping
 	public ResponseEntity<Void> insert(@RequestBody ReviewApprovalDTO reviewApprovalDTO) {
-		System.out.println(reviewApprovalDTO.getEstateCode());
+//		System.out.println(reviewApprovalDTO.getEstateCode());
+		System.out.println(reviewApprovalDTO.getEstate().getEstateId());//확인해보셈
 		System.out.println(reviewApprovalDTO.getUserId());
 
 		rServ.insert(reviewApprovalDTO);
@@ -66,15 +66,16 @@ public class ReviewApprovalController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping("sawEstate/{id}")
-	public ResponseEntity<List<SawEstateDTO>> selectSawEstate(@PathVariable String id) {
-		List<SawEstateDTO> list = rServ.selectSawEstate(id);
-		return ResponseEntity.ok(list);
-	}
+//	@GetMapping("sawEstate/{id}")
+//	public ResponseEntity<List<SawEstateDTO>> selectSawEstate(@PathVariable String id) {
+//		List<SawEstateDTO> list = rServ.selectSawEstate(id);
+//		return ResponseEntity.ok(list);
+//	}
 	//관리자 승인
 	@GetMapping("admin/selectByAdmin")
 	public ResponseEntity<List<ReviewApprovalDTO>> selectByAdmin() {
 		List<ReviewApprovalDTO> list = rServ.selectByAdmin();
+		System.out.println(list.get(0).getEstateName());
 		return ResponseEntity.ok(list);
 	}
 	@PutMapping("admin/revoke-approval/{seq}")
