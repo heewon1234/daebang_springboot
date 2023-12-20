@@ -93,4 +93,9 @@ public class AgentService {
 		aMapper.updateEntityFromDTO(adto, a);
 		aRepo.save(a);
 	}
+	public List<RealEstateAgentDTO> getId(String name,String phone){
+		List<RealEstateAgent> list = aRepo.selectbynamephone(name,phone);
+		List<RealEstateAgentDTO> dtos = aMapper.toDtoList(list);
+		return dtos;
+	}
 }

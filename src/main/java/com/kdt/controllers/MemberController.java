@@ -61,7 +61,6 @@ public class MemberController {
 		return ResponseEntity.ok(idList);
 
 	}
-
 	@GetMapping("myInfo/{id}")
 	public ResponseEntity<MemberDTO> myInfo(@PathVariable String id) {
 		try {

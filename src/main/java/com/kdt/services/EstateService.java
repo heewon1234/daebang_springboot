@@ -122,7 +122,6 @@ public class EstateService {
 	public List<EstateDTO> selectLimitAll() {
 		List<Estate> eList = eRepo.findTop6ByOrderByEstateIdDesc();
 		List<EstateDTO> list = eMapper.toDtoList(eList);
-
 		return list;
 	}
 	public List<EstateDTO> selectWatchAll(List<Long> recent) {
