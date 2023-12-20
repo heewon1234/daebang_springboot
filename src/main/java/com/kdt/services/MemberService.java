@@ -22,6 +22,7 @@ public class MemberService {
 	@Autowired
 	private MemberMapper mMapper;
 	
+	
 	private final PasswordEncoder passwordEncoder;
 
     //@Autowired
