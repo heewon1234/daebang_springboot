@@ -15,4 +15,8 @@ public interface AgentRepository extends JpaRepository<Real_Estate_Agent, String
 	@Modifying
 	@Query("update Real_Estate_Agent a set a.pw=?2 where a.id=?1")
 	int changePw(String id, String pw);
+	
+	@Modifying
+	@Query("update Real_Estate_Agent a set a.manners_temperature=?1 where a.estateNumber=?2")
+	void updateMannerTemp(double avgScore, String estateNumber);
 }
