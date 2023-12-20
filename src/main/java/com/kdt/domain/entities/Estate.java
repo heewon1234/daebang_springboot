@@ -101,7 +101,7 @@ public class Estate {
 	
 	@OneToOne
     @JoinColumn(name = "writer", referencedColumnName = "email")
-    private Real_Estate_Agent realEstateAgent;
+    private RealEstateAgent realEstateAgent;
 
 	public Long getEstateId() {
 		return estateId;
@@ -287,11 +287,11 @@ public class Estate {
 		this.images = images;
 	}
 
-	public Real_Estate_Agent getRealEstateAgent() {
+	public RealEstateAgent getRealEstateAgent() {
 		return realEstateAgent;
 	}
 
-	public void setRealEstateAgent(Real_Estate_Agent realEstateAgent) {
+	public void setRealEstateAgent(RealEstateAgent realEstateAgent) {
 		this.realEstateAgent = realEstateAgent;
 	}
 
@@ -299,7 +299,7 @@ public class Estate {
 			double latitude, double longitude, Long roomFloors, Long buildingFloors, Long maintenanceCost, String title,
 			String contents, String memo, Timestamp writeDate, Room room, Structure structure, Building building,
 			Transaction transaction, HeatingSystem heatingSystem, Set<EstateOption> optionList, Set<EstateImage> images,
-			Real_Estate_Agent realEstateAgent) {
+			RealEstateAgent realEstateAgent) {
 		super();
 		this.estateId = estateId;
 		this.deposit = deposit;

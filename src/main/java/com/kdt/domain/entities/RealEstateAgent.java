@@ -3,9 +3,11 @@ package com.kdt.domain.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-public class Real_Estate_Agent {
+@Table(name = "Real_Estate_Agent")
+public class RealEstateAgent {
 	@Id
 	@Column(name="email")
 	private String email;
@@ -44,7 +46,7 @@ public class Real_Estate_Agent {
 	private boolean enabled;
 
 	
-	public Real_Estate_Agent(String email, String pw, String estateName, String estateNumber, String name,
+	public RealEstateAgent(String email, String pw, String estateName, String estateNumber, String name,
 			String address, String phone, double manners_temperature, double latitude, double longitude, String role,
 			boolean enabled) {
 		super();
@@ -183,7 +185,7 @@ public class Real_Estate_Agent {
 	}
 
 
-	public Real_Estate_Agent() {
+	public RealEstateAgent() {
 		super();
 	}
 	

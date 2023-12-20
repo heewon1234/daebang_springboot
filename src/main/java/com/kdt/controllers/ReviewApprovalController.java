@@ -74,12 +74,11 @@ public class ReviewApprovalController {
 		return ResponseEntity.ok(list);
 	}
 	//관리자 승인
-//	@GetMapping("admin/selectByAdmin")
-//	public ResponseEntity<List<ReviewApprovalDTO>> selectByAdmin() {
-//		List<ReviewApprovalDTO> list = rServ.selectByAdmin();
-//		System.out.println(list.get(0).getEstateName());
-//		return ResponseEntity.ok(list);
-//	}
+	@GetMapping("admin/selectByAdmin")
+	public ResponseEntity<List<ReviewApprovalDTO>> selectByAdmin() {
+		List<ReviewApprovalDTO> list = rServ.selectByAdmin();
+		return ResponseEntity.ok(list);
+	}
 	@PutMapping("admin/revoke-approval/{seq}")
 	public ResponseEntity<Void> revoke(@PathVariable Long seq) {
 		rServ.revoke_approval(seq);
