@@ -19,6 +19,7 @@ import com.kdt.domain.entities.ReviewFiles;
 import com.kdt.dto.ReviewDTO;
 import com.kdt.dto.UploadReviewDTO;
 import com.kdt.mappers.ReviewMapper;
+import com.kdt.repositories.AgentRepository;
 import com.kdt.repositories.EstateRepository;
 import com.kdt.repositories.ReviewFilesRepository;
 import com.kdt.repositories.ReviewRepository;
@@ -44,11 +45,15 @@ public class ReviewService {
 	@Autowired
 	private ReviewFilesRepository rfRepo;
 	
+	@Autowired
+	private AgentRepository aRepo;
+	
 	// 리뷰 등록
 	@Transactional
 	public void insertReview(UploadReviewDTO dto) throws Exception{
 		// Review 테이블에 내용 추가
 		String realEstateNumber = eRepo.findById(dto.getEstateId()).get().getRealEstateAgent().getEstateNumber();
+		System.out.println(realEstateNumber+"//");
 		dto.setRealEstateNumber(realEstateNumber);
 		Review review = rMapper.toEntity(dto);
 		review.setFiles(new HashSet<>());
@@ -79,6 +84,11 @@ public class ReviewService {
 			}
 		}
 		rRepo.save(review);
+		entityManager.flush();
+		
+		double avgScore = rRepo.findAverageScoreByRealEstateNumber(realEstateNumber);
+		aRepo.updateMannerTemp(avgScore,realEstateNumber);
+		
 	}
 	
 	// 리뷰 목록 불러오기
