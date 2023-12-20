@@ -99,6 +99,7 @@ public class SecurityConfig {
 		.requestMatchers(new AntPathRequestMatcher("/api/member/delete/**")).hasAnyRole("ADMIN","MEMBER")
 		.requestMatchers(new AntPathRequestMatcher("/api/member/myInfo/**")).hasAnyRole("ADMIN","MEMBER")
 		.requestMatchers(new AntPathRequestMatcher("/api/member/getAll")).hasRole("ADMIN")
+		.requestMatchers(new AntPathRequestMatcher("/api/reviewApproval/admin/**")).hasRole("ADMIN")
 		.requestMatchers(new AntPathRequestMatcher("/api/admin/**")).hasRole("ADMIN")
 		.requestMatchers(new AntPathRequestMatcher("/**")).permitAll();
 		
