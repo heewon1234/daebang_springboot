@@ -17,6 +17,7 @@ import com.kdt.dto.EstateDTO;
 import com.kdt.dto.MapRegionDTO;
 import com.kdt.dto.MapSchoolDTO;
 import com.kdt.dto.MapSubwayDTO;
+import com.kdt.dto.RealEstateAgentDTO;
 import com.kdt.services.EstateService;
 import com.kdt.services.MapService;
 
@@ -75,6 +76,8 @@ public class MapController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	    }
 	}
+	
+	
 	@GetMapping("getWatchAll/{recent}")
 	public ResponseEntity<List<EstateDTO>> getWatchAll(@PathVariable List<Long> recent) {
 		try {
@@ -86,5 +89,25 @@ public class MapController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+	@GetMapping("callAgentState")
+	public ResponseEntity<RealEstateAgentDTO> callAgentState(@RequestParam("keyword") String keyword) {
+	    try {
+	        
+	        List<MapRegionDTO> regionList = mServ.selectRegion(keyword);
+	        List<MapSubwayDTO> subwayList = mServ.selectSubway(keyword);
+	        List<MapSchoolDTO> schoolList = mServ.selectSchool(keyword);
+	        
+	        result.put("regionList", regionList);
+	        result.put("subwayList", subwayList);
+	        result.put("schoolList", schoolList);
+	        
+	        return ResponseEntity.ok(result);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	    }
+	}
+	// 작성자 매너온도 가져오기
+	
 
 }

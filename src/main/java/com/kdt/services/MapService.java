@@ -60,5 +60,12 @@ public class MapService {
 		List<MapSchoolDTO> dtos = mSchoolMapper.toDtoList(list);
 		return dtos;
 	}
+	
+	// 매너온도 받아오기 callAgentState
+	public List<RealEstateAgentDTO> callAgentState(String keyword) {
+		List<MapSchool> list = mSchoolRepo.findByNameStartingWith(keyword);
+		List<MapSchoolDTO> dtos = mSchoolMapper.toDtoList(list);
+		return dtos;
+	}
 
 }
