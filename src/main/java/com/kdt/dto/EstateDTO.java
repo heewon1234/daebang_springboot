@@ -3,6 +3,8 @@ package com.kdt.dto;
 import java.sql.Timestamp;
 import java.util.Set;
 
+import com.kdt.domain.entities.Real_Estate_Agent;
+
 public class EstateDTO {
 	private Long estateId;
 //    private String writer;
@@ -28,6 +30,7 @@ public class EstateDTO {
     private HeatingSystemDTO heatingSystem;
     private Set<EstateOptionDTO> optionList;
     private Set<EstateImageDTO> images;
+    private Real_Estate_Agent realEstateAgent;
 	public Long getEstateId() {
 		return estateId;
 	}
@@ -166,38 +169,12 @@ public class EstateDTO {
 	public void setImages(Set<EstateImageDTO> images) {
 		this.images = images;
 	}
-	public EstateDTO(Long estateId, Long deposit, Long price, double area, Long zipcode, String address1,
-			String address2, double latitude, double longitude, Long roomFloors, Long buildingFloors,
-			Long maintenanceCost, String title, String contents, String memo, Timestamp writeDate, RoomDTO room,
-			StructureDTO structure, BuildingDTO building, TransactionDTO transaction, HeatingSystemDTO heatingSystem,
-			Set<EstateOptionDTO> optionList, Set<EstateImageDTO> images) {
-		super();
-		this.estateId = estateId;
-		this.deposit = deposit;
-		this.price = price;
-		this.area = area;
-		this.zipcode = zipcode;
-		this.address1 = address1;
-		this.address2 = address2;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.roomFloors = roomFloors;
-		this.buildingFloors = buildingFloors;
-		this.maintenanceCost = maintenanceCost;
-		this.title = title;
-		this.contents = contents;
-		this.memo = memo;
-		this.writeDate = writeDate;
-		this.room = room;
-		this.structure = structure;
-		this.building = building;
-		this.transaction = transaction;
-		this.heatingSystem = heatingSystem;
-		this.optionList = optionList;
-		this.images = images;
+	public Real_Estate_Agent getRealEstateAgent() {
+		return realEstateAgent;
 	}
-	public EstateDTO() {
-		super();
+	public void setRealEstateAgent(Real_Estate_Agent realEstateAgent) {
+		this.realEstateAgent = realEstateAgent;
 	}
 	
+    
 }
