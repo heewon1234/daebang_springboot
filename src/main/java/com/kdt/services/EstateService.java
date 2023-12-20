@@ -121,6 +121,7 @@ public class EstateService {
 	}
 	public List<EstateDTO> selectLimitAll() {
 		List<Estate> eList = eRepo.findTop6ByOrderByEstateIdDesc();
+		System.out.println(eList.get(3).getAddress1());
 		List<EstateDTO> list = eMapper.toDtoList(eList);
 		return list;
 	}
