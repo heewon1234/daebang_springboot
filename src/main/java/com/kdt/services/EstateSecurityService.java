@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.kdt.domain.entities.Real_Estate_Agent;
+import com.kdt.domain.entities.RealEstateAgent;
 import com.kdt.repositories.AgentRepository;
 import com.kdt.security.SecurityUser;
 
@@ -17,7 +17,7 @@ public class EstateSecurityService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Real_Estate_Agent a = aRepo.findById(username).get();
+		RealEstateAgent a = aRepo.findById(username).get();
 		
 		SecurityUser su = new SecurityUser(a);
 		su.setName(a.getName());
