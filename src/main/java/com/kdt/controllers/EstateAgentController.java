@@ -1,5 +1,8 @@
 package com.kdt.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +54,17 @@ public class EstateAgentController {
 	public ResponseEntity<Void> updateMyInfo(@RequestBody UpdateEstateDTO dto) {
 		aServ.updateMyInfo(dto);
 		return ResponseEntity.ok().build();
+	}
+	@GetMapping("findId/{name}/{phone}")
+	public ResponseEntity<List<String>> getId(@PathVariable String name,@PathVariable String phone){
+		List<RealEstateAgentDTO> dto = aServ.getId(name,phone);
+		List<String> idList = new ArrayList<>();
+		if(!(dto.size()==0)){
+			for(int i =0;i<dto.size();i++) {
+				idList.add(dto.get(i).getEmail());
+			}
+		}
+		return ResponseEntity.ok(idList);
+
 	}
 }

@@ -3,7 +3,7 @@ package com.kdt.dto;
 import java.sql.Timestamp;
 import java.util.Set;
 
-import com.kdt.domain.entities.Real_Estate_Agent;
+import com.kdt.domain.entities.RealEstateAgent;
 
 public class EstateDTO {
 	private Long estateId;
@@ -30,7 +30,7 @@ public class EstateDTO {
     private HeatingSystemDTO heatingSystem;
     private Set<EstateOptionDTO> optionList;
     private Set<EstateImageDTO> images;
-    private Real_Estate_Agent realEstateAgent;
+    private RealEstateAgent realEstateAgent;
 	public Long getEstateId() {
 		return estateId;
 	}
@@ -169,10 +169,10 @@ public class EstateDTO {
 	public void setImages(Set<EstateImageDTO> images) {
 		this.images = images;
 	}
-	public Real_Estate_Agent getRealEstateAgent() {
+	public RealEstateAgent getRealEstateAgent() {
 		return realEstateAgent;
 	}
-	public void setRealEstateAgent(Real_Estate_Agent realEstateAgent) {
+	public void setRealEstateAgent(RealEstateAgent realEstateAgent) {
 		this.realEstateAgent = realEstateAgent;
 	}
 	

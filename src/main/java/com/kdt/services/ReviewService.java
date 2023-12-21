@@ -86,7 +86,7 @@ public class ReviewService {
 		rRepo.save(review);
 		entityManager.flush();
 		
-		double avgScore = rRepo.findAverageScoreByRealEstateNumber(realEstateNumber);
+		double avgScore = rRepo.findAverageScoreByRealEstateNumber(realEstateNumber) + 36.5;
 		aRepo.updateMannerTemp(avgScore,realEstateNumber);
 		
 	}
@@ -113,7 +113,7 @@ public class ReviewService {
 	public void updateReview(UploadReviewDTO dto, String[] delFileList) throws Exception{
 		delDBFile(delFileList);	
 		Review review = rRepo.findBySeqAndId(dto.getSeq(), dto.getId()).get();
-		
+		String realEstateNumber = review.getRealEstateNumber();
 		Set<ReviewFiles> entityFiles = review.getFiles();
 		List<MultipartFile> multiList = new ArrayList<>();
 		if(dto.getFiles()!=null) {
@@ -147,7 +147,10 @@ public class ReviewService {
 		}
 		rRepo.save(review);
 		entityManager.flush();
+		double avgScore = rRepo.findAverageScoreByRealEstateNumber(realEstateNumber) + 36.5;
+		aRepo.updateMannerTemp(avgScore,realEstateNumber);
 		delServerFile(delFileList);	
+		
 	}
 	
 	// DB 파일 삭제

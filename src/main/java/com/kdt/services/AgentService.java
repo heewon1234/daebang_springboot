@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kdt.domain.entities.Real_Estate_Agent;
+import com.kdt.domain.entities.RealEstateAgent;
 import com.kdt.dto.MemberDTO;
 import com.kdt.dto.RealEstateAgentDTO;
 import com.kdt.dto.UpdateEstateDTO;
@@ -38,21 +38,21 @@ public class AgentService {
     }
 	
 	public List<RealEstateAgentDTO> getAll(){
-		List<Real_Estate_Agent> list = aRepo.findAll();
+		List<RealEstateAgent> list = aRepo.findAll();
 		List<RealEstateAgentDTO> dtos = aMapper.toDtoList(list);
 		return dtos;
 	}
 	public void deleteById(String email) {
-		Real_Estate_Agent e = aRepo.findById(email).get();
+		RealEstateAgent e = aRepo.findById(email).get();
 		aRepo.delete(e);
 	}
 	public void approve(String email) {
-		Real_Estate_Agent e = aRepo.findById(email).get();
+		RealEstateAgent e = aRepo.findById(email).get();
 		e.setEnabled(true);
 		aRepo.save(e);
 	}
 	public void revoke_approval(String email) {
-		Real_Estate_Agent e = aRepo.findById(email).get();
+		RealEstateAgent e = aRepo.findById(email).get();
 		e.setEnabled(false);
 		aRepo.save(e);
 	}
@@ -61,12 +61,12 @@ public class AgentService {
 	    RealEstateAgentDTO.setPw(crypPw);
 	    RealEstateAgentDTO.setManners_temperature(36.5);
 	    System.out.println("위도"+RealEstateAgentDTO.getLatitude());
-	    Real_Estate_Agent e = aMapper.toEntity(RealEstateAgentDTO);
+	    RealEstateAgent e = aMapper.toEntity(RealEstateAgentDTO);
 	    aRepo.save(e);
 	}
 
 	public boolean isEstateNumber(String number) {
-	    Real_Estate_Agent e = aRepo.findByEstateNumber(number);
+	    RealEstateAgent e = aRepo.findByEstateNumber(number);
 	    System.out.println(e);
 	    return e != null; // 해당 estateNumber가 존재하면 true, 존재하지 않으면 false 반환
 	}
@@ -74,7 +74,7 @@ public class AgentService {
 	
 	// 마이페이지 정보 띄우기
 	public RealEstateAgentDTO estateInfo(String id) {
-		Real_Estate_Agent a = aRepo.findById(id).get();
+		RealEstateAgent a = aRepo.findById(id).get();
 		RealEstateAgentDTO adto = aMapper.toDto(a);
 		return adto;
 	}
@@ -88,9 +88,14 @@ public class AgentService {
 	
 	// 공인중개사 정보 변경
 	public void updateMyInfo(UpdateEstateDTO dto) {
-		Real_Estate_Agent a = aRepo.findById(dto.getId()).get();
+		RealEstateAgent a = aRepo.findById(dto.getId()).get();
 		RealEstateAgentDTO adto = new RealEstateAgentDTO(a.getEmail(),a.getPw(),a.getEstateName(),a.getEstateNumber(),dto.getName(),dto.getAddress(),dto.getPhone(),a.getManners_temperature(),dto.getLatitude(),dto.getLongitude(),a.getRole(),a.isEnabled());
 		aMapper.updateEntityFromDTO(adto, a);
 		aRepo.save(a);
+	}
+	public List<RealEstateAgentDTO> getId(String name,String phone){
+		List<RealEstateAgent> list = aRepo.selectbynamephone(name,phone);
+		List<RealEstateAgentDTO> dtos = aMapper.toDtoList(list);
+		return dtos;
 	}
 }
