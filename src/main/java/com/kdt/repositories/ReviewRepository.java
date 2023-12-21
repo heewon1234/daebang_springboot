@@ -20,6 +20,14 @@ public interface ReviewRepository extends JpaRepository<Review, Long>{
 	@EntityGraph(attributePaths = {"files"})
 	Optional<Review> findBySeqAndId(Long seq,String id);
 	
-	@Query("select avg(r.score) from Review r where r.realEstateNumber=?1")
+	@Query("SELECT "
+	        + "(0.5 * SUM(CASE WHEN r.score = 5 THEN 1 ELSE 0 END)) + "
+	        + "(0.25 * SUM(CASE WHEN r.score = 4 THEN 1 ELSE 0 END)) + "
+	        + "SUM(CASE WHEN r.score = 3 THEN 1 ELSE 0 END) + "
+	        + "(0.25 * SUM(CASE WHEN r.score = 2 THEN 1 ELSE 0 END)) + "
+	        + "(0.5 * SUM(CASE WHEN r.score = 1 THEN 1 ELSE 0 END)) "
+	        + "FROM Review r "
+	        + "WHERE r.realEstateNumber = ?1")
 	double findAverageScoreByRealEstateNumber(String realEstateNumber);
+
 }
