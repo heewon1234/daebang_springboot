@@ -69,6 +69,20 @@ public class ReviewApprovalService {
 
 		return list;
 	}
+	
+	public Long countByAgent(String loginId) {
+	    List<UploadEstate> estateList = ueRepo.findByWriter(loginId);
+	    List<String> approvalCodes = Arrays.asList("a1", "b1");
+
+	    Long totalCount = 0L;
+
+	    for (UploadEstate estate : estateList) {
+	        Long count = uraRepo.countByEstateCodeAndApprovalCodeIn(estate.getEstateId(), approvalCodes);
+	        totalCount += count;
+	    }
+
+	    return totalCount;
+	}
 
 	public void insert(UploadReviewApprovalDTO dto) {
 		UploadReviewApproval ura = uraMapper.toEntity(dto);
@@ -94,6 +108,12 @@ public class ReviewApprovalService {
 		List<SawEstate> list = sRepo.selectSawEstate(id);
 		List<SawEstateDTO> dtos = sMapper.toDtoList(list);
 		return dtos;
+	}
+	
+	@Transactional
+	public void writeComplete(String id, Long estateId, String approvalCode) {
+		System.out.println(id + " : " + estateId + " : " + approvalCode);
+		rRepo.writeComplete(id, estateId, approvalCode);
 	}
 
 	// 관리자 페이지

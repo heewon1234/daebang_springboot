@@ -19,4 +19,8 @@ public interface ReviewApprovalRepository extends JpaRepository<ReviewApproval, 
 	@Query("UPDATE ReviewApproval ra SET ra.approvalCode = :approvalCode WHERE ra.seq = :seq")
 	void updateStatue(Long seq, String approvalCode);
 	
+	@Modifying
+	@Query("UPDATE ReviewApproval ra SET ra.approvalCode = ?3 WHERE ra.estate.estateId = ?2 and ra.userId = ?1")
+	void writeComplete(String id, Long estateId, String approvalCode);
+	
 }
