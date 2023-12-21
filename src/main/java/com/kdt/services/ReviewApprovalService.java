@@ -109,6 +109,12 @@ public class ReviewApprovalService {
 		List<SawEstateDTO> dtos = sMapper.toDtoList(list);
 		return dtos;
 	}
+	
+	@Transactional
+	public void writeComplete(String id, Long estateId, String approvalCode) {
+		System.out.println(id + " : " + estateId + " : " + approvalCode);
+		rRepo.writeComplete(id, estateId, approvalCode);
+	}
 
 	// 관리자 페이지
 	public List<ReviewApprovalDTO> selectByAdmin() {
