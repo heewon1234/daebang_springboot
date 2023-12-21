@@ -21,4 +21,8 @@ public interface AgentRepository extends JpaRepository<RealEstateAgent, String> 
 	@Modifying
 	@Query("update RealEstateAgent a set a.manners_temperature=?1 where a.estateNumber=?2")
 	void updateMannerTemp(double avgScore, String estateNumber);
+	
+	List<RealEstateAgent> findAllByEmail(String email);
+	
+	
 }

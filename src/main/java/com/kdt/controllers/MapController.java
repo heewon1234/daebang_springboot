@@ -1,5 +1,6 @@
 package com.kdt.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,41 +44,41 @@ public class MapController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+
 	// 지도 로딩시 정보 가져오기
-		@GetMapping("getLimitAll")
-		public ResponseEntity<List<EstateDTO>> getLimitAll() {
-			try {
-				List<EstateDTO> list = eServ.selectLimitAll();
-				return ResponseEntity.ok(list);
-			} catch (Exception e) {
-				// 예외가 발생한 경우 처리
-				e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-			}
+	@GetMapping("getLimitAll")
+	public ResponseEntity<List<EstateDTO>> getLimitAll() {
+		try {
+			List<EstateDTO> list = eServ.selectLimitAll();
+			return ResponseEntity.ok(list);
+		} catch (Exception e) {
+			// 예외가 발생한 경우 처리
+			e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
+	}
 
 	// 키워드 검색
 	@GetMapping("getKeywordSearch")
 	public ResponseEntity<Map<String, Object>> getKeywordSearch(@RequestParam("keyword") String keyword) {
-	    try {
-	        Map<String, Object> result = new HashMap<>();
-	        
-	        List<MapRegionDTO> regionList = mServ.selectRegion(keyword);
-	        List<MapSubwayDTO> subwayList = mServ.selectSubway(keyword);
-	        List<MapSchoolDTO> schoolList = mServ.selectSchool(keyword);
-	        
-	        result.put("regionList", regionList);
-	        result.put("subwayList", subwayList);
-	        result.put("schoolList", schoolList);
-	        
-	        return ResponseEntity.ok(result);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-	    }
+		try {
+			Map<String, Object> result = new HashMap<>();
+
+			List<MapRegionDTO> regionList = mServ.selectRegion(keyword);
+			List<MapSubwayDTO> subwayList = mServ.selectSubway(keyword);
+			List<MapSchoolDTO> schoolList = mServ.selectSchool(keyword);
+
+			result.put("regionList", regionList);
+			result.put("subwayList", subwayList);
+			result.put("schoolList", schoolList);
+
+			return ResponseEntity.ok(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
-	
-	
+
 	@GetMapping("getWatchAll/{recent}")
 	public ResponseEntity<List<EstateDTO>> getWatchAll(@PathVariable List<Long> recent) {
 		try {
@@ -89,25 +90,29 @@ public class MapController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-//	@GetMapping("callAgentState")
-//	public ResponseEntity<RealEstateAgentDTO> callAgentState(@RequestParam("keyword") String keyword) {
-//	    try {
-//	        
-//	        List<RealEstateAgentDTO> regionList = mServ.selectRegion(keyword);
-//	        List<MapSubwayDTO> subwayList = mServ.selectSubway(keyword);
-//	        List<MapSchoolDTO> schoolList = mServ.selectSchool(keyword);
-//	        
-//	        result.put("regionList", regionList);
-//	        result.put("subwayList", subwayList);
-//	        result.put("schoolList", schoolList);
-//	        
-//	        return ResponseEntity.ok(result);
-//	    } catch (Exception e) {
-//	        e.printStackTrace();
-//	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//	    }
-//	}
+
 	// 작성자 매너온도 가져오기
-	
+	@GetMapping("callAgentState")
+	public ResponseEntity<List<RealEstateAgentDTO>> callAgentState(@RequestParam("email") String email) {
+	    System.out.println(email);
+
+	    try {
+	        // 이메일 문자열을 배열로 분리
+	        String[] emailArray = email.split(",");
+
+	        List<RealEstateAgentDTO> result = new ArrayList<>();
+
+	        // 각 이메일 주소에 대해 조회
+	        for (String individualEmail : emailArray) {
+	            List<RealEstateAgentDTO> agentDtos = mServ.callAgentState(individualEmail);
+	            result.addAll(agentDtos); // 리스트에 추가
+	        }
+
+	        return ResponseEntity.ok(result);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	    }
+	}
 
 }
