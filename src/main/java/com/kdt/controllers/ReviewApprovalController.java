@@ -41,6 +41,13 @@ public class ReviewApprovalController {
 
 		return ResponseEntity.ok(list);
 	}
+	
+	@GetMapping("agentReview/count/{loginId}")
+	public ResponseEntity<Long> countByAgent(@PathVariable String loginId) {
+		Long count = rServ.countByAgent(loginId);
+		
+		return ResponseEntity.ok(count);
+	}
 
 	@GetMapping("estate/{id}")
 	public ResponseEntity<EstateDTO> selectEstate(@PathVariable Long id) {
