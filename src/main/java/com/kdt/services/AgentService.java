@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kdt.domain.entities.Member;
 import com.kdt.domain.entities.RealEstateAgent;
 import com.kdt.dto.MemberDTO;
 import com.kdt.dto.RealEstateAgentDTO;
@@ -81,9 +82,9 @@ public class AgentService {
 	
 	// 공인중개사 비밀번호 변경
 	@Transactional
-	public void changePw(String id, String pw) {
+	public void changePw(String email, String pw) {
 		String hashedPassword = passwordEncoder.encode(pw);
-		aRepo.changePw(id, hashedPassword);
+		aRepo.changePw(email, hashedPassword);
 	}
 	
 	// 공인중개사 정보 변경
@@ -95,6 +96,11 @@ public class AgentService {
 	}
 	public List<RealEstateAgentDTO> getId(String name,String phone){
 		List<RealEstateAgent> list = aRepo.selectbynamephone(name,phone);
+		List<RealEstateAgentDTO> dtos = aMapper.toDtoList(list);
+		return dtos;
+	}
+	public List<RealEstateAgentDTO> getDto(String name,String phone,String email){
+		List<RealEstateAgent> list = aRepo.findByNameAndPhoneAndEmail(name,phone,email);
 		List<RealEstateAgentDTO> dtos = aMapper.toDtoList(list);
 		return dtos;
 	}
