@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdt.dto.EstateDTO;
@@ -79,6 +80,12 @@ public class ReviewApprovalController {
 	public ResponseEntity<List<SawEstateDTO>> selectSawEstate(@PathVariable String id) {
 		List<SawEstateDTO> list = rServ.selectSawEstate(id);
 		return ResponseEntity.ok(list);
+	}
+	
+	@PutMapping("writeComplete")
+	public ResponseEntity<Void> writeComplete(@RequestParam("userId") String id, @RequestParam("estateId") Long estateId, @RequestParam("approvalCode") String approvalCode) {
+		rServ.writeComplete(id, estateId, approvalCode);
+		return ResponseEntity.ok().build();
 	}
 	//관리자 승인
 	@GetMapping("admin/selectByAdmin")

@@ -87,6 +87,11 @@ public class ReviewService {
 		entityManager.flush();
 		
 		double avgScore = rRepo.findAverageScoreByRealEstateNumber(realEstateNumber) + 36.5;
+		if(avgScore>99.9) {
+			avgScore=99.9;
+		} else if(avgScore<0) {
+			avgScore=0;
+		}
 		aRepo.updateMannerTemp(avgScore,realEstateNumber);
 		
 	}
@@ -148,7 +153,14 @@ public class ReviewService {
 		rRepo.save(review);
 		entityManager.flush();
 		double avgScore = rRepo.findAverageScoreByRealEstateNumber(realEstateNumber) + 36.5;
+		if(avgScore>99.9) {
+			avgScore=99.9;
+		} else if(avgScore<0) {
+			avgScore=0;
+		}
 		aRepo.updateMannerTemp(avgScore,realEstateNumber);
+
+		
 		delServerFile(delFileList);	
 		
 	}
