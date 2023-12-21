@@ -59,9 +59,9 @@ public class ReviewApprovalService {
 		List<UploadReviewApproval> rList = new ArrayList<>();
 
 		for (UploadEstate estate : estateList) {
-			UploadReviewApproval result = uraRepo.findByEstateCodeAndApprovalCodeIn(estate.getEstateId(), approvalCodes);
-			if (result != null) {
-				rList.add(result);
+			List<UploadReviewApproval> results = uraRepo.findAllByEstateCodeAndApprovalCodeIn(estate.getEstateId(), approvalCodes);
+			if (results != null) {
+				rList.addAll(results);
 			} 
 		}
 
