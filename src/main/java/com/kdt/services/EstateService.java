@@ -109,6 +109,10 @@ public class EstateService {
 		List<Estate> eList = eRepo.findAllByRealEstateAgentEmail(loginId);
 		
 		List<EstateDTO> list = eMapper.toDtoList(eList);
+		
+		for(EstateDTO dto : list) {
+			dto.getRealEstateAgent().setPw(null);
+		}
 
 		return list;
 	}
@@ -117,12 +121,21 @@ public class EstateService {
 		List<Estate> eList = eRepo.findAll();
 		List<EstateDTO> list = eMapper.toDtoList(eList);
 
+		for(EstateDTO dto : list) {
+			dto.getRealEstateAgent().setPw(null);
+		}
+		
 		return list;
 	}
 	public List<EstateDTO> selectLimitAll() {
 		List<Estate> eList = eRepo.findTop6ByOrderByEstateIdDesc();
 		System.out.println(eList.get(3).getAddress1());
 		List<EstateDTO> list = eMapper.toDtoList(eList);
+		
+		for(EstateDTO dto : list) {
+			dto.getRealEstateAgent().setPw(null);
+		}
+		
 		return list;
 	}
 	public List<EstateDTO> selectWatchAll(List<Long> recent) {
@@ -135,6 +148,11 @@ public class EstateService {
 	        }
 	    }
 	    List<EstateDTO> list = eMapper.toDtoList(new ArrayList<>(estateMap.values()));
+	    
+	    for(EstateDTO dto : list) {
+			dto.getRealEstateAgent().setPw(null);
+		}
+	    
 	    return list;
 	}
 
@@ -148,6 +166,8 @@ public class EstateService {
 	public EstateDTO getById(Long estateId) {
 		Estate estate = eRepo.findById(estateId).get();
 		EstateDTO dto = eMapper.toDto(estate);
+		
+		dto.getRealEstateAgent().setPw(null);
 
 		return dto;
 	}
@@ -300,6 +320,9 @@ public class EstateService {
 	public EstateDTO selectEstate(Long id) {
 		Estate e = eRepo.findById(id).get();
 		EstateDTO edto = eMapper.toDto(e);
+		
+		edto.getRealEstateAgent().setPw(null);
+		
 		return edto;
 	}
 }
