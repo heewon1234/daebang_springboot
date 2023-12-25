@@ -131,7 +131,7 @@ public class EstateService {
 	}
 
 	public List<EstateDTO> selectAll() {
-		List<Estate> eList = eRepo.findAll();
+		List<Estate> eList = eRepo.findAllBySoldStatusFalse();
 		List<EstateDTO> list = eMapper.toDtoList(eList);
 
 		for(EstateDTO dto : list) {
@@ -337,5 +337,14 @@ public class EstateService {
 		edto.getRealEstateAgent().setPw(null);
 		
 		return edto;
+	}
+	
+	public void updateStatus(Long estateId) {
+		Estate estate = eRepo.findById(estateId).get();
+		estate.setSoldStatus(!estate.isSoldStatus());
+		
+		System.out.println(estate);
+		
+		eRepo.save(estate);
 	}
 }

@@ -23,9 +23,6 @@ public class Estate {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long estateId;
 
-//	@Column(name = "writer")
-//	private String writer;
-
 	@Column(name = "deposit")
 	private Long deposit;
 
@@ -70,6 +67,9 @@ public class Estate {
 
 	@Column(name = "write_date")
 	private Timestamp writeDate;
+	
+	@Column(name = "sold_status")
+	private boolean soldStatus;
 	
 	@OneToOne
 	@JoinColumn(name = "room_code", referencedColumnName = "room_id")
@@ -231,6 +231,14 @@ public class Estate {
 		this.writeDate = writeDate;
 	}
 
+	public boolean isSoldStatus() {
+		return soldStatus;
+	}
+
+	public void setSoldStatus(boolean soldStatus) {
+		this.soldStatus = soldStatus;
+	}
+
 	public Room getRoom() {
 		return room;
 	}
@@ -297,9 +305,9 @@ public class Estate {
 
 	public Estate(Long estateId, Long deposit, Long price, double area, Long zipcode, String address1, String address2,
 			double latitude, double longitude, Long roomFloors, Long buildingFloors, Long maintenanceCost, String title,
-			String contents, String memo, Timestamp writeDate, Room room, Structure structure, Building building,
-			Transaction transaction, HeatingSystem heatingSystem, Set<EstateOption> optionList, Set<EstateImage> images,
-			RealEstateAgent realEstateAgent) {
+			String contents, String memo, Timestamp writeDate, boolean soldStatus, Room room, Structure structure,
+			Building building, Transaction transaction, HeatingSystem heatingSystem, Set<EstateOption> optionList,
+			Set<EstateImage> images, RealEstateAgent realEstateAgent) {
 		super();
 		this.estateId = estateId;
 		this.deposit = deposit;
@@ -317,6 +325,7 @@ public class Estate {
 		this.contents = contents;
 		this.memo = memo;
 		this.writeDate = writeDate;
+		this.soldStatus = soldStatus;
 		this.room = room;
 		this.structure = structure;
 		this.building = building;
