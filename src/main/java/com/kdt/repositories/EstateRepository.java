@@ -16,4 +16,7 @@ public interface EstateRepository extends JpaRepository<Estate, Long> {
 	
 	@Query("select m from Estate m order by estateId desc limit 6")
 	 List<Estate> findTop6ByOrderByEstateIdDesc();
+	
+	@Query("SELECT e FROM Estate e WHERE e.soldStatus = false")
+    List<Estate> findAllBySoldStatusFalse();
 }

@@ -23,6 +23,7 @@ public class EstateDTO {
     private String contents;
     private String memo;
     private Timestamp writeDate;
+    private boolean soldStatus;
     private RoomDTO room;
     private StructureDTO structure;
     private BuildingDTO building;
@@ -127,6 +128,12 @@ public class EstateDTO {
 	public void setWriteDate(Timestamp writeDate) {
 		this.writeDate = writeDate;
 	}
+	public boolean isSoldStatus() {
+		return soldStatus;
+	}
+	public void setSoldStatus(boolean soldStatus) {
+		this.soldStatus = soldStatus;
+	}
 	public RoomDTO getRoom() {
 		return room;
 	}
@@ -175,6 +182,41 @@ public class EstateDTO {
 	public void setRealEstateAgent(RealEstateAgent realEstateAgent) {
 		this.realEstateAgent = realEstateAgent;
 	}
-	
-    
+	public EstateDTO(Long estateId, Long deposit, Long price, double area, Long zipcode, String address1,
+			String address2, double latitude, double longitude, Long roomFloors, Long buildingFloors,
+			Long maintenanceCost, String title, String contents, String memo, Timestamp writeDate, boolean soldStatus,
+			RoomDTO room, StructureDTO structure, BuildingDTO building, TransactionDTO transaction,
+			HeatingSystemDTO heatingSystem, Set<EstateOptionDTO> optionList, Set<EstateImageDTO> images,
+			RealEstateAgent realEstateAgent) {
+		super();
+		this.estateId = estateId;
+		this.deposit = deposit;
+		this.price = price;
+		this.area = area;
+		this.zipcode = zipcode;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.roomFloors = roomFloors;
+		this.buildingFloors = buildingFloors;
+		this.maintenanceCost = maintenanceCost;
+		this.title = title;
+		this.contents = contents;
+		this.memo = memo;
+		this.writeDate = writeDate;
+		this.soldStatus = soldStatus;
+		this.room = room;
+		this.structure = structure;
+		this.building = building;
+		this.transaction = transaction;
+		this.heatingSystem = heatingSystem;
+		this.optionList = optionList;
+		this.images = images;
+		this.realEstateAgent = realEstateAgent;
+	}
+	public EstateDTO() {
+		super();
+	}
+
 }

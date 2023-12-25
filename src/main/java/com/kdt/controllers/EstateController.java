@@ -71,13 +71,6 @@ public class EstateController {
 		return ResponseEntity.ok(list);
 	}
 
-//	@GetMapping("estateUpdate/{estateId}")
-//	public ResponseEntity<UploadEstateDTO> selectById(@PathVariable String estateId) {
-//		UploadEstateDTO dto = eServ.selectById(Long.parseLong(estateId));
-//
-//		return ResponseEntity.ok(dto);
-//	}
-
 	@GetMapping("estateInfo/{estateId}")
 	public ResponseEntity<EstateDTO> getById(@PathVariable String estateId) {
 		EstateDTO dto = eServ.getById(Long.parseLong(estateId));
@@ -116,6 +109,14 @@ public class EstateController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
+	}
+	
+	@PutMapping("/updateStatus/{estateId}")
+	public ResponseEntity<Void> updateStatus(@PathVariable String estateId) {
+		
+		eServ.updateStatus(Long.parseLong(estateId));
+		
+		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping("/{estateId}")
