@@ -55,4 +55,7 @@ public class NewMemberService {
 	public NewMember getDailyNewMember(LocalDate date) {
 		return nRepo.findByNewMemberDate(date);
 	}
+	public NewMember getYesterdayMember(LocalDate date) {
+		return nRepo.findByNewMemberDate(date);
+	}
 }

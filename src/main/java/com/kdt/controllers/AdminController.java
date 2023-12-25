@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,15 +20,15 @@ import com.kdt.dto.MemberDTO;
 import com.kdt.dto.NewEstateDTO;
 import com.kdt.dto.NewMemberDTO;
 import com.kdt.dto.RealEstateAgentDTO;
+import com.kdt.dto.ReportDTO;
 import com.kdt.dto.VisitorDTO;
 import com.kdt.services.AgentService;
+import com.kdt.services.EstateService;
 import com.kdt.services.MemberService;
 import com.kdt.services.NewEstateService;
 import com.kdt.services.NewMemberService;
+import com.kdt.services.ReportService;
 import com.kdt.services.VisitorService;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -44,6 +43,41 @@ public class AdminController {
 	private MemberService mServ;
 	@Autowired
 	private NewEstateService neServ;
+	@Autowired
+	private EstateService eServ;
+	@Autowired
+	private ReportService rServ;
+	
+	//신고
+	@GetMapping("/selectAllByReportStatus")
+	public ResponseEntity<List<ReportDTO>> selectAllByReportStatus() {
+		List<ReportDTO> dtos = rServ.selectAllByReportStatus();
+		return ResponseEntity.ok(dtos);
+	}
+	@GetMapping("/countByReportStatus")
+	public ResponseEntity<Long> countByReportStatus() {
+		Long count = rServ.countByReportStatus();
+		return ResponseEntity.ok(count);
+	}
+	
+	//원룸 투룸 별 수
+	@GetMapping("/countByRoomCode")
+	public ResponseEntity<List<Object[]>> countByRoomCode() {
+		List<Object[]> count = eServ.countByRoomCode();
+		return ResponseEntity.ok(count);
+	}
+	//전체 매물 수
+	@GetMapping("/countEstate")
+    public ResponseEntity<Long> countEstate() {
+        Long count = eServ.countEstate();
+        return ResponseEntity.ok(count);
+    }
+	//오늘 등록된 매물 수
+	@GetMapping("/countTodayEstate")
+	public ResponseEntity<Long> countTodayByEstate() {
+		Long count = eServ.countTodayByEstate();
+		return ResponseEntity.ok(count);
+	}
 	
 	//회원관리
 	@GetMapping("getMember")
@@ -125,6 +159,14 @@ public class AdminController {
         Visitor dailyVisitors = vServ.getDailyVisitors(today);
         return ResponseEntity.ok(dailyVisitors);
     }
+    //어제 방문자수
+    @GetMapping("/getYesterdayVisitors")
+    public ResponseEntity<Visitor> getYesterdayVisitors() {
+        LocalDate yesterday = LocalDate.now().minusDays(1); // 어제 날짜 구하기
+        Visitor yesterdayVisitors = vServ.getYesterdayVisitors(yesterday);
+        return ResponseEntity.ok(yesterdayVisitors);
+    }
+
     //모든 방문자수
     @GetMapping("/visitors/getAll")
     public ResponseEntity<List<VisitorDTO>> visitorsGetAll() {
@@ -162,9 +204,15 @@ public class AdminController {
   //오늘 회원등록수
     @GetMapping("/dailyMember")
     public ResponseEntity<NewMember> getDailyMember() {
-        LocalDate today = LocalDate.now();
+    	LocalDate today = LocalDate.now();
         NewMember dailyNewMember = nServ.getDailyNewMember(today);
         return ResponseEntity.ok(dailyNewMember);
+    }
+    @GetMapping("/getYesterdayMember")
+    public ResponseEntity<NewMember> getYesterdayMember() {
+    	LocalDate yesterday = LocalDate.now().minusDays(1);
+    	NewMember dailyNewMember = nServ.getYesterdayMember(yesterday);
+    	return ResponseEntity.ok(dailyNewMember);
     }
     
  
@@ -185,5 +233,11 @@ public class AdminController {
         LocalDate today = LocalDate.now();
         NewEstate dailyEstate = neServ.getDailyNewEstate(today);
         return ResponseEntity.ok(dailyEstate);
+    }
+    @GetMapping("/getYesterdayNewEstate")
+    public ResponseEntity<NewEstate> getYesterdayNewEstate() {
+    	LocalDate yesterday = LocalDate.now().minusDays(1);
+    	NewEstate dailyEstate = neServ.getDailyNewEstate(yesterday);
+    	return ResponseEntity.ok(dailyEstate);
     }
 }

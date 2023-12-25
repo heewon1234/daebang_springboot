@@ -16,4 +16,14 @@ public interface EstateRepository extends JpaRepository<Estate, Long> {
 	
 	@Query("select m from Estate m order by estateId desc limit 6")
 	 List<Estate> findTop6ByOrderByEstateIdDesc();
+	
+	@Query("select count(m) from Estate m")
+	Long countByEstate();
+	
+	@Query("select count(m) from Estate m WHERE DATE(m.writeDate) = CURDATE()")
+	Long countTodayByEstate();
+	
+	@Query("SELECT m.room, COUNT(m) AS countRoom FROM Estate m GROUP BY m.room")
+	List<Object[]> countByRoom();
+
 }
