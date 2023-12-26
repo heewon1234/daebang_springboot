@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kdt.domain.entities.Estate;
 import com.kdt.domain.entities.EstateImage;
+import com.kdt.domain.entities.NewMember;
 import com.kdt.domain.entities.UploadEstate;
 import com.kdt.domain.entities.UploadEstateOption;
 import com.kdt.dto.EstateDTO;
@@ -49,7 +51,18 @@ public class EstateService {
 	private EstateImageRepository eiRepo;
 	@Autowired
 	private EstateRepository eRepo;
-
+	
+	//관리자 영역
+	public List<Object[]> countByRoomCode() {
+		return eRepo.countByRoom();
+	}
+	public Long countEstate() {
+		return eRepo.countByEstate();
+	}
+	public Long countTodayByEstate() {
+		return eRepo.countTodayByEstate();
+	}
+	
 	@Transactional
 	public void insertEstate(UploadEstateDTO dto, List<UploadEstateOptionDTO> optionDTOList,
 			List<MultipartFile> images) {
@@ -118,7 +131,7 @@ public class EstateService {
 	}
 
 	public List<EstateDTO> selectAll() {
-		List<Estate> eList = eRepo.findAll();
+		List<Estate> eList = eRepo.findAllBySoldStatusFalse();
 		List<EstateDTO> list = eMapper.toDtoList(eList);
 
 		for(EstateDTO dto : list) {
@@ -324,5 +337,14 @@ public class EstateService {
 		edto.getRealEstateAgent().setPw(null);
 		
 		return edto;
+	}
+	
+	public void updateStatus(Long estateId) {
+		Estate estate = eRepo.findById(estateId).get();
+		estate.setSoldStatus(!estate.isSoldStatus());
+		
+		System.out.println(estate);
+		
+		eRepo.save(estate);
 	}
 }
