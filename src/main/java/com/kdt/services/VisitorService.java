@@ -53,6 +53,9 @@ public class VisitorService {
 	public Visitor getDailyVisitors(LocalDate date) {
 		return vRepo.findByVisitorDate(date);
 	}
+	public Visitor getYesterdayVisitors(LocalDate date) {
+		return vRepo.findByVisitorDate(date);
+	}
 
 	public List<Visitor> getMonthlyVisitors(LocalDate startDate, LocalDate endDate) {
 		return vRepo.findByVisitorDateBetween(startDate, endDate);

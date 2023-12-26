@@ -54,4 +54,7 @@ public class NewEstateService {
 	public NewEstate getDailyNewEstate(LocalDate date) {
 		return nRepo.findByEstateDate(date);
 	}
+	public NewEstate getYesterdayNewEstate(LocalDate date) {
+		return nRepo.findByEstateDate(date);
+	}
 }
