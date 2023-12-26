@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,10 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kdt.domain.entities.Estate;
 import com.kdt.domain.entities.EstateImage;
+import com.kdt.domain.entities.RealEstateViews;
 import com.kdt.domain.entities.UploadEstate;
 import com.kdt.domain.entities.UploadEstateOption;
+import com.kdt.domain.entities.Visitor;
 import com.kdt.dto.EstateDTO;
-import com.kdt.dto.EstateImageDTO;
 import com.kdt.dto.UploadEstateDTO;
 import com.kdt.dto.UploadEstateOptionDTO;
 import com.kdt.mappers.EstateImageMapper;
@@ -28,6 +30,7 @@ import com.kdt.mappers.UploadEstateMapper;
 import com.kdt.mappers.UploadEstateOptionMapper;
 import com.kdt.repositories.EstateImageRepository;
 import com.kdt.repositories.EstateRepository;
+import com.kdt.repositories.RealEstateViewsRepository;
 import com.kdt.repositories.UploadEstateOptionRepository;
 import com.kdt.repositories.UploadEstateRepository;
 
@@ -53,8 +56,27 @@ public class EstateService {
 	private EstateImageRepository eiRepo;
 	@Autowired
 	private EstateRepository eRepo;
+	@Autowired
+	private RealEstateViewsRepository rRepo;
 	
 	//관리자 영역
+	//매물 조회수 등록
+	
+	public void increaseViewCount(Long estateId) {
+	    RealEstateViews views = rRepo.findByEstate_EstateId(estateId);
+	    System.out.println("vies"+views);
+	    if (views != null) {
+	        views.setViewCount(views.getViewCount() + 1);
+	    } else {
+	        views = new RealEstateViews();
+	        views.setViewCount(1);
+	        views.setEstateId(estateId); // 어떤 estate에 대한 조회수인지 설정해야 합니다.
+	    }
+	    rRepo.save(views);
+	}
+
+
+	//통계
 	public List<Object[]> countByRoomCode() {
 		return eRepo.countByRoom();
 	}

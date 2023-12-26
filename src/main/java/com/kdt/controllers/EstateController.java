@@ -19,9 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kdt.dto.EstateDTO;
+import com.kdt.dto.ReportDTO;
 import com.kdt.dto.UploadEstateDTO;
 import com.kdt.dto.UploadEstateOptionDTO;
 import com.kdt.services.EstateService;
+import com.kdt.services.ReportService;
 
 @RestController
 @RequestMapping("/api/estateManage/")
@@ -30,6 +32,7 @@ public class EstateController {
 	@Autowired
 	private EstateService eServ;
 
+	//신고
 	@PostMapping
 	public ResponseEntity<Void> insert(@RequestParam("realEstate") String realEstateJson,
 			@RequestParam("optionList") String optionListJson,
@@ -83,7 +86,7 @@ public class EstateController {
 			@RequestParam("realEstate") String realEstateJson, 
 			@RequestParam("optionList") String optionListJson,
 			@RequestParam(value = "estateImages", required = false) List<MultipartFile> estateImages) {
-		
+
 		List<UploadEstateOptionDTO> optionDTOList = new ArrayList<>();
 
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -99,7 +102,7 @@ public class EstateController {
 			}
 
 			estateDTO.setEstateId(Long.parseLong(estateId));
-			
+
 			System.out.println(estateDTO.getAddress1());
 
 			eServ.updateById(estateDTO, optionDTOList, estateImages);
@@ -110,12 +113,12 @@ public class EstateController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-	
+
 	@PutMapping("/updateStatus/{estateId}")
 	public ResponseEntity<Void> updateStatus(@PathVariable String estateId) {
-		
+
 		eServ.updateStatus(Long.parseLong(estateId));
-		
+
 		return ResponseEntity.ok().build();
 	}
 
