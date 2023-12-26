@@ -112,7 +112,6 @@ public class ReviewApprovalService {
 	
 	@Transactional
 	public void writeComplete(String id, Long estateId, String approvalCode) {
-		System.out.println(id + " : " + estateId + " : " + approvalCode);
 		rRepo.writeComplete(id, estateId, approvalCode);
 	}
 
