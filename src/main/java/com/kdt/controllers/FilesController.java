@@ -45,7 +45,7 @@ public class FilesController {
 
 		File uploadPath = new File(realPath);
 		if(!uploadPath.exists()) {uploadPath.mkdir();}
-		
+
 		if(files != null) {
 			for(MultipartFile file : files) {
 				if(file!=null) {
@@ -60,7 +60,7 @@ public class FilesController {
 				}
 			}
 		}
-		
+
 		return ResponseEntity.ok(list);
 	}
 	

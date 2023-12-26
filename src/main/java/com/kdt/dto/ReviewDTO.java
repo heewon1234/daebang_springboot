@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.Set;
 
 public class ReviewDTO {
-	
+
 	private Long seq;
 	private String id;
 	private String realEstateNumber;
@@ -14,15 +14,16 @@ public class ReviewDTO {
 	private String surroundings;
 	private String facility;
 	private Long score;
+	private boolean anonymous;
 	private Instant writeDate;
 	private Set<ReviewFilesDTO> files;
-	
 	public ReviewDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public ReviewDTO(Long seq, String id, String realEstateNumber, Long estateId, String approvalCode, String traffic,
-			String surroundings, String facility, Long score, Instant writeDate) {
+			String surroundings, String facility, Long score, boolean anonymous, Instant writeDate,
+			Set<ReviewFilesDTO> files) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -33,14 +34,8 @@ public class ReviewDTO {
 		this.surroundings = surroundings;
 		this.facility = facility;
 		this.score = score;
+		this.anonymous = anonymous;
 		this.writeDate = writeDate;
-	}
-	
-	
-	public Set<ReviewFilesDTO> getFiles() {
-		return files;
-	}
-	public void setFiles(Set<ReviewFilesDTO> files) {
 		this.files = files;
 	}
 	public Long getSeq() {
@@ -97,11 +92,23 @@ public class ReviewDTO {
 	public void setScore(Long score) {
 		this.score = score;
 	}
+	public boolean isAnonymous() {
+		return anonymous;
+	}
+	public void setAnonymous(boolean anonymous) {
+		this.anonymous = anonymous;
+	}
 	public Instant getWriteDate() {
 		return writeDate;
 	}
 	public void setWriteDate(Instant writeDate) {
 		this.writeDate = writeDate;
 	}
-
+	public Set<ReviewFilesDTO> getFiles() {
+		return files;
+	}
+	public void setFiles(Set<ReviewFilesDTO> files) {
+		this.files = files;
+	}
+	
 }

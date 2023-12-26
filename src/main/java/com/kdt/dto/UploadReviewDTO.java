@@ -17,15 +17,15 @@ public class UploadReviewDTO {
 	private String surroundings;
 	private String facility;
 	private Long score;
+	private boolean anonymous;
 	private Instant writeDate;
 	private List<MultipartFile> files;
-	
 	public UploadReviewDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public UploadReviewDTO(Long seq, String id, String realEstateNumber, Long estateId, String approvalCode,
-			String traffic, String surroundings, String facility, Long score, Instant writeDate,
+			String traffic, String surroundings, String facility, Long score, boolean anonymous, Instant writeDate,
 			List<MultipartFile> files) {
 		super();
 		this.seq = seq;
@@ -37,6 +37,7 @@ public class UploadReviewDTO {
 		this.surroundings = surroundings;
 		this.facility = facility;
 		this.score = score;
+		this.anonymous = anonymous;
 		this.writeDate = writeDate;
 		this.files = files;
 	}
@@ -94,6 +95,12 @@ public class UploadReviewDTO {
 	public void setScore(Long score) {
 		this.score = score;
 	}
+	public boolean isAnonymous() {
+		return anonymous;
+	}
+	public void setAnonymous(boolean anonymous) {
+		this.anonymous = anonymous;
+	}
 	public Instant getWriteDate() {
 		return writeDate;
 	}
@@ -106,7 +113,6 @@ public class UploadReviewDTO {
 	public void setFiles(List<MultipartFile> files) {
 		this.files = files;
 	}
-	
 	
 	
 }
