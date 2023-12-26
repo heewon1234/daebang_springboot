@@ -4,7 +4,6 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,12 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kdt.domain.entities.Estate;
 import com.kdt.domain.entities.EstateImage;
-import com.kdt.domain.entities.NewMember;
 import com.kdt.domain.entities.UploadEstate;
 import com.kdt.domain.entities.UploadEstateOption;
 import com.kdt.dto.EstateDTO;
+import com.kdt.dto.EstateImageDTO;
 import com.kdt.dto.UploadEstateDTO;
 import com.kdt.dto.UploadEstateOptionDTO;
+import com.kdt.mappers.EstateImageMapper;
 import com.kdt.mappers.EstateMapper;
 import com.kdt.mappers.UploadEstateMapper;
 import com.kdt.mappers.UploadEstateOptionMapper;
@@ -42,6 +42,8 @@ public class EstateService {
 	private UploadEstateOptionMapper ueoMapper;
 	@Autowired
 	private EstateMapper eMapper;
+	@Autowired
+	private EstateImageMapper eiMapper;
 
 	@Autowired
 	private UploadEstateRepository ueRepo;
@@ -167,6 +169,16 @@ public class EstateService {
 		}
 	    
 	    return list;
+	}
+	public List<String> selectImageAll(List<Long> recent) {
+	    List<String> resultList = new ArrayList<>();
+
+	    for (Long parentId : recent) {
+	        List<String> sysNameList = eiRepo.selectbyparentIdordertBySeq(parentId);
+	        resultList.addAll(sysNameList);
+	    }
+
+	    return resultList;
 	}
 
 	public UploadEstateDTO selectById(Long estateId) {
