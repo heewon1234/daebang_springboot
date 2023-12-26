@@ -36,21 +36,23 @@ public class FilesController {
 		if(!uploadFilePath.exists()) {uploadFilePath.mkdir();}
 		
 		String realPath="";
+		System.out.println(path==null ? "null" : "notnull");
 		if(path==null) {
 			realPath = "C:/uploads/board";
-		} else if(path.equals("review")) {
+		} else {
 			realPath = "C:/uploads/temp_review";
 		}
+
 		File uploadPath = new File(realPath);
 		if(!uploadPath.exists()) {uploadPath.mkdir();}
-		
+
 		if(files != null) {
 			for(MultipartFile file : files) {
 				if(file!=null) {
 					String ori_name = file.getOriginalFilename();
 					String sys_name = UUID.randomUUID() + "_" + ori_name;
 					file.transferTo(new File(uploadPath+"/"+sys_name));
-					if(path.equals("review")) {
+					if(path != null && path.equals("review")) {
 						list.add("/uploads/temp_review/"+sys_name);
 					} else {
 						list.add("/uploads/board/"+sys_name);
@@ -58,7 +60,7 @@ public class FilesController {
 				}
 			}
 		}
-		
+
 		return ResponseEntity.ok(list);
 	}
 	
