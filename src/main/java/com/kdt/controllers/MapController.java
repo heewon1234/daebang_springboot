@@ -32,7 +32,7 @@ public class MapController {
 	@Autowired
 	private EstateService eServ;
 
-	// 지도 로딩시 정보 가져오기
+	// 지도 로딩시 매물 정보 가져오기
 	@GetMapping("getAll")
 	public ResponseEntity<List<EstateDTO>> getAll() {
 		try {
@@ -57,7 +57,26 @@ public class MapController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+	
+	// 지도 로딩시 지하철, 학교 정보 가져오기
+	@GetMapping("getAllDefaultMaker")
+	public ResponseEntity<Map<String, Object>> getAllDefaultMaker() {
+		try {
+			Map<String, Object> result = new HashMap<>();
 
+			List<MapSubwayDTO> subwayList = mServ.selectAllSubway();
+			List<MapSchoolDTO> schoolList = mServ.selectAllSchool();
+			
+			result.put("subwayList", subwayList);
+			result.put("schoolList", schoolList);
+
+			return ResponseEntity.ok(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	
 	// 키워드 검색
 	@GetMapping("getKeywordSearch")
 	public ResponseEntity<Map<String, Object>> getKeywordSearch(@RequestParam("keyword") String keyword) {
@@ -109,6 +128,19 @@ public class MapController {
 	        }
 
 	        return ResponseEntity.ok(result);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	    }
+	}
+	
+	// 공인 중개사의 최신 게시물 10개
+	@GetMapping("getAgentContentLimit")
+	public ResponseEntity<List<EstateDTO>> getAgentContentLimit(@RequestParam("email") String email) {
+
+	    try {
+	        List<EstateDTO> estateListLimit = mServ.getAgentContentLimit(email);
+	        return ResponseEntity.ok(estateListLimit);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
