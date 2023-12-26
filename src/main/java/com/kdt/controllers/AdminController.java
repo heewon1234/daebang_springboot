@@ -52,6 +52,13 @@ public class AdminController {
 	@Autowired
 	private RealEstateViewsService rvServ;
 	
+	//신고 전체 내용
+	@GetMapping("/report/selectAll")
+	public ResponseEntity<List<ReportDTO>> selectAll() {
+		List<ReportDTO> list = rServ.selectAll();
+		return ResponseEntity.ok(list);
+	}
+	
 	//매물 top5개
 	@GetMapping("/topFive")
 	public ResponseEntity<List<RealEstateViewsDTO>> topFive() {
