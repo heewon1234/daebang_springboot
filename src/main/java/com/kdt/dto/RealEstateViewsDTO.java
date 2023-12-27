@@ -3,30 +3,30 @@ package com.kdt.dto;
 import com.kdt.domain.entities.Estate;
 
 public class RealEstateViewsDTO {
-	private int viewId;
-	private String viewCount;
+	private Long viewId;
+	private Long viewCount;
 	private Long estateId;
 	private Estate estate;
 	
 	public RealEstateViewsDTO() {
 		super();
 	}
-	public RealEstateViewsDTO(int viewId, String viewCount, Long estateId) {
+	public RealEstateViewsDTO(Long viewId, Long viewCount, Long estateId) {
 		super();
 		this.viewId = viewId;
 		this.viewCount = viewCount;
 		this.estateId = estate.getEstateId();
 	}
-	public int getViewId() {
+	public Long getViewId() {
 		return viewId;
 	}
-	public void setViewId(int viewId) {
+	public void setViewId(Long viewId) {
 		this.viewId = viewId;
 	}
-	public String getViewCount() {
+	public Long getViewCount() {
 		return viewCount;
 	}
-	public void setViewCount(String viewCount) {
+	public void setViewCount(Long viewCount) {
 		this.viewCount = viewCount;
 	}
 	public Long getEstateId() {

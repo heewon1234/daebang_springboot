@@ -15,29 +15,29 @@ public class RealEstateViews {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "view_id")
-	private int viewId;
+	private Long viewId;
 
 	@Column(name = "view_count")
-	private String viewCount;
+	private Long viewCount;
 	
 	@ManyToOne
 	@JoinColumn(name = "estate_id")
 	private Estate estate;
 
-	public int getViewId() {
+	public Long getViewId() {
 		return viewId;
 	}
 
-	public void setViewId(int viewId) {
+	public void setViewId(Long viewId) {
 		this.viewId = viewId;
 	}
 
-	public String getViewCount() {
+	public Long getViewCount() {
 		return viewCount;
 	}
 
-	public void setViewCount(String viewCount) {
-		this.viewCount = viewCount;
+	public void setViewCount(long i) {
+		this.viewCount = i;
 	}
 
 	public Estate getEstate() {
@@ -48,7 +48,7 @@ public class RealEstateViews {
 		this.estate = estate;
 	}
 
-	public RealEstateViews(int viewId, String viewCount, Estate estate) {
+	public RealEstateViews(Long viewId, Long viewCount, Estate estate) {
 		super();
 		this.viewId = viewId;
 		this.viewCount = viewCount;
@@ -58,5 +58,13 @@ public class RealEstateViews {
 	public RealEstateViews() {
 		super();
 	}
+
+	public void setEstateId(Long estateId) {
+	    if (this.estate == null) {
+	        this.estate = new Estate();
+	    }
+	    this.estate.setEstateId(estateId);
+	}
+
 	
 }

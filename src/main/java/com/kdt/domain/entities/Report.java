@@ -51,7 +51,29 @@ public class Report {
 	@JoinColumn(name = "status_code", referencedColumnName = "id")
 	private ReportStatus reportStatus;
 
-
+	public void setTaker(String email) {
+	    if (this.realEstateAgent == null) {
+	        this.realEstateAgent = new RealEstateAgent();
+	    }
+	    this.realEstateAgent.setEmail(email);
+	}
+	public void setContentsCode(String id) {
+	    if (this.reportContents == null) {
+	        this.reportContents = new ReportContents();
+	    }
+	    this.reportContents.setId(id);
+	}
+	public void setEstateId(Long estateId) {
+	    if (this.estate == null) {
+	        this.estate = new Estate();
+	    }
+	    this.estate.setEstateId(estateId);
+	}public void setStatus_code(String id) {
+	    if (this.reportStatus == null) {
+	        this.reportStatus = new ReportStatus();
+	    }
+	    this.reportStatus.setId(id);
+	}
 
 
 

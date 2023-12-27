@@ -5,10 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdt.dto.VisitorDTO;
+import com.kdt.services.EstateService;
 import com.kdt.services.VisitorService;
 
 import jakarta.servlet.http.Cookie;
@@ -21,6 +23,19 @@ import jakarta.servlet.http.HttpSession;
 public class VisitorController {
 	@Autowired
 	private VisitorService vServ;
+	
+	@Autowired
+	private EstateService eServ;
+	
+	//매물 조회수 저장
+		@PostMapping("increaseViewCount/{estateId}")
+		public ResponseEntity<Void> increaseViewCount(@PathVariable Long estateId) {
+			System.out.println("중개사번호"+estateId);
+		    eServ.increaseViewCount(estateId);
+		    return ResponseEntity.ok().build();
+		}
+	
+	
 	@GetMapping("/test")
 	public ResponseEntity<Void> getTodayVisitor(HttpServletRequest request, HttpServletResponse response) {
 		try {

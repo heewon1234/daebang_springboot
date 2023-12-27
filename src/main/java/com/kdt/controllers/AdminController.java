@@ -20,6 +20,7 @@ import com.kdt.dto.MemberDTO;
 import com.kdt.dto.NewEstateDTO;
 import com.kdt.dto.NewMemberDTO;
 import com.kdt.dto.RealEstateAgentDTO;
+import com.kdt.dto.RealEstateViewsDTO;
 import com.kdt.dto.ReportDTO;
 import com.kdt.dto.VisitorDTO;
 import com.kdt.services.AgentService;
@@ -27,6 +28,7 @@ import com.kdt.services.EstateService;
 import com.kdt.services.MemberService;
 import com.kdt.services.NewEstateService;
 import com.kdt.services.NewMemberService;
+import com.kdt.services.RealEstateViewsService;
 import com.kdt.services.ReportService;
 import com.kdt.services.VisitorService;
 
@@ -47,8 +49,23 @@ public class AdminController {
 	private EstateService eServ;
 	@Autowired
 	private ReportService rServ;
+	@Autowired
+	private RealEstateViewsService rvServ;
 	
-	//신고
+	//신고 전체 내용
+	@GetMapping("/report/selectAll")
+	public ResponseEntity<List<ReportDTO>> selectAll() {
+		List<ReportDTO> list = rServ.selectAll();
+		return ResponseEntity.ok(list);
+	}
+	
+	//매물 top5개
+	@GetMapping("/topFive")
+	public ResponseEntity<List<RealEstateViewsDTO>> topFive() {
+		List<RealEstateViewsDTO> dtos = rvServ.topFive();
+		return ResponseEntity.ok(dtos);
+	}
+	
 	@GetMapping("/selectAllByReportStatus")
 	public ResponseEntity<List<ReportDTO>> selectAllByReportStatus() {
 		List<ReportDTO> dtos = rServ.selectAllByReportStatus();
