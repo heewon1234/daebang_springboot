@@ -87,6 +87,7 @@ public class ReportService {
     }
 	public void approve(Long seq) {
 		Report e = rRepo.findBySeq(seq);
+		System.out.println("확인"+e);
 		e.setStatus_code("rs2");
 		rRepo.save(e);
 	}
@@ -94,6 +95,23 @@ public class ReportService {
 		Report e = rRepo.findBySeq(seq);
 		e.setStatus_code("rs1");
 		rRepo.save(e);
+	}
+	
+	public void reject(Long seq) {
+		Report e = rRepo.findBySeq(seq);
+		System.out.println("확인"+e);
+		e.setStatus_code("rs3");
+		rRepo.save(e);
+	}
+	
+	public void revoke_rejection(Long seq) {
+		Report e = rRepo.findBySeq(seq);
+		e.setStatus_code("rs1");
+		rRepo.save(e);
+	}
+	public void deleteBySeq(Long seq) {
+		Report e = rRepo.findBySeq(seq);
+		rRepo.delete(e);
 	}
 //	public List<ReportDTO> selectAll(){
 //		List<Report> list = rRepo.findAll();
