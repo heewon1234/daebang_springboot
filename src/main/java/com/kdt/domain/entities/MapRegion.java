@@ -11,7 +11,7 @@ public class MapRegion {
 
     @Id // 기본 키 필드가 있다고 가정합니다.
     @Column(name="seq")
-    private String seq;
+    private int seq;
     
     @Column(name="sido")
     private String sido;
@@ -39,7 +39,7 @@ public class MapRegion {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MapRegion(String seq, String sido, String sigungu, String eup_myeon_dong_gu, String eup_myeon_re_dong,
+	public MapRegion(int seq, String sido, String sigungu, String eup_myeon_dong_gu, String eup_myeon_re_dong,
 			String re, String latitude, String longitude) {
 		super();
 		this.seq = seq;
@@ -52,11 +52,11 @@ public class MapRegion {
 		this.longitude = longitude;
 	}
 
-	public String getSeq() {
+	public int getSeq() {
 		return seq;
 	}
 
-	public void setSeq(String seq) {
+	public void setSeq(int seq) {
 		this.seq = seq;
 	}
 
@@ -115,5 +115,7 @@ public class MapRegion {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
+
+	
 
 }
