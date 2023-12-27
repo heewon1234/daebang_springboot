@@ -17,13 +17,15 @@ public class ReviewDTO {
 	private boolean anonymous;
 	private Instant writeDate;
 	private Set<ReviewFilesDTO> files;
+	private EstateDTO estate;
+	
 	public ReviewDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public ReviewDTO(Long seq, String id, String realEstateNumber, Long estateId, String approvalCode, String traffic,
 			String surroundings, String facility, Long score, boolean anonymous, Instant writeDate,
-			Set<ReviewFilesDTO> files) {
+			Set<ReviewFilesDTO> files, EstateDTO estate) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -37,6 +39,7 @@ public class ReviewDTO {
 		this.anonymous = anonymous;
 		this.writeDate = writeDate;
 		this.files = files;
+		this.estate = estate;
 	}
 	public Long getSeq() {
 		return seq;
@@ -110,5 +113,12 @@ public class ReviewDTO {
 	public void setFiles(Set<ReviewFilesDTO> files) {
 		this.files = files;
 	}
+	public EstateDTO getEstate() {
+		return estate;
+	}
+	public void setEstate(EstateDTO estate) {
+		this.estate = estate;
+	}
+	
 	
 }

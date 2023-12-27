@@ -1,7 +1,7 @@
 package com.kdt.dto;
 
 public class MapRegionDTO {
-	private String seq;
+	private int seq;
     private String sido;
     private String sigungu;
     private String eup_myeon_dong_gu;
@@ -15,7 +15,7 @@ public class MapRegionDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MapRegionDTO(String seq, String sido, String sigungu, String eup_myeon_dong_gu, String eup_myeon_re_dong,
+	public MapRegionDTO(int seq, String sido, String sigungu, String eup_myeon_dong_gu, String eup_myeon_re_dong,
 			String re, String latitude, String longitude) {
 		super();
 		this.seq = seq;
@@ -28,11 +28,11 @@ public class MapRegionDTO {
 		this.longitude = longitude;
 	}
 
-	public String getSeq() {
+	public int getSeq() {
 		return seq;
 	}
 
-	public void setSeq(String seq) {
+	public void setSeq(int seq) {
 		this.seq = seq;
 	}
 
@@ -91,6 +91,8 @@ public class MapRegionDTO {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
+
+	
     
     
 }

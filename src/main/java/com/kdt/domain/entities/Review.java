@@ -12,7 +12,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="Review")
@@ -29,7 +31,7 @@ public class Review {
 	@Column(name="real_estate_number")
 	private String realEstateNumber;
 	
-	@Column(name="estate_id")
+	@Column(name="estate_id", insertable = false, updatable = false)
 	private Long estateId;
 	
 	@Column(name="approval_code")
@@ -56,28 +58,14 @@ public class Review {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name="parent_seq")
 	private Set<ReviewFiles> files;
-
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "estate_id", referencedColumnName = "estate_id")
+	private Estate estate;
+	
 	public Review() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public Review(Long seq, String id, String realEstateNumber, Long estateId, String approvalCode, String traffic,
-			String surroundings, String facility, Long score, boolean anonymous, Timestamp writeDate,
-			Set<ReviewFiles> files) {
-		super();
-		this.seq = seq;
-		this.id = id;
-		this.realEstateNumber = realEstateNumber;
-		this.estateId = estateId;
-		this.approvalCode = approvalCode;
-		this.traffic = traffic;
-		this.surroundings = surroundings;
-		this.facility = facility;
-		this.score = score;
-		this.anonymous = anonymous;
-		this.writeDate = writeDate;
-		this.files = files;
 	}
 
 	public Long getSeq() {
@@ -175,4 +163,33 @@ public class Review {
 	public void setFiles(Set<ReviewFiles> files) {
 		this.files = files;
 	}
+
+	public Estate getEstate() {
+		return estate;
+	}
+
+	public void setEstate(Estate estate) {
+		this.estate = estate;
+	}
+
+	public Review(Long seq, String id, String realEstateNumber, Long estateId, String approvalCode, String traffic,
+			String surroundings, String facility, Long score, boolean anonymous, Timestamp writeDate,
+			Set<ReviewFiles> files, Estate estate) {
+		super();
+		this.seq = seq;
+		this.id = id;
+		this.realEstateNumber = realEstateNumber;
+		this.estateId = estateId;
+		this.approvalCode = approvalCode;
+		this.traffic = traffic;
+		this.surroundings = surroundings;
+		this.facility = facility;
+		this.score = score;
+		this.anonymous = anonymous;
+		this.writeDate = writeDate;
+		this.files = files;
+		this.estate = estate;
+	}
+	
+	
 }

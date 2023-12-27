@@ -101,6 +101,10 @@ public class ReviewService {
 		return rMapper.toDtoList(rRepo.findByEstateId(estateId));
 	}
 	
+	public List<ReviewDTO> selectReviewByAgent(String estateNumber){
+		return rMapper.toDtoList(rRepo.findByRealEstateNumber(estateNumber));
+	}
+	
 	// 리뷰 삭제
 	@Transactional
 	public void delReviewBySeq(Long seq) {

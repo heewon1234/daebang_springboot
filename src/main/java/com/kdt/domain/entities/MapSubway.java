@@ -6,12 +6,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="map_search_subway")
+@Table(name="Map_search_subway")
 public class MapSubway {
 
     @Id // 기본 키 필드가 있다고 가정합니다.
     @Column(name="seq")
-    private String seq;
+    private int seq;
     
 	@Column(name = "name")
 	private String name;
@@ -30,7 +30,7 @@ public class MapSubway {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MapSubway(String seq, String name, String address, String latitude, String longitude) {
+	public MapSubway(int seq, String name, String address, String latitude, String longitude) {
 		super();
 		this.seq = seq;
 		this.name = name;
@@ -39,11 +39,11 @@ public class MapSubway {
 		this.longitude = longitude;
 	}
 
-	public String getSeq() {
+	public int getSeq() {
 		return seq;
 	}
 
-	public void setSeq(String seq) {
+	public void setSeq(int seq) {
 		this.seq = seq;
 	}
 
@@ -79,5 +79,6 @@ public class MapSubway {
 		this.longitude = longitude;
 	}
 
+	
 	
 }

@@ -1,7 +1,7 @@
 package com.kdt.dto;
 
 public class MapSchoolDTO {
-	private String seq;
+	private int seq;
     private String name;
     private String address;
     private String latitude;
@@ -12,7 +12,7 @@ public class MapSchoolDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MapSchoolDTO(String seq, String name, String address, String latitude, String longitude) {
+	public MapSchoolDTO(int seq, String name, String address, String latitude, String longitude) {
 		super();
 		this.seq = seq;
 		this.name = name;
@@ -21,11 +21,11 @@ public class MapSchoolDTO {
 		this.longitude = longitude;
 	}
 
-	public String getSeq() {
+	public int getSeq() {
 		return seq;
 	}
 
-	public void setSeq(String seq) {
+	public void setSeq(int seq) {
 		this.seq = seq;
 	}
 
@@ -60,4 +60,6 @@ public class MapSchoolDTO {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
+
+	
 }
