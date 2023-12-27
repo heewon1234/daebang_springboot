@@ -15,7 +15,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long>{
 	List<Review> findByEstateId(Long estateId);
 	
 	@EntityGraph(attributePaths = {"files"})
-	@Query("select r from Review r inner join Estate e on e.estateId=r.estateId where realEstateNumber='44131-2017-03786'")
+	@Query("select r from Review r inner join Estate e on e.estateId=r.estateId where realEstateNumber=?1")
 	List<Review> findByRealEstateNumber(String realEstateNumber);
 	
 	
