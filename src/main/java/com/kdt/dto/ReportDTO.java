@@ -9,7 +9,7 @@ import com.kdt.domain.entities.ReportContents;
 import com.kdt.domain.entities.ReportStatus;
 
 public class ReportDTO {
-	private int seq;
+	private Long seq;
 	private String contents_code;
 	private String content;//상세 내용
 	private String writer;//사용자
@@ -33,7 +33,7 @@ public class ReportDTO {
         this.writeDate = report.getWriteDate().toInstant();
     }
 
-	public ReportDTO(int seq, String contents_code, String content, String writer, String taker, Long estate_id,
+	public ReportDTO(Long seq, String contents_code, String content, String writer, String taker, Long estate_id,
 			String status_code, Instant writeDate, Estate estate, RealEstateAgent realEstateAgent,
 			ReportContents reportContents, ReportStatus reportStatus) {
 		super();
@@ -120,12 +120,12 @@ public class ReportDTO {
 	
 
 
-	public int getSeq() {
+	public Long getSeq() {
 		return seq;
 	}
 
 
-	public void setSeq(int seq) {
+	public void setSeq(Long seq) {
 		this.seq = seq;
 	}
 

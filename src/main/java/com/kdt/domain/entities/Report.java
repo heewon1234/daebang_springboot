@@ -18,7 +18,7 @@ public class Report {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "seq")
-	private int seq;
+	private Long seq;
 
 	@Column(name = "writer")
 	private String writer;
@@ -81,7 +81,7 @@ public class Report {
 
 
 
-	public Report(int seq, String writer, String content, Timestamp writeDate, Estate estate,
+	public Report(Long seq, String writer, String content, Timestamp writeDate, Estate estate,
 			RealEstateAgent realEstateAgent, ReportContents reportContents, ReportStatus reportStatus) {
 		super();
 		this.seq = seq;
@@ -102,7 +102,7 @@ public class Report {
 
 
 
-	public int getSeq() {
+	public Long getSeq() {
 		return seq;
 	}
 
@@ -114,7 +114,7 @@ public class Report {
 
 
 
-	public void setSeq(int seq) {
+	public void setSeq(Long seq) {
 		this.seq = seq;
 	}
 
