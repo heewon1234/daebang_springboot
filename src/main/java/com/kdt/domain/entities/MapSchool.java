@@ -11,7 +11,7 @@ public class MapSchool {
 
     @Id // 기본 키 필드가 있다고 가정합니다.
     @Column(name="seq")
-    private String seq;
+    private int seq;
     
 	@Column(name = "name")
 	private String name;
@@ -30,7 +30,7 @@ public class MapSchool {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MapSchool(String seq, String name, String address, String latitude, String longitude) {
+	public MapSchool(int seq, String name, String address, String latitude, String longitude) {
 		super();
 		this.seq = seq;
 		this.name = name;
@@ -39,11 +39,11 @@ public class MapSchool {
 		this.longitude = longitude;
 	}
 
-	public String getSeq() {
+	public int getSeq() {
 		return seq;
 	}
 
-	public void setSeq(String seq) {
+	public void setSeq(int seq) {
 		this.seq = seq;
 	}
 
