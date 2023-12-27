@@ -74,6 +74,16 @@ public class ReviewApprovalService {
 		return list;
 	}
 	
+	public List<UploadReviewApprovalDTO> selectByEsateCode(Long estateCode) {
+		List<String> approvalCodes = Arrays.asList("a1", "a2", "b1");
+		
+		List<UploadReviewApproval> rList = uraRepo.findAllByEstateCodeAndApprovalCodeIn(estateCode, approvalCodes);
+		
+		List<UploadReviewApprovalDTO> list = uraMapper.toDtoList(rList);
+		
+		return list;
+	}
+	
 	public Long countByAgent(String loginId) {
 	    List<UploadEstate> estateList = ueRepo.findByWriter(loginId);
 	    List<String> approvalCodes = Arrays.asList("a1", "b1");
