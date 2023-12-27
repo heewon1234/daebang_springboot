@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kdt.domain.entities.MyReport;
+import com.kdt.domain.entities.RealEstateAgent;
 import com.kdt.domain.entities.Report;
 import com.kdt.dto.MyReportDTO;
 import com.kdt.dto.ReportDTO;
@@ -79,6 +80,21 @@ public class ReportService {
 
         return dtos;
     }
+	public List<ReportDTO> getAll() {
+        List<Report> list = rRepo.findAll();
+        List<ReportDTO> dtos = rMapper.toDtoList(list);
+        return dtos;
+    }
+	public void approve(Long seq) {
+		Report e = rRepo.findBySeq(seq);
+		e.setStatus_code("rs2");
+		rRepo.save(e);
+	}
+	public void revoke_approval(Long seq) {
+		Report e = rRepo.findBySeq(seq);
+		e.setStatus_code("rs1");
+		rRepo.save(e);
+	}
 //	public List<ReportDTO> selectAll(){
 //		List<Report> list = rRepo.findAll();
 //		System.out.println(list.get(0).getRealEstateAgent().getEstateName());

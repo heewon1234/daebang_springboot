@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kdt.domain.entities.NewEstate;
 import com.kdt.domain.entities.NewMember;
 import com.kdt.domain.entities.Visitor;
+import com.kdt.dto.EstateDTO;
 import com.kdt.dto.MemberDTO;
 import com.kdt.dto.NewEstateDTO;
 import com.kdt.dto.NewMemberDTO;
@@ -52,13 +53,46 @@ public class AdminController {
 	@Autowired
 	private RealEstateViewsService rvServ;
 	
+	//매물관리
+	@GetMapping("/estate/selectAll")
+	public ResponseEntity<List<EstateDTO>> findAll() {
+		List<EstateDTO> list = eServ.selectAll();
+
+		return ResponseEntity.ok(list);
+	}
+	@DeleteMapping("/estate/delete/{estateId}")
+	public ResponseEntity<Void> delete(@PathVariable Long estateId) throws Exception {
+		eServ.deleteById(estateId);
+
+		return ResponseEntity.ok().build();
+	}
+	
 	//신고 전체 내용
 	@GetMapping("/report/selectAll")
 	public ResponseEntity<List<ReportDTO>> selectAll() {
-		List<ReportDTO> list = rServ.selectAll();
+		List<ReportDTO> list = rServ.getAll();
 		return ResponseEntity.ok(list);
 	}
-	
+	@PutMapping("/estate/report/approve/{seq}")
+    public ResponseEntity<Void> estateApprove(@PathVariable Long seq) {
+        try {
+        	rServ.approve(seq);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            // 예외 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+	@PutMapping("/estate/report/revoke-approval/{seq}")
+	public ResponseEntity<Void> estateRevoke_approval(@PathVariable Long seq) {
+		try {
+			rServ.revoke_approval(seq);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			// 예외 처리
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 	//매물 top5개
 	@GetMapping("/topFive")
 	public ResponseEntity<List<RealEstateViewsDTO>> topFive() {
