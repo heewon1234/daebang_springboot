@@ -63,11 +63,16 @@ public class AdminController {
 	@DeleteMapping("/estate/delete/{estateId}")
 	public ResponseEntity<Void> delete(@PathVariable Long estateId) throws Exception {
 		eServ.deleteById(estateId);
-
 		return ResponseEntity.ok().build();
 	}
 	
 	//신고 전체 내용
+	@DeleteMapping("/report/delete/{seq}")
+	public ResponseEntity<Void> report_delete(@PathVariable Long seq) throws Exception {
+		System.out.println("신고"+seq);
+		rServ.deleteBySeq(seq);
+		return ResponseEntity.ok().build();
+	}
 	@GetMapping("/report/selectAll")
 	public ResponseEntity<List<ReportDTO>> selectAll() {
 		List<ReportDTO> list = rServ.getAll();
@@ -75,6 +80,7 @@ public class AdminController {
 	}
 	@PutMapping("/estate/report/approve/{seq}")
     public ResponseEntity<Void> estateApprove(@PathVariable Long seq) {
+		System.out.println("승인 : " + seq);
         try {
         	rServ.approve(seq);
             return ResponseEntity.ok().build();
@@ -87,6 +93,28 @@ public class AdminController {
 	public ResponseEntity<Void> estateRevoke_approval(@PathVariable Long seq) {
 		try {
 			rServ.revoke_approval(seq);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			// 예외 처리
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	//거부
+	@PutMapping("/estate/report/reject/{seq}")
+    public ResponseEntity<Void> reject(@PathVariable Long seq) {
+		System.out.println("승인 : " + seq);
+        try {
+        	rServ.reject(seq);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            // 예외 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+	@PutMapping("/estate/report/revoke-rejection/{seq}")
+	public ResponseEntity<Void> revoke_rejection(@PathVariable Long seq) {
+		try {
+			rServ.revoke_rejection(seq);
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {
 			// 예외 처리
