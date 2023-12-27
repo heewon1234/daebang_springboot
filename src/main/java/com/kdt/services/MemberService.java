@@ -76,7 +76,7 @@ public class MemberService {
 	
 	public void updateMyInfo(UpdateMemberDTO dto) {
 		Member m = mRepo.findById(dto.getId()).get();
-		MemberDTO mdto = new MemberDTO(m.getId(),m.getPw(),dto.getName(),dto.getPhone(),dto.getEmail(),dto.getZipcode(),dto.getAddress1(),dto.getAddress2(),null,m.getRole(),m.isEnabled());
+		MemberDTO mdto = new MemberDTO(m.getId(),m.getPw(),dto.getName(),dto.getPhone(),dto.getEmail(),dto.getZipcode(),dto.getAddress1(),dto.getAddress2(),m.getRole(),m.isEnabled());
 		mMapper.updateEntityFromDTO(mdto, m);
 		mRepo.save(m);
 	}
