@@ -28,18 +28,13 @@ public class ReviewApproval {
 
 	@Column(name = "write_date")
 	private Timestamp writeDate;
+	
+	@Column(name = "phone")
+	private String phone;
 
 	@ManyToOne
 	@JoinColumn(name = "estate_code", referencedColumnName = "estate_id")
 	private Estate estate;
-
-	public Estate getEstate() {
-		return estate;
-	}
-
-	public void setEstate(Estate estate) {
-		this.estate = estate;
-	}
 
 	public Long getSeq() {
 		return seq;
@@ -73,16 +68,37 @@ public class ReviewApproval {
 		this.writeDate = writeDate;
 	}
 
-	public ReviewApproval(Long seq, String userId, String approvalCode, Timestamp writeDate, Estate estate) {
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public Estate getEstate() {
+		return estate;
+	}
+
+	public void setEstate(Estate estate) {
+		this.estate = estate;
+	}
+
+	public ReviewApproval(Long seq, String userId, String approvalCode, Timestamp writeDate, String phone,
+			Estate estate) {
 		super();
 		this.seq = seq;
 		this.userId = userId;
 		this.approvalCode = approvalCode;
 		this.writeDate = writeDate;
+		this.phone = phone;
 		this.estate = estate;
 	}
+
 	public ReviewApproval() {
 		super();
 	}
+
+	
 
 }

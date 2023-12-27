@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="map_search_region")
+@Table(name="Map_search_region")
 public class MapRegion {
 
     @Id // 기본 키 필드가 있다고 가정합니다.

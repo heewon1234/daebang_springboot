@@ -9,6 +9,7 @@ public class UploadReviewApprovalDTO {
 	private Long estateCode;
 	private String approvalCode;
 	private Timestamp write_date;
+	private String phone;
 	public Long getSeq() {
 		return seq;
 	}
@@ -39,17 +40,25 @@ public class UploadReviewApprovalDTO {
 	public void setWrite_date(Timestamp write_date) {
 		this.write_date = write_date;
 	}
-	public UploadReviewApprovalDTO(Long seq, String userId, Long estateCode, String approvalCode,
-			Timestamp write_date) {
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public UploadReviewApprovalDTO(Long seq, String userId, Long estateCode, String approvalCode, Timestamp write_date,
+			String phone) {
 		super();
 		this.seq = seq;
 		this.userId = userId;
 		this.estateCode = estateCode;
 		this.approvalCode = approvalCode;
 		this.write_date = write_date;
+		this.phone = phone;
 	}
 	public UploadReviewApprovalDTO() {
 		super();
 	}
+	
 	
 }
