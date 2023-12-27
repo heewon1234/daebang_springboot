@@ -164,11 +164,6 @@ public class MapController {
 	// 신고하기
 	@PostMapping("report")
 	public ResponseEntity<ReportDTO> report(@RequestBody ReportDTO reportDTO) {
-		System.out.println(reportDTO.getEstate_id());
-		System.out.println(reportDTO.getWriter());
-		System.out.println(reportDTO.getTaker());
-		System.out.println(reportDTO.getContent());
-		System.out.println(reportDTO.getContents_code());
 		mServ.report(reportDTO);
 	    return ResponseEntity.ok().build();
 	}
