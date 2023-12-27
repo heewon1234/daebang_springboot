@@ -1,5 +1,7 @@
 package com.kdt.services;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +14,13 @@ import com.kdt.domain.entities.MapRegion;
 import com.kdt.domain.entities.MapSchool;
 import com.kdt.domain.entities.MapSubway;
 import com.kdt.domain.entities.RealEstateAgent;
+import com.kdt.domain.entities.Report;
 import com.kdt.dto.EstateDTO;
 import com.kdt.dto.MapRegionDTO;
 import com.kdt.dto.MapSchoolDTO;
 import com.kdt.dto.MapSubwayDTO;
 import com.kdt.dto.RealEstateAgentDTO;
+import com.kdt.dto.ReportDTO;
 import com.kdt.mappers.AgentMapper;
 import com.kdt.mappers.EstateMapper;
 import com.kdt.mappers.MapRegionMapper;
@@ -27,6 +31,7 @@ import com.kdt.repositories.EstateRepository;
 import com.kdt.repositories.MapRegionRepository;
 import com.kdt.repositories.MapSchoolRepository;
 import com.kdt.repositories.MapSubwayRepository;
+import com.kdt.repositories.ReportRepository;
 
 @Service
 public class MapService {
@@ -60,6 +65,9 @@ public class MapService {
 
 	@Autowired
 	private EstateRepository eRepo;
+	
+	@Autowired
+	private ReportRepository rRepository;
 
 	// 지역 정보 받아오기
 	public List<MapRegionDTO> selectRegion(String keyword) {
@@ -109,6 +117,25 @@ public class MapService {
 		List<Estate> list = eRepo.findByRealEstateAgentEmailOrderByWriteDateDesc(email, pageable);
 		List<EstateDTO> dtos = eMapper.toDtoList(list);
 		return dtos;
+	}
+	
+	// 신고하기
+	public void report(ReportDTO reportDTO) {
+		Report report = new Report();
+		
+		Date currentDate = new Date();
+		Timestamp timestamp = new Timestamp(currentDate.getTime());
+
+		report.setWriter(reportDTO.getWriter());
+		report.setTaker(reportDTO.getTaker());
+        report.setContent(reportDTO.getContent());
+        report.setEstateId(reportDTO.getEstate_id());
+        report.setContentsCode(reportDTO.getContents_code());
+        report.setStatus_code("rs1");
+        report.setWriteDate(timestamp);
+        
+        rRepository.save(report);
+		
 	}
 
 }
