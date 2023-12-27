@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kdt.domain.entities.Member;
 import com.kdt.domain.entities.ReviewApproval;
 import com.kdt.domain.entities.SawEstate;
 import com.kdt.domain.entities.UploadEstate;
@@ -18,6 +19,7 @@ import com.kdt.dto.UploadReviewApprovalDTO;
 import com.kdt.mappers.ReviewApprovalMapper;
 import com.kdt.mappers.SawEstateMapper;
 import com.kdt.mappers.UploadReviewApprovalMapper;
+import com.kdt.repositories.MemberRepository;
 import com.kdt.repositories.ReviewApprovalRepository;
 import com.kdt.repositories.SawEstateRepository;
 import com.kdt.repositories.UploadEstateRepository;
@@ -42,6 +44,8 @@ public class ReviewApprovalService {
 	private UploadEstateRepository ueRepo;
 	@Autowired
 	private UploadReviewApprovalRepository uraRepo;
+	@Autowired
+	private MemberRepository mRepo;
 
 	@Autowired
 	private SawEstateRepository sRepo;
@@ -85,8 +89,11 @@ public class ReviewApprovalService {
 	}
 
 	public void insert(UploadReviewApprovalDTO dto) {
+		String phone = mRepo.findById(dto.getUserId()).get().getPhone();
+		
 		UploadReviewApproval ura = uraMapper.toEntity(dto);
 
+		ura.setPhone(phone);
 		ura.setApprovalCode("a1");
 		ura.setWriteDate(new Timestamp(System.currentTimeMillis()));
 

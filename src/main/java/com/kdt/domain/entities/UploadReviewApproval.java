@@ -31,6 +31,9 @@ public class UploadReviewApproval {
 	
 	@Column(name="write_date")
 	private Timestamp writeDate;
+	
+	@Column(name="phone")
+	private String phone;
 
 	public Long getSeq() {
 		return seq;
@@ -72,13 +75,23 @@ public class UploadReviewApproval {
 		this.writeDate = writeDate;
 	}
 
-	public UploadReviewApproval(Long seq, String userId, Long estateCode, String approvalCode, Timestamp writeDate) {
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public UploadReviewApproval(Long seq, String userId, Long estateCode, String approvalCode, Timestamp writeDate,
+			String phone) {
 		super();
 		this.seq = seq;
 		this.userId = userId;
 		this.estateCode = estateCode;
 		this.approvalCode = approvalCode;
 		this.writeDate = writeDate;
+		this.phone = phone;
 	}
 
 	public UploadReviewApproval() {
