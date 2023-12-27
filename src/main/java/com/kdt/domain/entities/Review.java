@@ -47,20 +47,24 @@ public class Review {
 	@Column(name="score")
 	private Long score;
 	
+	@Column(name="anonymous")
+	private boolean anonymous;
+	
 	@Column(name="write_date")
 	private Timestamp writeDate;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name="parent_seq")
 	private Set<ReviewFiles> files;
-	
+
 	public Review() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	public Review(Long seq, String id, String realEstateNumber, Long estateId, String approvalCode, String traffic,
-			String surroundings, String facility, Long score, Timestamp writeDate) {
+			String surroundings, String facility, Long score, boolean anonymous, Timestamp writeDate,
+			Set<ReviewFiles> files) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -71,16 +75,8 @@ public class Review {
 		this.surroundings = surroundings;
 		this.facility = facility;
 		this.score = score;
+		this.anonymous = anonymous;
 		this.writeDate = writeDate;
-	}
-
-	
-	
-	public Set<ReviewFiles> getFiles() {
-		return files;
-	}
-
-	public void setFiles(Set<ReviewFiles> files) {
 		this.files = files;
 	}
 
@@ -156,6 +152,14 @@ public class Review {
 		this.score = score;
 	}
 
+	public boolean isAnonymous() {
+		return anonymous;
+	}
+
+	public void setAnonymous(boolean anonymous) {
+		this.anonymous = anonymous;
+	}
+
 	public Timestamp getWriteDate() {
 		return writeDate;
 	}
@@ -164,4 +168,11 @@ public class Review {
 		this.writeDate = writeDate;
 	}
 
+	public Set<ReviewFiles> getFiles() {
+		return files;
+	}
+
+	public void setFiles(Set<ReviewFiles> files) {
+		this.files = files;
+	}
 }

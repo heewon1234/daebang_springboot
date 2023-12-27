@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +21,7 @@ import com.kdt.dto.MapRegionDTO;
 import com.kdt.dto.MapSchoolDTO;
 import com.kdt.dto.MapSubwayDTO;
 import com.kdt.dto.RealEstateAgentDTO;
+import com.kdt.dto.ReportDTO;
 import com.kdt.services.EstateService;
 import com.kdt.services.MapService;
 
@@ -109,6 +112,17 @@ public class MapController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+	@GetMapping("getImageAll/{recent}")
+	public ResponseEntity<List<String>> getImageAll(@PathVariable List<Long> recent) {
+		try {
+			List<String> list = eServ.selectImageAll(recent);
+			return ResponseEntity.ok(list);
+		} catch (Exception e) {
+			// 예외가 발생한 경우 처리
+			e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 
 	// 작성자 매너온도 가져오기
 	@GetMapping("callAgentState")
@@ -145,6 +159,18 @@ public class MapController {
 	        e.printStackTrace();
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	    }
+	}
+	
+	// 신고하기
+	@PostMapping("report")
+	public ResponseEntity<ReportDTO> report(@RequestBody ReportDTO reportDTO) {
+		System.out.println(reportDTO.getEstate_id());
+		System.out.println(reportDTO.getWriter());
+		System.out.println(reportDTO.getTaker());
+		System.out.println(reportDTO.getContent());
+		System.out.println(reportDTO.getContents_code());
+		mServ.report(reportDTO);
+	    return ResponseEntity.ok().build();
 	}
 
 }

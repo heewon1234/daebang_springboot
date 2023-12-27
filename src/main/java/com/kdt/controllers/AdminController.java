@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kdt.domain.entities.NewEstate;
 import com.kdt.domain.entities.NewMember;
 import com.kdt.domain.entities.Visitor;
+import com.kdt.dto.EstateDTO;
 import com.kdt.dto.MemberDTO;
 import com.kdt.dto.NewEstateDTO;
 import com.kdt.dto.NewMemberDTO;
 import com.kdt.dto.RealEstateAgentDTO;
+import com.kdt.dto.RealEstateViewsDTO;
 import com.kdt.dto.ReportDTO;
 import com.kdt.dto.VisitorDTO;
 import com.kdt.services.AgentService;
@@ -27,6 +29,7 @@ import com.kdt.services.EstateService;
 import com.kdt.services.MemberService;
 import com.kdt.services.NewEstateService;
 import com.kdt.services.NewMemberService;
+import com.kdt.services.RealEstateViewsService;
 import com.kdt.services.ReportService;
 import com.kdt.services.VisitorService;
 
@@ -47,8 +50,56 @@ public class AdminController {
 	private EstateService eServ;
 	@Autowired
 	private ReportService rServ;
+	@Autowired
+	private RealEstateViewsService rvServ;
 	
-	//신고
+	//매물관리
+	@GetMapping("/estate/selectAll")
+	public ResponseEntity<List<EstateDTO>> findAll() {
+		List<EstateDTO> list = eServ.selectAll();
+
+		return ResponseEntity.ok(list);
+	}
+	@DeleteMapping("/estate/delete/{estateId}")
+	public ResponseEntity<Void> delete(@PathVariable Long estateId) throws Exception {
+		eServ.deleteById(estateId);
+
+		return ResponseEntity.ok().build();
+	}
+	
+	//신고 전체 내용
+	@GetMapping("/report/selectAll")
+	public ResponseEntity<List<ReportDTO>> selectAll() {
+		List<ReportDTO> list = rServ.getAll();
+		return ResponseEntity.ok(list);
+	}
+	@PutMapping("/estate/report/approve/{seq}")
+    public ResponseEntity<Void> estateApprove(@PathVariable Long seq) {
+        try {
+        	rServ.approve(seq);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            // 예외 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+	@PutMapping("/estate/report/revoke-approval/{seq}")
+	public ResponseEntity<Void> estateRevoke_approval(@PathVariable Long seq) {
+		try {
+			rServ.revoke_approval(seq);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			// 예외 처리
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	//매물 top5개
+	@GetMapping("/topFive")
+	public ResponseEntity<List<RealEstateViewsDTO>> topFive() {
+		List<RealEstateViewsDTO> dtos = rvServ.topFive();
+		return ResponseEntity.ok(dtos);
+	}
+	
 	@GetMapping("/selectAllByReportStatus")
 	public ResponseEntity<List<ReportDTO>> selectAllByReportStatus() {
 		List<ReportDTO> dtos = rServ.selectAllByReportStatus();
