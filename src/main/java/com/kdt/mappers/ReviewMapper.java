@@ -13,6 +13,7 @@ import com.kdt.dto.UploadReviewDTO;
 public interface ReviewMapper extends GenericMapper<ReviewDTO,Review>{
 
 	Review toEntity(UploadReviewDTO dto);
+
 	
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	void updateEntityFromDTO(UploadReviewDTO dto, @MappingTarget Review review);

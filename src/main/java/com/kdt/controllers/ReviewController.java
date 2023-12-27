@@ -48,6 +48,12 @@ public class ReviewController {
 		List<ReviewDTO> list = rServ.selectReviewByEstateId(estateId);
 		return ResponseEntity.ok(list);
 	}
+	
+	@GetMapping("/reviewByAgent/{realEstateNumber}")
+	public ResponseEntity<List<ReviewDTO>> selectReviewByAgent(@PathVariable String realEstateNumber){
+		List<ReviewDTO> list = rServ.selectReviewByAgent(realEstateNumber);
+		return ResponseEntity.ok(list);
+	}
 
 	@GetMapping("/selectReviewBySeq/{seq}")
 	public ResponseEntity<ReviewDTO> selectReviewBySeq(@PathVariable Long seq){
