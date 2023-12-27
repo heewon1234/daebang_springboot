@@ -9,14 +9,14 @@ public class MemberDTO {
 	private String zipcode;
 	private String address1;
 	private String address2;
-	private String profile_image;
 	private String role;
 	private Boolean enabled;
 	public MemberDTO() {
 		super();
 	}
+	
 	public MemberDTO(String id, String pw, String name, String phone, String email, String zipcode, String address1,
-			String address2, String profile_image, String role, Boolean enabled) {
+			String address2, String role, Boolean enabled) {
 		super();
 		this.id = id;
 		this.pw = pw;
@@ -26,10 +26,10 @@ public class MemberDTO {
 		this.zipcode = zipcode;
 		this.address1 = address1;
 		this.address2 = address2;
-		this.profile_image = profile_image;
 		this.role = role;
 		this.enabled = enabled;
 	}
+
 	public String getId() {
 		return id;
 	}
@@ -77,12 +77,6 @@ public class MemberDTO {
 	}
 	public void setAddress2(String address2) {
 		this.address2 = address2;
-	}
-	public String getProfile_image() {
-		return profile_image;
-	}
-	public void setProfile_image(String profile_image) {
-		this.profile_image = profile_image;
 	}
 	public String getRole() {
 		return role;
