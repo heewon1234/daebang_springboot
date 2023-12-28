@@ -30,14 +30,12 @@ public class MailController {
 	
 	@PostMapping("/findPw")
 	public ResponseEntity<Integer> mailConfirm(@RequestParam("id") String id,@RequestParam("email") String email) throws Exception {
-		System.out.println("클라이언트로 받은 email"+email+id);
 		List<MemberDTO> dto = mServ.getDto(id, email);
 		if(dto.size()==0) {
 			return ResponseEntity.ok(dto.size());
 		}
 		else {
 			String code = mailServ.sendSimpleMessage(email);
-			System.out.println("인증코드 : " + code);
 			mServ.changePw(id,code);
 			return ResponseEntity.ok(dto.size());
 		}
@@ -50,9 +48,6 @@ public class MailController {
 		}
 		else {
 			String code = mailServ.sendSimpleMessage(email);
-			System.out.println("인증코드 : " + code);
-			System.out.println(dto.get(0).getEmail());
-			System.out.println(dto.get(0).getPw());
 			aServ.changePw(email,code);
 			return ResponseEntity.ok(dto.size());
 		}
