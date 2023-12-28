@@ -7,10 +7,14 @@ public class UpdateEstateDTO {
 	private String address;
 	private double latitude;
 	private double longitude;
+	private String content;
+	
 	public UpdateEstateDTO() {
 		super();
 	}
-	public UpdateEstateDTO(String id, String name, String phone, String address, double latitude, double longitude) {
+	
+	public UpdateEstateDTO(String id, String name, String phone, String address, double latitude, double longitude,
+			String content) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -18,7 +22,9 @@ public class UpdateEstateDTO {
 		this.address = address;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.content = content;
 	}
+
 	public String getId() {
 		return id;
 	}
@@ -54,6 +60,14 @@ public class UpdateEstateDTO {
 	}
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 	
 	
