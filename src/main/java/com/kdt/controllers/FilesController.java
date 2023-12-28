@@ -29,14 +29,12 @@ public class FilesController {
 
 	@PostMapping("/upload")
 	public ResponseEntity<List<String>> uploadFile(MultipartFile[] files, String path) throws Exception{
-		System.out.println("dd");
 		List<String> list = new ArrayList<>();
 		String filePath = "C:/uploads";
 		File uploadFilePath = new File(filePath);
 		if(!uploadFilePath.exists()) {uploadFilePath.mkdir();}
 		
 		String realPath="";
-		System.out.println(path==null ? "null" : "notnull");
 		if(path==null) {
 			realPath = "C:/uploads/board";
 		} else {
@@ -66,7 +64,6 @@ public class FilesController {
 	
 	@GetMapping
 	public ResponseEntity<Object> downloadFile(@RequestParam String sysName,@RequestParam String oriName) throws Exception{
-		System.out.println(sysName + "d");
 		String realPath =  "C:/uploads/board/"+sysName;
 		
 		try {
