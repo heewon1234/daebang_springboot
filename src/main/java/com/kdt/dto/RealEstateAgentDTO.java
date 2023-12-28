@@ -13,8 +13,23 @@ private String email;
 	private double longitude;
 	private String role;
 	private boolean enabled;
+	private String content;
 
 	
+
+
+
+	public String getContent() {
+		return content;
+	}
+
+
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+
 
 	public RealEstateAgentDTO(String email, String pw, String estateName, String estateNumber, String name,
 			String address, String phone, double manners_temperature, double latitude, double longitude, String role,
@@ -32,6 +47,27 @@ private String email;
 		this.longitude = longitude;
 		this.role = role;
 		this.enabled = enabled;
+	}
+
+
+
+	public RealEstateAgentDTO(String email, String pw, String estateName, String estateNumber, String name,
+			String address, String phone, double manners_temperature, double latitude, double longitude, String role,
+			boolean enabled, String content) {
+		super();
+		this.email = email;
+		this.pw = pw;
+		this.estateName = estateName;
+		this.estateNumber = estateNumber;
+		this.name = name;
+		this.address = address;
+		this.phone = phone;
+		this.manners_temperature = manners_temperature;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.role = role;
+		this.enabled = enabled;
+		this.content = content;
 	}
 
 
