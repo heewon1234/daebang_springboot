@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kdt.domain.entities.Member;
 import com.kdt.domain.entities.ReviewApproval;
 import com.kdt.domain.entities.SawEstate;
 import com.kdt.domain.entities.UploadEstate;
@@ -29,6 +30,7 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class ReviewApprovalService {
+	private static final Logger logger = LoggerFactory.getLogger(ReviewApprovalService.class);
 
 	@Autowired
 	private ReviewApprovalMapper rMapper;
@@ -114,8 +116,8 @@ public class ReviewApprovalService {
 	public void updateStatus(ReviewApprovalDTO dto) {
 		ReviewApproval ra = rMapper.toEntity(dto);
 
-		System.out.println(ra.getSeq());
-		System.out.println(ra.getApprovalCode());
+		logger.debug(Long.toString(ra.getSeq()));
+		logger.debug(ra.getApprovalCode());
 
 		rRepo.updateStatue(ra.getSeq(), ra.getApprovalCode());
 

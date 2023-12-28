@@ -4,13 +4,14 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +21,6 @@ import com.kdt.domain.entities.EstateImage;
 import com.kdt.domain.entities.RealEstateViews;
 import com.kdt.domain.entities.UploadEstate;
 import com.kdt.domain.entities.UploadEstateOption;
-import com.kdt.domain.entities.Visitor;
 import com.kdt.dto.EstateDTO;
 import com.kdt.dto.UploadEstateDTO;
 import com.kdt.dto.UploadEstateOptionDTO;
@@ -38,6 +38,7 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class EstateService {
+	private static final Logger logger = LoggerFactory.getLogger(EstateService.class);
 
 	@Autowired
 	private UploadEstateMapper ueMapper;
@@ -64,7 +65,8 @@ public class EstateService {
 	
 	public void increaseViewCount(Long estateId) {
 	    RealEstateViews views = rRepo.findByEstate_EstateId(estateId);
-	    System.out.println("vies"+views);
+	    logger.debug("views : "+ views);
+
 	    if (views != null) {
 	        views.setViewCount(views.getViewCount() + 1);
 	    } else {
@@ -166,7 +168,7 @@ public class EstateService {
 	}
 	public List<EstateDTO> selectLimitAll() {
 		List<Estate> eList = eRepo.findTop6ByOrderByEstateIdDesc();
-		System.out.println(eList.get(3).getAddress1());
+		logger.debug(eList.get(3).getAddress1());
 		List<EstateDTO> list = eMapper.toDtoList(eList);
 		
 		for(EstateDTO dto : list) {
@@ -376,8 +378,8 @@ public class EstateService {
 	public void updateStatus(Long estateId) {
 		Estate estate = eRepo.findById(estateId).get();
 		estate.setSoldStatus(!estate.isSoldStatus());
-		
-		System.out.println(estate);
+
+		logger.debug("estate: " + estate);
 		
 		eRepo.save(estate);
 	}
