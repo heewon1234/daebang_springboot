@@ -3,6 +3,8 @@ package com.kdt.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,8 @@ import com.kdt.services.NewMemberService;
 @RestController
 @RequestMapping("/api/member/")
 public class MemberController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
 	@Autowired
 	private MemberService mServ;
@@ -68,7 +72,7 @@ public class MemberController {
 			return ResponseEntity.ok(dto);
 		} catch (Exception e) {
 			// 예외가 발생한 경우 처리
-			e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+			logger.error(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
@@ -89,11 +93,10 @@ public class MemberController {
     public ResponseEntity<NewMemberDTO> getTodayNewMamber() {
     	try {
     		NewMemberDTO dto = nServ.getTodayNewMamber();
-            System.out.println(dto);
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
             // 예외가 발생한 경우 처리
-            e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+        	logger.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
