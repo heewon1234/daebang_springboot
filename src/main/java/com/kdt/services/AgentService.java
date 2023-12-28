@@ -7,12 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kdt.controllers.BoardController;
 import com.kdt.domain.entities.AgentProfile;
 import com.kdt.domain.entities.EstateImage;
 import com.kdt.domain.entities.RealEstateAgent;
@@ -45,6 +48,8 @@ public class AgentService {
 	private NewEstateMapper nMapper;
 
 	private final PasswordEncoder passwordEncoder;
+	
+	private static final Logger logger = LoggerFactory.getLogger(AgentService.class);
 
 	// @Autowired
 	public AgentService(PasswordEncoder passwordEncoder) {
@@ -78,14 +83,12 @@ public class AgentService {
 		String crypPw = passwordEncoder.encode(RealEstateAgentDTO.getPw());
 		RealEstateAgentDTO.setPw(crypPw);
 		RealEstateAgentDTO.setManners_temperature(36.5);
-		System.out.println("위도" + RealEstateAgentDTO.getLatitude());
 		RealEstateAgent e = aMapper.toEntity(RealEstateAgentDTO);
 		aRepo.save(e);
 	}
 
 	public boolean isEstateNumber(String number) {
 		RealEstateAgent e = aRepo.findByEstateNumber(number);
-		System.out.println(e);
 		return e != null; // 해당 estateNumber가 존재하면 true, 존재하지 않으면 false 반환
 	}
 
@@ -159,7 +162,7 @@ public class AgentService {
 			}
 			// <- 사진 파일 입력
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 
