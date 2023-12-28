@@ -108,7 +108,7 @@ public class AgentService {
 		RealEstateAgent a = aRepo.findById(dto.getId()).get();
 		RealEstateAgentDTO adto = new RealEstateAgentDTO(a.getEmail(), a.getPw(), a.getEstateName(),
 				a.getEstateNumber(), dto.getName(), dto.getAddress(), dto.getPhone(), a.getManners_temperature(),
-				dto.getLatitude(), dto.getLongitude(), a.getRole(), a.isEnabled());
+				dto.getLatitude(), dto.getLongitude(), a.getRole(), a.isEnabled(),dto.getContent());
 		aMapper.updateEntityFromDTO(adto, a);
 		aRepo.save(a);
 	}

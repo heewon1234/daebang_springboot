@@ -44,6 +44,9 @@ public class RealEstateAgent {
 	
 	@Column(name="enabled")
 	private boolean enabled;
+	
+	@Column(name="content")
+	private String content;
 
 	
 	public RealEstateAgent(String email, String pw, String estateName, String estateNumber, String name,
@@ -63,6 +66,30 @@ public class RealEstateAgent {
 		this.role = role;
 		this.enabled = enabled;
 	}
+	
+	
+
+
+	public RealEstateAgent(String email, String pw, String estateName, String estateNumber, String name, String address,
+			String phone, double manners_temperature, double latitude, double longitude, String role, boolean enabled,
+			String content) {
+		super();
+		this.email = email;
+		this.pw = pw;
+		this.estateName = estateName;
+		this.estateNumber = estateNumber;
+		this.name = name;
+		this.address = address;
+		this.phone = phone;
+		this.manners_temperature = manners_temperature;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.role = role;
+		this.enabled = enabled;
+		this.content = content;
+	}
+
+
 
 
 	public String getEmail() {
@@ -183,6 +210,22 @@ public class RealEstateAgent {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+	
+	
+
+
+	public String getContent() {
+		return content;
+	}
+
+
+
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+
 
 
 	public RealEstateAgent() {
