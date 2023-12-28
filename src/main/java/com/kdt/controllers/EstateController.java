@@ -3,6 +3,8 @@ package com.kdt.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,21 +15,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kdt.dto.EstateDTO;
-import com.kdt.dto.ReportDTO;
 import com.kdt.dto.UploadEstateDTO;
 import com.kdt.dto.UploadEstateOptionDTO;
 import com.kdt.services.EstateService;
-import com.kdt.services.ReportService;
 
 @RestController
 @RequestMapping("/api/estateManage/")
 public class EstateController {
+	private static final Logger logger = LoggerFactory.getLogger(EstateController.class);
 
 	@Autowired
 	private EstateService eServ;
@@ -57,6 +57,7 @@ public class EstateController {
 			return ResponseEntity.ok().build();
 
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
@@ -103,13 +104,12 @@ public class EstateController {
 
 			estateDTO.setEstateId(Long.parseLong(estateId));
 
-			System.out.println(estateDTO.getAddress1());
-
 			eServ.updateById(estateDTO, optionDTOList, estateImages);
 
 			return ResponseEntity.ok().build();
 
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
