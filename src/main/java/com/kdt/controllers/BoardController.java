@@ -2,6 +2,8 @@ package com.kdt.controllers;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -24,6 +26,8 @@ import com.kdt.services.BoardService;
 @RequestMapping("/api/board")
 public class BoardController {
 
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+	
 	@Autowired
 	BoardService bServ;
 
@@ -56,6 +60,7 @@ public class BoardController {
 	// 게시글 목록 불러오기
 	@GetMapping("/freeBoardList")
 	public ResponseEntity<List<BoardDTO>> selectAllFreeBoardContents(){
+		logger.info("확인");
 		List<BoardDTO> list = bServ.selectAllFreeBoardContents(getUser() != null ? getUser().getUsername() : null);
 		return ResponseEntity.ok(list);
 	}
