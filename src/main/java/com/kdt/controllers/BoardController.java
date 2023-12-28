@@ -48,7 +48,6 @@ public class BoardController {
 	// 게시글 수정
 	@PutMapping
 	public ResponseEntity<Void> editBoardContents(BoardUploadDTO dto, String[] delImgList, String[] delFileList) throws Exception{
-		System.out.println(delFileList.length+"길이");
 		dto.setWriter(getUser().getUsername());
 		bServ.editBoardContents(dto, delImgList, delFileList);
 		return ResponseEntity.ok().build();

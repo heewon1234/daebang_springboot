@@ -18,7 +18,6 @@ public class FavoriteBoardService {
 	private FavoriteBoardMapper fbMapper;
 	
 	public void inserFav(FavoriteBoardDTO dto) {
-		System.out.println("id:"+dto.getId()+"/parentSeq:"+dto.getParentSeq());
 		FavoriteBoard fav = fbRepo.findByIdAndParentSeq(dto.getId(), dto.getParentSeq());
 		if(fav == null) {
 			fbRepo.save(fbMapper.toEntity(dto));

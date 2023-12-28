@@ -1,5 +1,7 @@
 package com.kdt.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.kdt.controllers.EstateAgentController;
 import com.kdt.services.EstateSecurityService;
 import com.kdt.services.MemberSecurityService;
 
@@ -18,6 +21,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+	private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+	
 	@Autowired
 	private MemberSecurityService mSecServ;
 	
@@ -35,11 +40,11 @@ public class SecurityConfig {
 		.usernameParameter("id")
 		.passwordParameter("pw")
 		.successHandler((request, response, authentication) -> {
-			System.out.println("로그인 성공");
+			logger.debug("로그인 성공");
 			response.setStatus(HttpServletResponse.SC_OK);
 		})
 		.failureHandler((request, response, exception) -> {
-			System.out.println("로그인 실패");
+			logger.debug("로그인 실패");
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		});
 		
@@ -49,7 +54,7 @@ public class SecurityConfig {
 		
 		http.logout().logoutUrl("/api/member/logout").invalidateHttpSession(true)
 		.logoutSuccessHandler((request, response, authentication) -> {
-			System.out.println("로그아웃 성공");
+			logger.debug("로그아웃 성공");
 			response.setStatus(HttpServletResponse.SC_OK);
 		});
 		
@@ -67,11 +72,11 @@ public class SecurityConfig {
 		.usernameParameter("id")
 		.passwordParameter("pw")
 		.successHandler((request, response, authentication) -> {
-			System.out.println("로그인 성공");
+			logger.debug("로그인 성공");
 			response.setStatus(HttpServletResponse.SC_OK);
 		})
 		.failureHandler((request, response, exception) -> {
-			System.out.println("로그인 실패");
+			logger.debug("로그인 실패");
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		});
 		
@@ -81,7 +86,7 @@ public class SecurityConfig {
 		
 		http.logout().logoutUrl("/api/member/logout").invalidateHttpSession(true)
 		.logoutSuccessHandler((request, response, authentication) -> {
-			System.out.println("로그아웃 성공");
+			logger.debug("로그아웃 성공");
 			response.setStatus(HttpServletResponse.SC_OK);
 		});
 		

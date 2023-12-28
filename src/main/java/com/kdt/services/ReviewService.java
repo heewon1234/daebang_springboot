@@ -53,7 +53,6 @@ public class ReviewService {
 	public void insertReview(UploadReviewDTO dto) throws Exception{
 		// Review 테이블에 내용 추가
 		String realEstateNumber = eRepo.findById(dto.getEstateId()).get().getRealEstateAgent().getEstateNumber();
-		System.out.println(realEstateNumber+"//");
 		dto.setRealEstateNumber(realEstateNumber);
 		Review review = rMapper.toEntity(dto);
 		review.setFiles(new HashSet<>());
