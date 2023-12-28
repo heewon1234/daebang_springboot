@@ -2,6 +2,8 @@ package com.kdt.controllers;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,7 @@ import com.kdt.services.ReviewApprovalService;
 @RestController
 @RequestMapping("/api/reviewApproval/")
 public class ReviewApprovalController {
+	private static final Logger logger = LoggerFactory.getLogger(ReviewApprovalController.class);
 
 	@Autowired
 	private ReviewApprovalService rServ;
@@ -59,8 +62,8 @@ public class ReviewApprovalController {
 	@PostMapping
 	public ResponseEntity<Void> insert(@RequestBody UploadReviewApprovalDTO dto) {
 
-		System.out.println(dto.getEstateCode());//확인해보셈
-		System.out.println(dto.getUserId());
+		logger.debug(Long.toString(dto.getEstateCode()));
+		logger.debug(dto.getUserId());
 
 		rServ.insert(dto);
 
@@ -96,7 +99,8 @@ public class ReviewApprovalController {
 	@PutMapping("admin/revoke-approval/{seq}")
 	public ResponseEntity<Void> revoke(@PathVariable Long seq) {
 		rServ.revoke_approval(seq);
-		System.out.println("번호"+seq);
+		
+		logger.debug("번호"+Long.toString(seq));
 		return ResponseEntity.ok().build();
 	}
 	

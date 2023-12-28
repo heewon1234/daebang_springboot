@@ -1,5 +1,7 @@
 package com.kdt.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,9 @@ import jakarta.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/api/visit")
 public class VisitorController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(VisitorController.class);
+	
 	@Autowired
 	private VisitorService vServ;
 	
@@ -30,7 +35,6 @@ public class VisitorController {
 	//매물 조회수 저장
 		@PostMapping("increaseViewCount/{estateId}")
 		public ResponseEntity<Void> increaseViewCount(@PathVariable Long estateId) {
-			System.out.println("중개사번호"+estateId);
 		    eServ.increaseViewCount(estateId);
 		    return ResponseEntity.ok().build();
 		}
@@ -83,6 +87,7 @@ public class VisitorController {
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}

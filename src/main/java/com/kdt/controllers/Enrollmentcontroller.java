@@ -8,9 +8,12 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +31,7 @@ import com.kdt.services.NewMemberService;
 @RestController
 @RequestMapping("/api/enrollment")
 public class Enrollmentcontroller {
+	private static final Logger logger = LoggerFactory.getLogger(Enrollmentcontroller.class);
 	@Autowired
 	private AgentService aServ;
 	
@@ -63,7 +67,6 @@ public class Enrollmentcontroller {
 
 			// 요청 전송
 			int responseCode = connection.getResponseCode();
-			System.out.println("Response Code: " + responseCode);
 
 			// 응답 처리
 			BufferedReader in;
@@ -82,10 +85,10 @@ public class Enrollmentcontroller {
 
 			// 응답 출력
 			System.out.println("response.toString()"+response.toString());
+			logger.debug("response.toString()"+response.toString());
 
 			return ResponseEntity.ok().body(response.toString());
 		} catch (IOException e) {
-			System.out.println("Exception: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
 		}
 	}
@@ -96,7 +99,6 @@ public class Enrollmentcontroller {
 	}
 	@PostMapping("/agent/signup")
 	public ResponseEntity<Void> signup(RealEstateAgentDTO RealEstateAgentDTO) {
-		System.out.println("주소 : " + RealEstateAgentDTO.getAddress());
 		aServ.signup(RealEstateAgentDTO);
 		return ResponseEntity.ok().build();
 	}
@@ -105,11 +107,11 @@ public class Enrollmentcontroller {
     public ResponseEntity<NewEstateDTO> getTodayNewEstate() {
     	try {
     		NewEstateDTO dto = neServ.getTodayNewEstate();
-            System.out.println(dto);
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
             // 예외가 발생한 경우 처리
             e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+            logger.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -128,7 +130,12 @@ public class Enrollmentcontroller {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-	
+    @ExceptionHandler
+	public ResponseEntity<String> excetion(Exception e){
+		e.printStackTrace();
+		logger.error(e.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("삭제할 대상이 존재하지 않습니다.");
+	}
 	
 	
 	
