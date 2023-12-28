@@ -60,7 +60,7 @@ public class BoardController {
 	// 게시글 목록 불러오기
 	@GetMapping("/freeBoardList")
 	public ResponseEntity<List<BoardDTO>> selectAllFreeBoardContents(){
-		logger.info("확인");
+		logger.debug("확인");
 		List<BoardDTO> list = bServ.selectAllFreeBoardContents(getUser() != null ? getUser().getUsername() : null);
 		return ResponseEntity.ok(list);
 	}
