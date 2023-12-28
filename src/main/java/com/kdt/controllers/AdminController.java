@@ -3,10 +3,13 @@ package com.kdt.controllers;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,6 +39,9 @@ import com.kdt.services.VisitorService;
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+	
 	@Autowired
 	private VisitorService vServ;
 	@Autowired
@@ -70,6 +76,7 @@ public class AdminController {
 	@DeleteMapping("/report/delete/{seq}")
 	public ResponseEntity<Void> report_delete(@PathVariable Long seq) throws Exception {
 		System.out.println("신고"+seq);
+		logger.debug("신고"+seq);
 		rServ.deleteBySeq(seq);
 		return ResponseEntity.ok().build();
 	}
@@ -81,6 +88,7 @@ public class AdminController {
 	@PutMapping("/estate/report/approve/{seq}")
     public ResponseEntity<Void> estateApprove(@PathVariable Long seq) {
 		System.out.println("승인 : " + seq);
+		logger.debug("승인 : " + seq);
         try {
         	rServ.approve(seq);
             return ResponseEntity.ok().build();
@@ -178,6 +186,7 @@ public class AdminController {
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
             // 예외가 발생한 경우 처리
+        	logger.error(e.getMessage());
             e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -223,6 +232,7 @@ public class AdminController {
 		try {
 			mServ.revoke_approval(id);
 			System.out.println(id);
+			logger.debug(id);
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {
 			// 예외 처리
@@ -319,4 +329,10 @@ public class AdminController {
     	NewEstate dailyEstate = neServ.getDailyNewEstate(yesterday);
     	return ResponseEntity.ok(dailyEstate);
     }
+    @ExceptionHandler
+	public ResponseEntity<String> excetion(Exception e){
+		e.printStackTrace();
+		logger.error(e.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("삭제할 대상이 존재하지 않습니다.");
+	}
 }
