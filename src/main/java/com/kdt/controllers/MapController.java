@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,8 @@ import com.kdt.services.MapService;
 @RestController
 @RequestMapping("/api/map/")
 public class MapController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(MapController.class);
 
 	@Autowired
 	private MapService mServ;
@@ -43,7 +47,7 @@ public class MapController {
 			return ResponseEntity.ok(list);
 		} catch (Exception e) {
 			// 예외가 발생한 경우 처리
-			e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+			logger.error(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
@@ -56,7 +60,7 @@ public class MapController {
 			return ResponseEntity.ok(list);
 		} catch (Exception e) {
 			// 예외가 발생한 경우 처리
-			e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+			logger.error(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
@@ -75,7 +79,7 @@ public class MapController {
 
 			return ResponseEntity.ok(result);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
@@ -96,7 +100,7 @@ public class MapController {
 
 			return ResponseEntity.ok(result);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
@@ -107,8 +111,7 @@ public class MapController {
 			List<EstateDTO> list = eServ.selectWatchAll(recent);
 			return ResponseEntity.ok(list);
 		} catch (Exception e) {
-			// 예외가 발생한 경우 처리
-			e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+			logger.error(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
@@ -118,8 +121,7 @@ public class MapController {
 			List<String> list = eServ.selectImageAll(recent);
 			return ResponseEntity.ok(list);
 		} catch (Exception e) {
-			// 예외가 발생한 경우 처리
-			e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+			logger.error(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
@@ -143,7 +145,7 @@ public class MapController {
 
 	        return ResponseEntity.ok(result);
 	    } catch (Exception e) {
-	        e.printStackTrace();
+	    	logger.error(e.getMessage());
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	    }
 	}
@@ -156,7 +158,7 @@ public class MapController {
 	        List<EstateDTO> estateListLimit = mServ.getAgentContentLimit(email);
 	        return ResponseEntity.ok(estateListLimit);
 	    } catch (Exception e) {
-	        e.printStackTrace();
+	    	logger.error(e.getMessage());
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	    }
 	}
@@ -164,8 +166,15 @@ public class MapController {
 	// 신고하기
 	@PostMapping("report")
 	public ResponseEntity<ReportDTO> report(@RequestBody ReportDTO reportDTO) {
-		mServ.report(reportDTO);
-	    return ResponseEntity.ok().build();
+		try {
+			mServ.report(reportDTO);
+		    return ResponseEntity.ok().build();
+		}
+		catch(Exception e) {
+			logger.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+		
 	}
 
 }
