@@ -47,7 +47,11 @@ public class MemberController {
 		mServ.signUp(dto);
 		return ResponseEntity.ok().build();
 	}
-	
+	@GetMapping("getname/{userid}")
+	public ResponseEntity<String> getname(@PathVariable String userid){
+		String name = mServ.getNamebyId(userid);
+		return ResponseEntity.ok(name);
+	}
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable String id){
 		mServ.deleteById(id);

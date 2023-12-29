@@ -59,12 +59,16 @@ public class EstateAgentController {
 		aServ.deleteById(id);
 		return ResponseEntity.ok().build();
 	}
-
-	@PostMapping("updateMyInfo")
-	public ResponseEntity<Void> updateMyInfo(@RequestBody UpdateEstateDTO dto) {
-		aServ.updateMyInfo(dto);
-		return ResponseEntity.ok().build();
+	@GetMapping("getname/{estateid}")
+	public ResponseEntity<String> getname(@PathVariable String estateid){
+		String name = aServ.getNamebyId(estateid);
+		return ResponseEntity.ok(name);
 	}
+//	@PostMapping("updateMyInfo")
+//	public ResponseEntity<Void> updateMyInfo(@RequestBody UpdateEstateDTO dto) {
+//		aServ.updateMyInfo(dto);
+//		return ResponseEntity.ok().build();
+//	}
 
 	@GetMapping("findId/{name}/{phone}")
 	public ResponseEntity<List<String>> getId(@PathVariable String name, @PathVariable String phone) {
