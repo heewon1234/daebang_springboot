@@ -1,5 +1,7 @@
 package com.kdt.domain.entities;
 
+import java.sql.Timestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -47,32 +49,18 @@ public class RealEstateAgent {
 	
 	@Column(name="content")
 	private String content;
+	
+	@Column(name="report_count")
+	private Long report_Count;
+	
+	@Column(name="signup_date")
+	private Timestamp signupDate;
 
-	
-	public RealEstateAgent(String email, String pw, String estateName, String estateNumber, String name,
-			String address, String phone, double manners_temperature, double latitude, double longitude, String role,
-			boolean enabled) {
-		super();
-		this.email = email;
-		this.pw = pw;
-		this.estateName = estateName;
-		this.estateNumber = estateNumber;
-		this.name = name;
-		this.address = address;
-		this.phone = phone;
-		this.manners_temperature = manners_temperature;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.role = role;
-		this.enabled = enabled;
-	}
-	
-	
 
 
 	public RealEstateAgent(String email, String pw, String estateName, String estateNumber, String name, String address,
 			String phone, double manners_temperature, double latitude, double longitude, String role, boolean enabled,
-			String content) {
+			String content, Long report_Count, Timestamp signupDate) {
 		super();
 		this.email = email;
 		this.pw = pw;
@@ -87,8 +75,9 @@ public class RealEstateAgent {
 		this.role = role;
 		this.enabled = enabled;
 		this.content = content;
+		this.report_Count = report_Count;
+		this.signupDate = signupDate;
 	}
-
 
 
 
@@ -97,9 +86,11 @@ public class RealEstateAgent {
 	}
 
 
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 
 
 	public String getPw() {
@@ -107,9 +98,11 @@ public class RealEstateAgent {
 	}
 
 
+
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
+
 
 
 	public String getEstateName() {
@@ -117,9 +110,11 @@ public class RealEstateAgent {
 	}
 
 
+
 	public void setEstateName(String estateName) {
 		this.estateName = estateName;
 	}
+
 
 
 	public String getEstateNumber() {
@@ -127,9 +122,11 @@ public class RealEstateAgent {
 	}
 
 
+
 	public void setEstateNumber(String estateNumber) {
 		this.estateNumber = estateNumber;
 	}
+
 
 
 	public String getName() {
@@ -137,9 +134,11 @@ public class RealEstateAgent {
 	}
 
 
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 
 
 	public String getAddress() {
@@ -147,9 +146,11 @@ public class RealEstateAgent {
 	}
 
 
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
 
 
 	public String getPhone() {
@@ -157,9 +158,11 @@ public class RealEstateAgent {
 	}
 
 
+
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+
 
 
 	public double getManners_temperature() {
@@ -167,9 +170,11 @@ public class RealEstateAgent {
 	}
 
 
+
 	public void setManners_temperature(double manners_temperature) {
 		this.manners_temperature = manners_temperature;
 	}
+
 
 
 	public double getLatitude() {
@@ -177,9 +182,11 @@ public class RealEstateAgent {
 	}
 
 
+
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
+
 
 
 	public double getLongitude() {
@@ -187,9 +194,11 @@ public class RealEstateAgent {
 	}
 
 
+
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
+
 
 
 	public String getRole() {
@@ -197,9 +206,11 @@ public class RealEstateAgent {
 	}
 
 
+
 	public void setRole(String role) {
 		this.role = role;
 	}
+
 
 
 	public boolean isEnabled() {
@@ -207,11 +218,11 @@ public class RealEstateAgent {
 	}
 
 
+
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
-	
+
 
 
 	public String getContent() {
@@ -220,11 +231,33 @@ public class RealEstateAgent {
 
 
 
-
 	public void setContent(String content) {
 		this.content = content;
 	}
 
+
+
+	public Long getReport_Count() {
+		return report_Count;
+	}
+
+
+
+	public void setReport_Count(Long report_Count) {
+		this.report_Count = report_Count;
+	}
+
+
+
+	public Timestamp getSignupDate() {
+		return signupDate;
+	}
+
+
+
+	public void setSignupDate(Timestamp signupDate) {
+		this.signupDate = signupDate;
+	}
 
 
 
