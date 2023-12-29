@@ -13,7 +13,7 @@ public class MemberDTO {
 	private String address2;
 	private String role;
 	private Boolean enabled;
-	private Timestamp signup_date;
+	private Timestamp signupDate;
 	public MemberDTO() {
 		super();
 	}
@@ -36,7 +36,7 @@ public class MemberDTO {
 	
 
 	public MemberDTO(String id, String pw, String name, String phone, String email, String zipcode, String address1,
-			String address2, String role, Boolean enabled, Timestamp signup_date) {
+			String address2, String role, Boolean enabled, Timestamp signupDate) {
 		super();
 		this.id = id;
 		this.pw = pw;
@@ -48,7 +48,7 @@ public class MemberDTO {
 		this.address2 = address2;
 		this.role = role;
 		this.enabled = enabled;
-		this.signup_date = signup_date;
+		this.signupDate = signupDate;
 	}
 
 	public String getId() {
@@ -112,12 +112,12 @@ public class MemberDTO {
 		this.enabled = enabled;
 	}
 
-	public Timestamp getSignup_date() {
-		return signup_date;
+	public Timestamp getsignupDate() {
+		return signupDate;
 	}
 
-	public void setSignup_date(Timestamp signup_date) {
-		this.signup_date = signup_date;
+	public void setsignupDate(Timestamp signupDate) {
+		this.signupDate = signupDate;
 	}
 	
 	
