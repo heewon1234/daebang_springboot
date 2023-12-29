@@ -30,15 +30,15 @@ public class FilesController {
 	@PostMapping("/upload")
 	public ResponseEntity<List<String>> uploadFile(MultipartFile[] files, String path) throws Exception{
 		List<String> list = new ArrayList<>();
-		String filePath = "C:/uploads";
+		String filePath = "/uploads";
 		File uploadFilePath = new File(filePath);
 		if(!uploadFilePath.exists()) {uploadFilePath.mkdir();}
 		
 		String realPath="";
 		if(path==null) {
-			realPath = "C:/uploads/board";
+			realPath = "/uploads/board";
 		} else {
-			realPath = "C:/uploads/temp_review";
+			realPath = "/uploads/temp_review";
 		}
 
 		File uploadPath = new File(realPath);
@@ -64,7 +64,7 @@ public class FilesController {
 	
 	@GetMapping
 	public ResponseEntity<Object> downloadFile(@RequestParam String sysName,@RequestParam String oriName) throws Exception{
-		String realPath =  "C:/uploads/board/"+sysName;
+		String realPath =  "/uploads/board/"+sysName;
 		
 		try {
 			Path filePath = Paths.get(realPath);

@@ -65,11 +65,11 @@ public class ReviewService {
 
 		if(multiList != null && multiList.size() != 0) {
 			
-			String filePath = "C:/uploads";
+			String filePath = "/uploads";
 			File uploadFilePath = new File(filePath);
 			if(!uploadFilePath.exists()) {uploadFilePath.mkdir();}
 
-			String realPath = "C:/uploads/review";
+			String realPath = "/uploads/review";
 			File uploadPath = new File(realPath);
 			if(!uploadPath.exists()) {uploadPath.mkdir();}
 
@@ -136,11 +136,11 @@ public class ReviewService {
 		rRepo.save(review);
 		
 		if(multiList != null && multiList.size() != 0) {
-			String filePath = "C:/uploads";
+			String filePath = "/uploads";
 			File uploadFilePath = new File(filePath);
 			if(!uploadFilePath.exists()) {uploadFilePath.mkdir();}
 
-			String realPath = "C:/uploads/review";
+			String realPath = "/uploads/review";
 			File uploadPath = new File(realPath);
 			if(!uploadPath.exists()) {uploadPath.mkdir();}
 
@@ -186,11 +186,11 @@ public class ReviewService {
 	
 	// 서버 파일 삭제
 	private void delServerFile(String[] delFileList) throws Exception{
-		String filePath = "C:/uploads";
+		String filePath = "/uploads";
 		File uploadFilePath = new File(filePath);
 		if(!uploadFilePath.exists()) {uploadFilePath.mkdir();}
 
-		String realPath = "C:/uploads/review";
+		String realPath = "/uploads/review";
 		File uploadPath = new File(realPath);
 		if(!uploadPath.exists()) {uploadPath.mkdir();}
 
