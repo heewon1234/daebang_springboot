@@ -58,16 +58,19 @@ public class BoardController {
 	}
 
 	// 게시글 목록 불러오기
-	@GetMapping("/freeBoardList")
-	public ResponseEntity<List<BoardDTO>> selectAllFreeBoardContents(){
-		logger.debug("확인");
-		List<BoardDTO> list = bServ.selectAllFreeBoardContents(getUser() != null ? getUser().getUsername() : null);
+	@GetMapping("/freeBoardList/{loginId}")
+	public ResponseEntity<List<BoardDTO>> selectAllFreeBoardContents(@PathVariable String loginId){
+		String sessionId = getUser() != null ? getUser().getUsername() : null;
+		if(sessionId!=loginId) {loginId=null;}
+		List<BoardDTO> list = bServ.selectAllFreeBoardContents(loginId);
 		return ResponseEntity.ok(list);
 	}
 
-	@GetMapping("/roomBoardList")
-	public ResponseEntity<List<BoardDTO>> selectAllRoomBoardContents(){
-		List<BoardDTO> list = bServ.selectAllRoomBoardContents(getUser() != null ? getUser().getUsername() : null);
+	@GetMapping("/roomBoardList/{loginId}")
+	public ResponseEntity<List<BoardDTO>> selectAllRoomBoardContents(@PathVariable String loginId){
+		String sessionId = getUser() != null ? getUser().getUsername() : null;
+		if(sessionId!=loginId) {loginId=null;}
+		List<BoardDTO> list = bServ.selectAllRoomBoardContents(loginId);
 		return ResponseEntity.ok(list);
 
 	}
