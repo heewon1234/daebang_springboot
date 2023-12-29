@@ -90,34 +90,5 @@ public class ReviewApprovalController {
 		rServ.writeComplete(id, estateId, approvalCode);
 		return ResponseEntity.ok().build();
 	}
-	//관리자 승인
-	@GetMapping("admin/selectByAdmin")
-	public ResponseEntity<List<ReviewApprovalDTO>> selectByAdmin() {
-		List<ReviewApprovalDTO> list = rServ.selectByAdmin();
-		return ResponseEntity.ok(list);
-	}
-	@PutMapping("admin/revoke-approval/{seq}")
-	public ResponseEntity<Void> revoke(@PathVariable Long seq) {
-		rServ.revoke_approval(seq);
-		
-		logger.debug("번호"+Long.toString(seq));
-		return ResponseEntity.ok().build();
-	}
 	
-	@PutMapping("admin/approval/{seq}")
-	public ResponseEntity<Void> approval(@PathVariable Long seq) {
-		rServ.approval(seq);
-		
-		return ResponseEntity.ok().build();
-	}
-	@PutMapping("admin/return/{seq}")
-	public ResponseEntity<Void> back(@PathVariable Long seq) {
-		rServ.back(seq);
-		return ResponseEntity.ok().build();
-	}
-	@PutMapping("admin/finalBack/{seq}")
-	public ResponseEntity<Void> finalBack(@PathVariable Long seq) {
-		rServ.finalBack(seq);
-		return ResponseEntity.ok().build();
-	}
 }

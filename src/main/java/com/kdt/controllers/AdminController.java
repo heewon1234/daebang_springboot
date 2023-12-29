@@ -26,6 +26,7 @@ import com.kdt.dto.NewMemberDTO;
 import com.kdt.dto.RealEstateAgentDTO;
 import com.kdt.dto.RealEstateViewsDTO;
 import com.kdt.dto.ReportDTO;
+import com.kdt.dto.ReviewApprovalDTO;
 import com.kdt.dto.VisitorDTO;
 import com.kdt.services.AgentService;
 import com.kdt.services.EstateService;
@@ -34,14 +35,15 @@ import com.kdt.services.NewEstateService;
 import com.kdt.services.NewMemberService;
 import com.kdt.services.RealEstateViewsService;
 import com.kdt.services.ReportService;
+import com.kdt.services.ReviewApprovalService;
 import com.kdt.services.VisitorService;
 
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
-	
+
 	@Autowired
 	private VisitorService vServ;
 	@Autowired
@@ -58,7 +60,41 @@ public class AdminController {
 	private ReportService rServ;
 	@Autowired
 	private RealEstateViewsService rvServ;
-	
+
+	@Autowired
+	private ReviewApprovalService raServ;
+	//문의관리
+	//관리자 승인
+	@GetMapping("/reviewApproval/selectByAdmin")
+	public ResponseEntity<List<ReviewApprovalDTO>> selectByAdmin() {
+		List<ReviewApprovalDTO> list = raServ.selectByAdmin();
+		return ResponseEntity.ok(list);
+	}
+	@PutMapping("/reviewApproval/revoke-approval/{seq}")
+	public ResponseEntity<Void> revoke(@PathVariable Long seq) {
+		raServ.revoke_approval(seq);
+
+		logger.debug("번호"+Long.toString(seq));
+		return ResponseEntity.ok().build();
+	}
+
+	@PutMapping("/reviewApproval/approval/{seq}")
+	public ResponseEntity<Void> approval(@PathVariable Long seq) {
+		raServ.approval(seq);
+
+		return ResponseEntity.ok().build();
+	}
+	@PutMapping("/reviewApproval/return/{seq}")
+	public ResponseEntity<Void> back(@PathVariable Long seq) {
+		raServ.back(seq);
+		return ResponseEntity.ok().build();
+	}
+	@PutMapping("/reviewApproval/finalBack/{seq}")
+	public ResponseEntity<Void> finalBack(@PathVariable Long seq) {
+		raServ.finalBack(seq);
+		return ResponseEntity.ok().build();
+	}
+
 	//매물관리
 	@GetMapping("/estate/selectAll")
 	public ResponseEntity<List<EstateDTO>> findAll() {
@@ -71,7 +107,7 @@ public class AdminController {
 		eServ.deleteById(estateId);
 		return ResponseEntity.ok().build();
 	}
-	
+
 	//신고 전체 내용
 	@DeleteMapping("/report/delete/{seq}")
 	public ResponseEntity<Void> report_delete(@PathVariable Long seq) throws Exception {
@@ -82,21 +118,21 @@ public class AdminController {
 	}
 	@GetMapping("/report/selectAll")
 	public ResponseEntity<List<ReportDTO>> selectAll() {
-		List<ReportDTO> list = rServ.getAll();
+		List<ReportDTO> list = rServ.selectAllByWriteDateDESC();
 		return ResponseEntity.ok(list);
 	}
 	@PutMapping("/estate/report/approve/{seq}")
-    public ResponseEntity<Void> estateApprove(@PathVariable Long seq) {
+	public ResponseEntity<Void> estateApprove(@PathVariable Long seq) {
 		System.out.println("승인 : " + seq);
 		logger.debug("승인 : " + seq);
-        try {
-        	rServ.approve(seq);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            // 예외 처리
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+		try {
+			rServ.approve(seq);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			// 예외 처리
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 	@PutMapping("/estate/report/revoke-approval/{seq}")
 	public ResponseEntity<Void> estateRevoke_approval(@PathVariable Long seq) {
 		try {
@@ -109,16 +145,16 @@ public class AdminController {
 	}
 	//거부
 	@PutMapping("/estate/report/reject/{seq}")
-    public ResponseEntity<Void> reject(@PathVariable Long seq) {
+	public ResponseEntity<Void> reject(@PathVariable Long seq) {
 		System.out.println("승인 : " + seq);
-        try {
-        	rServ.reject(seq);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            // 예외 처리
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+		try {
+			rServ.reject(seq);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			// 예외 처리
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 	@PutMapping("/estate/report/revoke-rejection/{seq}")
 	public ResponseEntity<Void> revoke_rejection(@PathVariable Long seq) {
 		try {
@@ -135,7 +171,7 @@ public class AdminController {
 		List<RealEstateViewsDTO> dtos = rvServ.topFive();
 		return ResponseEntity.ok(dtos);
 	}
-	
+
 	@GetMapping("/selectAllByReportStatus")
 	public ResponseEntity<List<ReportDTO>> selectAllByReportStatus() {
 		List<ReportDTO> dtos = rServ.selectAllByReportStatus();
@@ -146,7 +182,7 @@ public class AdminController {
 		Long count = rServ.countByReportStatus();
 		return ResponseEntity.ok(count);
 	}
-	
+
 	//원룸 투룸 별 수
 	@GetMapping("/countByRoomCode")
 	public ResponseEntity<List<Object[]>> countByRoomCode() {
@@ -155,17 +191,17 @@ public class AdminController {
 	}
 	//전체 매물 수
 	@GetMapping("/countEstate")
-    public ResponseEntity<Long> countEstate() {
-        Long count = eServ.countEstate();
-        return ResponseEntity.ok(count);
-    }
+	public ResponseEntity<Long> countEstate() {
+		Long count = eServ.countEstate();
+		return ResponseEntity.ok(count);
+	}
 	//오늘 등록된 매물 수
 	@GetMapping("/countTodayEstate")
 	public ResponseEntity<Long> countTodayByEstate() {
 		Long count = eServ.countTodayByEstate();
 		return ResponseEntity.ok(count);
 	}
-	
+
 	//회원관리
 	@GetMapping("getMember")
 	public ResponseEntity<List<MemberDTO>> getMember() {
@@ -177,35 +213,35 @@ public class AdminController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-	
+
 	//공인중개사 관련
 	@GetMapping("/agent/getAll")
-    public ResponseEntity<List<RealEstateAgentDTO>> getAll() {
-    	try {
-    		List<RealEstateAgentDTO> dto = aServ.getAllDESC();
-            return ResponseEntity.ok(dto);
-        } catch (Exception e) {
-            // 예외가 발생한 경우 처리
-        	logger.error(e.getMessage());
-            e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+	public ResponseEntity<List<RealEstateAgentDTO>> getAll() {
+		try {
+			List<RealEstateAgentDTO> dto = aServ.getAllDESC();
+			return ResponseEntity.ok(dto);
+		} catch (Exception e) {
+			// 예외가 발생한 경우 처리
+			logger.error(e.getMessage());
+			e.printStackTrace(); // 또는 로깅하여 예외 정보 기록
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 	@DeleteMapping("/agent/delete/{email}")
 	public ResponseEntity<Void> deleteById(@PathVariable String email){
 		aServ.deleteById(email);
 		return ResponseEntity.ok().build();
 	}
 	@PutMapping("/agent/approve/{email}")
-    public ResponseEntity<Void> approve(@PathVariable String email) {
-        try {
-        	aServ.approve(email);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            // 예외 처리
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+	public ResponseEntity<Void> approve(@PathVariable String email) {
+		try {
+			aServ.approve(email);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			// 예외 처리
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 	@PutMapping("/agent/revoke-approval/{email}")
 	public ResponseEntity<Void> revoke_approval(@PathVariable String email) {
 		try {
@@ -218,15 +254,15 @@ public class AdminController {
 	}
 	//member ban
 	@PutMapping("/member/approve/{id}")
-    public ResponseEntity<Void> mapprove(@PathVariable String id) {
-        try {
-        	mServ.approve(id);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            // 예외 처리
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+	public ResponseEntity<Void> mapprove(@PathVariable String id) {
+		try {
+			mServ.approve(id);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			// 예외 처리
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 	@PutMapping("/member/revoke-approval/{id}")
 	public ResponseEntity<Void> mrevoke_approval(@PathVariable String id) {
 		try {
@@ -239,97 +275,97 @@ public class AdminController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-	
 
-    //오늘 방문자수
-    @GetMapping("/dailyVisitors")
-    public ResponseEntity<Visitor> getDailyVisitors() {
-        LocalDate today = LocalDate.now();
-        Visitor dailyVisitors = vServ.getDailyVisitors(today);
-        return ResponseEntity.ok(dailyVisitors);
-    }
-    //어제 방문자수
-    @GetMapping("/getYesterdayVisitors")
-    public ResponseEntity<Visitor> getYesterdayVisitors() {
-        LocalDate yesterday = LocalDate.now().minusDays(1); // 어제 날짜 구하기
-        Visitor yesterdayVisitors = vServ.getYesterdayVisitors(yesterday);
-        return ResponseEntity.ok(yesterdayVisitors);
-    }
 
-    //모든 방문자수
-    @GetMapping("/visitors/getAll")
-    public ResponseEntity<List<VisitorDTO>> visitorsGetAll() {
-    	List<VisitorDTO> list = vServ.getAll();
-    	return ResponseEntity.ok(list);
-    }
-    //누적 방문자수
-    @GetMapping("/visitors/sum")
-    public ResponseEntity<Integer> sum() {
-        int num = vServ.sum();
-        return ResponseEntity.ok(num);
-    }
+	//오늘 방문자수
+	@GetMapping("/dailyVisitors")
+	public ResponseEntity<Visitor> getDailyVisitors() {
+		LocalDate today = LocalDate.now();
+		Visitor dailyVisitors = vServ.getDailyVisitors(today);
+		return ResponseEntity.ok(dailyVisitors);
+	}
+	//어제 방문자수
+	@GetMapping("/getYesterdayVisitors")
+	public ResponseEntity<Visitor> getYesterdayVisitors() {
+		LocalDate yesterday = LocalDate.now().minusDays(1); // 어제 날짜 구하기
+		Visitor yesterdayVisitors = vServ.getYesterdayVisitors(yesterday);
+		return ResponseEntity.ok(yesterdayVisitors);
+	}
 
-    
-    @GetMapping("/monthlyVisitors")
-    public ResponseEntity<List<Visitor>> getMonthlyVisitors() {
-        LocalDate startOfMonth = LocalDate.now().withDayOfMonth(1);
-        LocalDate endOfMonth = LocalDate.now().plusMonths(1).withDayOfMonth(1).minusDays(1);
-        List<Visitor> monthlyVisitors = vServ.getMonthlyVisitors(startOfMonth, endOfMonth);
-        return ResponseEntity.ok(monthlyVisitors);
-    }
-    
-    
-    @GetMapping("/newMember/getAll")
-    public ResponseEntity<List<NewMemberDTO>> newMemberGetAll() {
-    	List<NewMemberDTO> list = nServ.getAll();
-    	return ResponseEntity.ok(list);
-    }
-  //회원 누적 방문자수
-    @GetMapping("/newMember/sum")
-    public ResponseEntity<Integer> newMember_sum() {
-        int num = nServ.newMember_sum();
-        return ResponseEntity.ok(num);
-    }
-  //오늘 회원등록수
-    @GetMapping("/dailyMember")
-    public ResponseEntity<NewMember> getDailyMember() {
-    	LocalDate today = LocalDate.now();
-        NewMember dailyNewMember = nServ.getDailyNewMember(today);
-        return ResponseEntity.ok(dailyNewMember);
-    }
-    @GetMapping("/getYesterdayMember")
-    public ResponseEntity<NewMember> getYesterdayMember() {
-    	LocalDate yesterday = LocalDate.now().minusDays(1);
-    	NewMember dailyNewMember = nServ.getYesterdayMember(yesterday);
-    	return ResponseEntity.ok(dailyNewMember);
-    }
-    
- 
-    @GetMapping("/agent/newEstate/getAll")
-    public ResponseEntity<List<NewEstateDTO>> newEstateGetAll() {
-    	List<NewEstateDTO> list = neServ.getAll();
-    	return ResponseEntity.ok(list);
-    }
-  //부동산 누적 방문자수
-    @GetMapping("/agent/sum")
-    public ResponseEntity<Integer> agent_sum() {
-        int num = neServ.newEstate_sum();
-        return ResponseEntity.ok(num);
-    }
-  //오늘 공인중개사 등록수
-    @GetMapping("/dailyEstate")
-    public ResponseEntity<NewEstate> getDailyEstate() {
-        LocalDate today = LocalDate.now();
-        NewEstate dailyEstate = neServ.getDailyNewEstate(today);
-        return ResponseEntity.ok(dailyEstate);
-    }
-    @GetMapping("/getYesterdayNewEstate")
-    public ResponseEntity<NewEstate> getYesterdayNewEstate() {
-    	LocalDate yesterday = LocalDate.now().minusDays(1);
-    	NewEstate dailyEstate = neServ.getDailyNewEstate(yesterday);
-    	return ResponseEntity.ok(dailyEstate);
-    }
-    @ExceptionHandler
+	//모든 방문자수
+	@GetMapping("/visitors/getAll")
+	public ResponseEntity<List<VisitorDTO>> visitorsGetAll() {
+		List<VisitorDTO> list = vServ.getAll();
+		return ResponseEntity.ok(list);
+	}
+	//누적 방문자수
+	@GetMapping("/visitors/sum")
+	public ResponseEntity<Integer> sum() {
+		int num = vServ.sum();
+		return ResponseEntity.ok(num);
+	}
+
+
+	@GetMapping("/monthlyVisitors")
+	public ResponseEntity<List<Visitor>> getMonthlyVisitors() {
+		LocalDate startOfMonth = LocalDate.now().withDayOfMonth(1);
+		LocalDate endOfMonth = LocalDate.now().plusMonths(1).withDayOfMonth(1).minusDays(1);
+		List<Visitor> monthlyVisitors = vServ.getMonthlyVisitors(startOfMonth, endOfMonth);
+		return ResponseEntity.ok(monthlyVisitors);
+	}
+
+
+	@GetMapping("/newMember/getAll")
+	public ResponseEntity<List<NewMemberDTO>> newMemberGetAll() {
+		List<NewMemberDTO> list = nServ.getAll();
+		return ResponseEntity.ok(list);
+	}
+	//회원 누적 방문자수
+	@GetMapping("/newMember/sum")
+	public ResponseEntity<Integer> newMember_sum() {
+		int num = nServ.newMember_sum();
+		return ResponseEntity.ok(num);
+	}
+	//오늘 회원등록수
+	@GetMapping("/dailyMember")
+	public ResponseEntity<NewMember> getDailyMember() {
+		LocalDate today = LocalDate.now();
+		NewMember dailyNewMember = nServ.getDailyNewMember(today);
+		return ResponseEntity.ok(dailyNewMember);
+	}
+	@GetMapping("/getYesterdayMember")
+	public ResponseEntity<NewMember> getYesterdayMember() {
+		LocalDate yesterday = LocalDate.now().minusDays(1);
+		NewMember dailyNewMember = nServ.getYesterdayMember(yesterday);
+		return ResponseEntity.ok(dailyNewMember);
+	}
+
+
+	@GetMapping("/agent/newEstate/getAll")
+	public ResponseEntity<List<NewEstateDTO>> newEstateGetAll() {
+		List<NewEstateDTO> list = neServ.getAll();
+		return ResponseEntity.ok(list);
+	}
+	//부동산 누적 방문자수
+	@GetMapping("/agent/sum")
+	public ResponseEntity<Integer> agent_sum() {
+		int num = neServ.newEstate_sum();
+		return ResponseEntity.ok(num);
+	}
+	//오늘 공인중개사 등록수
+	@GetMapping("/dailyEstate")
+	public ResponseEntity<NewEstate> getDailyEstate() {
+		LocalDate today = LocalDate.now();
+		NewEstate dailyEstate = neServ.getDailyNewEstate(today);
+		return ResponseEntity.ok(dailyEstate);
+	}
+	@GetMapping("/getYesterdayNewEstate")
+	public ResponseEntity<NewEstate> getYesterdayNewEstate() {
+		LocalDate yesterday = LocalDate.now().minusDays(1);
+		NewEstate dailyEstate = neServ.getDailyNewEstate(yesterday);
+		return ResponseEntity.ok(dailyEstate);
+	}
+	@ExceptionHandler
 	public ResponseEntity<String> excetion(Exception e){
 		e.printStackTrace();
 		logger.error(e.getMessage());
