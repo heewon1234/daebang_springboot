@@ -146,7 +146,7 @@ public class AgentService {
 
 			// 사진 파일 입력 ->
 			if (images.size() != 0) {
-				String upload = "c:/uploads/agentProfile/";
+				String upload = "/uploads/agentProfile/";
 				File uploadPath = new File(upload);
 				if (!uploadPath.exists()) {
 					uploadPath.mkdir();
@@ -168,13 +168,13 @@ public class AgentService {
 
 	// 사진 파일 삭제
 	public void delServerFile(List<String> delFileList) throws Exception {
-		String filePath = "C:/uploads";
+		String filePath = "/uploads";
 		File uploadFilePath = new File(filePath);
 		if (!uploadFilePath.exists()) {
 			uploadFilePath.mkdir();
 		}
 
-		String realPath = "C:/uploads/agentProfile/";
+		String realPath = "/uploads/agentProfile/";
 		File uploadPath = new File(realPath);
 		if (!uploadPath.exists()) {
 			uploadPath.mkdir();
