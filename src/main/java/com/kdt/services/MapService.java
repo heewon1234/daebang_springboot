@@ -127,11 +127,11 @@ public class MapService {
 		Timestamp timestamp = new Timestamp(currentDate.getTime());
 
 		report.setWriter(reportDTO.getWriter());
-		report.setTaker(reportDTO.getTaker());
-        report.setContent(reportDTO.getContent());
-        report.setEstateId(reportDTO.getEstate_id());
-        report.setContentsCode(reportDTO.getContents_code());
-        report.setStatus_code("rs1");
+//		report.setTaker(reportDTO.getTaker());
+//        report.setContent(reportDTO.getContent());
+//        report.setEstateId(reportDTO.getEstate_id());
+//        report.setContentsCode(reportDTO.getContents_code());
+//        report.setStatus_code("rs1");
         report.setWriteDate(timestamp);
         
         rRepository.save(report);
