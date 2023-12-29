@@ -154,8 +154,6 @@ public class EstateService {
 
 	}
 
-	@Transactional
-
 	public List<EstateDTO> selectById(String loginId) {
 
 		List<Estate> eList = eRepo.findAllByRealEstateAgentEmail(loginId);
@@ -244,18 +242,6 @@ public class EstateService {
 			// 매물 옵션 정보 삭제
 			ueoRepo.deleteByEstateCode(estateId);
 
-			// 사진 파일 삭제 ->
-			// 실제로 지울 파일 이름 검색
-			List<EstateImage> eiList = eiRepo.findAllByParentId(estateId);
-			List<String> delFileList = new ArrayList<>();
-			for (EstateImage image : eiList) {
-				delFileList.add(image.getSysName());
-			}
-			delServerFile(delFileList);
-			// DB에서 삭제
-			eiRepo.deleteByParentId(estateId);
-			// <- 사진 파일 삭제
-
 			// 매물 정보 삭제
 			ueRepo.deleteById(estateId);
 		} catch (Exception e) {
@@ -263,30 +249,6 @@ public class EstateService {
 			e.printStackTrace();
 		}
 
-	}
-
-	// 사진 파일 삭제
-	public void delServerFile(List<String> delFileList) throws Exception {
-		String filePath = "/uploads";
-		File uploadFilePath = new File(filePath);
-		if (!uploadFilePath.exists()) {
-			uploadFilePath.mkdir();
-		}
-
-		String realPath = "/uploads/estateImages/";
-		File uploadPath = new File(realPath);
-		if (!uploadPath.exists()) {
-			uploadPath.mkdir();
-		}
-
-		if (delFileList != null) {
-			for (String delFile : delFileList) {
-				if (delFile != null) {
-					Path path = Paths.get(uploadPath + "/" + delFile);
-					java.nio.file.Files.deleteIfExists(path);
-				}
-			}
-		}
 	}
 
 	// 매물 정보 수정
@@ -311,18 +273,6 @@ public class EstateService {
 			try {
 				// 매물 옵션 정보 삭제
 				ueoRepo.deleteByEstateCode(estateId);
-
-				// 사진 파일 삭제 ->
-				// 실제로 지울 파일 이름 검색
-				List<EstateImage> eiList = eiRepo.findAllByParentId(estateId);
-				List<String> delFileList = new ArrayList<>();
-				for (EstateImage image : eiList) {
-					delFileList.add(image.getSysName());
-				}
-				delServerFile(delFileList);
-				// DB에서 삭제
-				eiRepo.deleteByParentId(estateId);
-				// <- 사진 파일 삭제
 
 				// 매물 옵션 입력 ->
 				for (UploadEstateOptionDTO optionDTO : optionDTOList) {
