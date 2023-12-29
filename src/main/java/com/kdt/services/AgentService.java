@@ -66,7 +66,10 @@ public class AgentService {
 		RealEstateAgent e = aRepo.findById(email).get();
 		aRepo.delete(e);
 	}
-
+	public String getNamebyId(String estateid) {
+		String name = aRepo.findNamebyId(estateid);
+		return name;
+	}
 	public void approve(String email) {
 		RealEstateAgent e = aRepo.findById(email).get();
 		e.setEnabled(true);
