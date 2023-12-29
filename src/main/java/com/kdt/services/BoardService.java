@@ -61,11 +61,11 @@ public class BoardService {
 		List<MultipartFile> multiList = dto.getFiles();
 
 		if(multiList != null && multiList.size() != 0) {
-			String filePath = "C:/uploads";
+			String filePath = "/uploads";
 			File uploadFilePath = new File(filePath);
 			if(!uploadFilePath.exists()) {uploadFilePath.mkdir();}
 
-			String realPath = "C:/uploads/board";
+			String realPath = "/uploads/board";
 			File uploadPath = new File(realPath);
 			if(!uploadPath.exists()) {uploadPath.mkdir();}
 
@@ -105,11 +105,11 @@ public class BoardService {
 		bRepo.save(board);
 
 		if(multiList != null && multiList.size() != 0) {
-			String filePath = "C:/uploads";
+			String filePath = "/uploads";
 			File uploadFilePath = new File(filePath);
 			if(!uploadFilePath.exists()) {uploadFilePath.mkdir();}
 
-			String realPath = "C:/uploads/board";
+			String realPath = "/uploads/board";
 			File uploadPath = new File(realPath);
 			if(!uploadPath.exists()) {uploadPath.mkdir();}
 
@@ -213,11 +213,11 @@ public class BoardService {
 	
 	// 서버 파일 삭제 함수
 	private void delServerFile(String[] delFileList) throws Exception{
-		String filePath = "C:/uploads";
+		String filePath = "/uploads";
 		File uploadFilePath = new File(filePath);
 		if(!uploadFilePath.exists()) {uploadFilePath.mkdir();}
 
-		String realPath = "C:/uploads/board";
+		String realPath = "/uploads/board";
 		File uploadPath = new File(realPath);
 		if(!uploadPath.exists()) {uploadPath.mkdir();}
 
