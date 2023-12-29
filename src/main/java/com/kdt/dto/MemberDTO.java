@@ -1,5 +1,7 @@
 package com.kdt.dto;
 
+import java.sql.Timestamp;
+
 public class MemberDTO {
 	private String id;
 	private String pw;
@@ -11,6 +13,7 @@ public class MemberDTO {
 	private String address2;
 	private String role;
 	private Boolean enabled;
+	private Timestamp signup_date;
 	public MemberDTO() {
 		super();
 	}
@@ -28,6 +31,24 @@ public class MemberDTO {
 		this.address2 = address2;
 		this.role = role;
 		this.enabled = enabled;
+	}
+	
+	
+
+	public MemberDTO(String id, String pw, String name, String phone, String email, String zipcode, String address1,
+			String address2, String role, Boolean enabled, Timestamp signup_date) {
+		super();
+		this.id = id;
+		this.pw = pw;
+		this.name = name;
+		this.phone = phone;
+		this.email = email;
+		this.zipcode = zipcode;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.role = role;
+		this.enabled = enabled;
+		this.signup_date = signup_date;
 	}
 
 	public String getId() {
@@ -89,6 +110,14 @@ public class MemberDTO {
 	}
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public Timestamp getSignup_date() {
+		return signup_date;
+	}
+
+	public void setSignup_date(Timestamp signup_date) {
+		this.signup_date = signup_date;
 	}
 	
 	
