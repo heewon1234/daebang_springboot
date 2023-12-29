@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kdt.controllers.BoardController;
 import com.kdt.domain.entities.AgentProfile;
+import com.kdt.domain.entities.EstateImage;
 import com.kdt.domain.entities.RealEstateAgent;
 import com.kdt.dto.AgentProfileDTO;
 import com.kdt.dto.RealEstateAgentDTO;
