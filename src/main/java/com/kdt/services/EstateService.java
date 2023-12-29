@@ -67,6 +67,7 @@ public class EstateService {
 
 	private final Storage storage = StorageOptions.getDefaultInstance().getService();
 	private final String bucketName = "daebbang_storage";
+	private final String folderName = "estateImages";
 
 	// 관리자 영역
 	// 매물 조회수 등록
@@ -132,8 +133,9 @@ public class EstateService {
 			if (images.size() != 0) {
 
 				for (MultipartFile image : images) {
+					String fileName = image.getOriginalFilename();
 
-					BlobId blobId = BlobId.of(bucketName, image.getOriginalFilename());
+					BlobId blobId = BlobId.of(bucketName, folderName + "/" + fileName);
 					BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
 
 					// 파일을 GCS에 업로드하고 Blob 객체를 받습니다.
@@ -142,7 +144,7 @@ public class EstateService {
 					// 업로드된 파일의 URL을 반환합니다.
 					String sysName = blob.getMediaLink();
 
-					eiRepo.save(new EstateImage(null, image.getOriginalFilename(), sysName, parentSeq));
+					eiRepo.save(new EstateImage(null, fileName, sysName, parentSeq));
 				}
 			}
 			// <- 사진 파일 입력
@@ -285,18 +287,20 @@ public class EstateService {
 
 				// 사진 파일 입력 ->
 				if (images.size() != 0) {
-					String upload = "/uploads/estateImages/";
-					File uploadPath = new File(upload);
-					if (!uploadPath.exists()) {
-						uploadPath.mkdir();
-					}
 
 					for (MultipartFile image : images) {
-						String oriName = image.getOriginalFilename();
-						String sysName = UUID.randomUUID() + "_" + oriName;
+						String fileName = image.getOriginalFilename();
 
-						image.transferTo(new File(uploadPath, sysName));
-						eiRepo.save(new EstateImage(null, oriName, sysName, estateId));
+						BlobId blobId = BlobId.of(bucketName, folderName + "/" + fileName);
+						BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+
+						// 파일을 GCS에 업로드하고 Blob 객체를 받습니다.
+						Blob blob = storage.create(blobInfo, image.getBytes());
+						System.out.println(blob.getMediaLink());
+						// 업로드된 파일의 URL을 반환합니다.
+						String sysName = blob.getMediaLink();
+
+						eiRepo.save(new EstateImage(null, fileName, sysName, estateId));
 					}
 				}
 				// <- 사진 파일 입력
