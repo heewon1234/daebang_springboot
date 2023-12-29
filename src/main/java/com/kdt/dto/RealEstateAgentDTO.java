@@ -19,7 +19,24 @@ private String email;
 	private Long report_Count;
 	private Instant signupDate;
 	
-
+	public RealEstateAgentDTO(String email, String pw, String estateName, String estateNumber, String name,
+			String address, String phone, double manners_temperature, double latitude, double longitude, String role,
+			boolean enabled, String content) {
+		super();
+		this.email = email;
+		this.pw = pw;
+		this.estateName = estateName;
+		this.estateNumber = estateNumber;
+		this.name = name;
+		this.address = address;
+		this.phone = phone;
+		this.manners_temperature = manners_temperature;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.role = role;
+		this.enabled = enabled;
+		this.content = content;
+	}
 	public RealEstateAgentDTO(String email, String pw, String estateName, String estateNumber, String name,
 			String address, String phone, double manners_temperature, double latitude, double longitude, String role,
 			boolean enabled, String content, Long report_Count, Instant signupDate) {
