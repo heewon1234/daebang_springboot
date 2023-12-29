@@ -52,6 +52,10 @@ public class MemberService {
 		Member m = mMapper.toEntity(dto);
 		mRepo.save(m);
 	}
+	public String getNamebyId(String userid){
+		String name = mRepo.findNamebyId(userid);
+		return name;
+	}
 	//관리자 회원관리
 	public List<MemberDTO> getMember(){
 		List<Member> list = mRepo.findByRole("ROLE_MEMBER");
