@@ -1,5 +1,6 @@
 package com.kdt.services;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +45,10 @@ public class MemberService {
 		dto.setEnabled(true);
 		String hashedPassword = passwordEncoder.encode(dto.getPw());
 		dto.setPw(hashedPassword);
+		
+		long currentTimeMillis = System.currentTimeMillis();
+        Timestamp timestamp = new Timestamp(currentTimeMillis);
+		dto.setSignup_date(timestamp);
 		Member m = mMapper.toEntity(dto);
 		mRepo.save(m);
 	}
