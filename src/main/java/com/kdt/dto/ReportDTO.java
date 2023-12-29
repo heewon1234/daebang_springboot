@@ -1,10 +1,9 @@
 package com.kdt.dto;
 
-import java.time.Instant;
+import java.sql.Timestamp;
 
 import com.kdt.domain.entities.Estate;
 import com.kdt.domain.entities.RealEstateAgent;
-import com.kdt.domain.entities.Report;
 import com.kdt.domain.entities.ReportContents;
 import com.kdt.domain.entities.ReportStatus;
 
@@ -16,37 +15,33 @@ public class ReportDTO {
 	private String taker;//중개사
 	private Long estate_id;
 	private String status_code;
-	private Instant writeDate;
+	private Timestamp writeDate;
 	
 	private Estate estate;
 	private RealEstateAgent realEstateAgent;
 	private ReportContents reportContents;
 	private ReportStatus reportStatus;
 	
-	public ReportDTO(Report report) {
-        // Report 객체에서 필요한 값을 추출하여 DTO에 매핑
-		this.seq = report.getSeq();
-        this.estate_id = report.getEstate().getEstateId();
-        this.taker = report.getRealEstateAgent().getEstateName();
-        this.contents_code = report.getReportContents().getContent();
-        this.writer = report.getWriter();
-        this.writeDate = report.getWriteDate().toInstant();
-    }
-
+	
 	public ReportDTO(Long seq, String contents_code, String content, String writer, String taker, Long estate_id,
-			String status_code, Instant writeDate, Estate estate, RealEstateAgent realEstateAgent,
+			String status_code, Timestamp writeDate, Estate estate, RealEstateAgent realEstateAgent,
 			ReportContents reportContents, ReportStatus reportStatus) {
 		super();
 		this.seq = seq;
-		this.contents_code = reportContents.getContent();
+		this.contents_code = contents_code;
 		this.content = content;
 		this.writer = writer;
-		this.taker = realEstateAgent.getEstateName();
-		this.estate_id = estate.getEstateId();
-		this.status_code = reportStatus.getStatus();
+		this.taker = taker;
+		this.estate_id = estate_id;
+		this.status_code = status_code;
 		this.writeDate = writeDate;
+		this.estate = estate;
+		this.realEstateAgent = realEstateAgent;
+		this.reportContents = reportContents;
+		this.reportStatus = reportStatus;
 	}
-	
+
+
 	public String getContents_code() {
 		return contents_code;
 	}
@@ -107,12 +102,12 @@ public class ReportDTO {
 	}
 
 
-	public Instant getWriteDate() {
+	public Timestamp getWriteDate() {
 		return writeDate;
 	}
 
 
-	public void setWriteDate(Instant writeDate) {
+	public void setWriteDate(Timestamp writeDate) {
 		this.writeDate = writeDate;
 	}
 
