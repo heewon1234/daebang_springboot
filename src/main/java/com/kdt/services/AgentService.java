@@ -50,12 +50,20 @@ public class AgentService {
 	private final PasswordEncoder passwordEncoder;
 	
 	private static final Logger logger = LoggerFactory.getLogger(AgentService.class);
+	
+	
 
 	// @Autowired
 	public AgentService(PasswordEncoder passwordEncoder) {
 		this.passwordEncoder = passwordEncoder;
 	}
-
+	//관리자 중개사 관리 내림차순
+	public List<RealEstateAgentDTO> getAllDESC() {
+		List<RealEstateAgent> list = aRepo.findAllByOrderBySignupDateDesc();
+		List<RealEstateAgentDTO> dtos = aMapper.toDtoList(list);
+		return dtos;
+	}
+	
 	public List<RealEstateAgentDTO> getAll() {
 		List<RealEstateAgent> list = aRepo.findAll();
 		List<RealEstateAgentDTO> dtos = aMapper.toDtoList(list);
@@ -110,14 +118,14 @@ public class AgentService {
 	}
 
 	// 공인중개사 정보 변경
-	public void updateMyInfo(UpdateEstateDTO dto) {
-		RealEstateAgent a = aRepo.findById(dto.getId()).get();
-		RealEstateAgentDTO adto = new RealEstateAgentDTO(a.getEmail(), a.getPw(), a.getEstateName(),
-				a.getEstateNumber(), dto.getName(), dto.getAddress(), dto.getPhone(), a.getManners_temperature(),
-				dto.getLatitude(), dto.getLongitude(), a.getRole(), a.isEnabled(),dto.getContent());
-		aMapper.updateEntityFromDTO(adto, a);
-		aRepo.save(a);
-	}
+//	public void updateMyInfo(UpdateEstateDTO dto) {
+//		RealEstateAgent a = aRepo.findById(dto.getId()).get();
+//		RealEstateAgentDTO adto = new RealEstateAgentDTO(a.getEmail(), a.getPw(), a.getEstateName(),
+//				a.getEstateNumber(), dto.getName(), dto.getAddress(), dto.getPhone(), a.getManners_temperature(),
+//				dto.getLatitude(), dto.getLongitude(), a.getRole(), a.isEnabled(),dto.getContent());
+//		aMapper.updateEntityFromDTO(adto, a);
+//		aRepo.save(a);
+//	}
 
 	public List<RealEstateAgentDTO> getId(String name, String phone) {
 		List<RealEstateAgent> list = aRepo.selectbynamephone(name, phone);

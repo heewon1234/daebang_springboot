@@ -182,7 +182,7 @@ public class AdminController {
 	@GetMapping("/agent/getAll")
     public ResponseEntity<List<RealEstateAgentDTO>> getAll() {
     	try {
-    		List<RealEstateAgentDTO> dto = aServ.getAll();
+    		List<RealEstateAgentDTO> dto = aServ.getAllDESC();
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
             // 예외가 발생한 경우 처리
