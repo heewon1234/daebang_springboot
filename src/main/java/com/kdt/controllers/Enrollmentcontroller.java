@@ -22,11 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdt.dto.NewEstateDTO;
-import com.kdt.dto.NewMemberDTO;
 import com.kdt.dto.RealEstateAgentDTO;
 import com.kdt.services.AgentService;
 import com.kdt.services.NewEstateService;
-import com.kdt.services.NewMemberService;
 
 @RestController
 @RequestMapping("/api/enrollment")
@@ -49,7 +47,7 @@ public class Enrollmentcontroller {
 
 			// URL 및 파라미터 설정
 			String urlString = apiUrl + "?key=" + authKey +
-					"&domain=http://localhost:3000" +
+					"&domain=http://localhost" +
 					"&sttusSeCode=1" +
 					"&ldCode=44" +
 					"&format=json" +
@@ -70,11 +68,13 @@ public class Enrollmentcontroller {
 
 			// 응답 처리
 			BufferedReader in;
+			
 			StringBuilder response = new StringBuilder();
 			if (responseCode >= 200 && responseCode < 300) {
-				in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				in = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+				
 			} else {
-				in = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+				in = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
 			}
 
 			String inputLine;
@@ -82,11 +82,7 @@ public class Enrollmentcontroller {
 				response.append(inputLine);
 			}
 			in.close();
-
-			// 응답 출력
-			System.out.println("response.toString()"+response.toString());
-			logger.debug("response.toString()"+response.toString());
-
+			System.out.println("서버 요청"+response.toString());
 			return ResponseEntity.ok().body(response.toString());
 		} catch (IOException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
