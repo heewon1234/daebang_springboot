@@ -27,6 +27,8 @@ public interface AgentRepository extends JpaRepository<RealEstateAgent, String> 
 	
 	List<RealEstateAgent> findAllByEmail(String email);
 	
+	RealEstateAgent findByEmail(String email);
+	
 	List<RealEstateAgent> findByNameAndPhoneAndEmail(String name,String phone,String email);
 	
 	List<RealEstateAgent> findAllByOrderBySignupDateDesc();
