@@ -5,6 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,6 +54,9 @@ public class BoardController {
 	// 게시글 수정
 	@PutMapping
 	public ResponseEntity<Void> editBoardContents(BoardUploadDTO dto, String[] delImgList, String[] delFileList) throws Exception{
+		if(!dto.getWriter().equals(getUser().getUsername())) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		}
 		dto.setWriter(getUser().getUsername());
 		bServ.editBoardContents(dto, delImgList, delFileList);
 		return ResponseEntity.ok().build();
