@@ -133,18 +133,12 @@ public class EstateService {
 			if (images.size() != 0) {
 
 				for (MultipartFile image : images) {
-					String fileName = image.getOriginalFilename();
+					String oriName = image.getOriginalFilename();
+					String sysName = UUID.randomUUID() + "_" + oriName;
 
-					BlobId blobId = BlobId.of(bucketName, folderName + "/" + fileName);
-					BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+					fileInsert(image, sysName, folderName);
 
-					// 파일을 GCS에 업로드하고 Blob 객체를 받습니다.
-					Blob blob = storage.create(blobInfo, image.getBytes());
-					System.out.println(blob.getMediaLink());
-					// 업로드된 파일의 URL을 반환합니다.
-					String sysName = blob.getMediaLink();
-
-					eiRepo.save(new EstateImage(null, fileName, sysName, parentSeq));
+					eiRepo.save(new EstateImage(null, oriName, sysName, parentSeq));
 				}
 			}
 			// <- 사진 파일 입력
@@ -289,18 +283,12 @@ public class EstateService {
 				if (images.size() != 0) {
 
 					for (MultipartFile image : images) {
-						String fileName = image.getOriginalFilename();
+						String oriName = image.getOriginalFilename();
+						String sysName = UUID.randomUUID() + "_" + oriName;
 
-						BlobId blobId = BlobId.of(bucketName, folderName + "/" + fileName);
-						BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+						fileInsert(image, sysName, folderName);
 
-						// 파일을 GCS에 업로드하고 Blob 객체를 받습니다.
-						Blob blob = storage.create(blobInfo, image.getBytes());
-						System.out.println(blob.getMediaLink());
-						// 업로드된 파일의 URL을 반환합니다.
-						String sysName = blob.getMediaLink();
-
-						eiRepo.save(new EstateImage(null, fileName, sysName, estateId));
+						eiRepo.save(new EstateImage(null, oriName, sysName, estateId));
 					}
 				}
 				// <- 사진 파일 입력
@@ -352,5 +340,13 @@ public class EstateService {
 		logger.debug("estate: " + estate);
 
 		eRepo.save(estate);
+	}
+
+	// 파일 입력
+	@Transactional
+	public void fileInsert(MultipartFile files, String sysName, String realPath) throws Exception {
+		BlobId blobId = BlobId.of(bucketName, realPath + "/" + sysName);
+		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+		Blob blob = storage.create(blobInfo, files.getBytes());
 	}
 }
