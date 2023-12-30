@@ -24,11 +24,11 @@ public class ReportController {
 	@Autowired
 	private ReportService rServ;
 	
-	@GetMapping("selectAll")
-	public ResponseEntity<List<ReportDTO>> selectAll() {
-		List<ReportDTO> list = rServ.selectAll();
-		return ResponseEntity.ok(list);
-	}
+//	@GetMapping("selectAll")
+//	public ResponseEntity<List<ReportDTO>> selectAll() {
+//		List<ReportDTO> list = rServ.selectAll();
+//		return ResponseEntity.ok(list);
+//	}
 	
 	@GetMapping("myReport/{id}")
 	public ResponseEntity<List<MyReportDTO>> myReport(@PathVariable String id) {

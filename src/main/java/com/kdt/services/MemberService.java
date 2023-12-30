@@ -48,7 +48,7 @@ public class MemberService {
 		
 		long currentTimeMillis = System.currentTimeMillis();
         Timestamp timestamp = new Timestamp(currentTimeMillis);
-		dto.setSignup_date(timestamp);
+		dto.setsignupDate(timestamp);
 		Member m = mMapper.toEntity(dto);
 		mRepo.save(m);
 	}
@@ -58,7 +58,7 @@ public class MemberService {
 	}
 	//관리자 회원관리
 	public List<MemberDTO> getMember(){
-		List<Member> list = mRepo.findByRole("ROLE_MEMBER");
+		List<Member> list = mRepo.findAllByRoleOrderBySignupDateDesc("ROLE_MEMBER");
 		List<MemberDTO> dtos = mMapper.toDtoList(list);
 		return dtos;
 	}

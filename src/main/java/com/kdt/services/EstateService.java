@@ -16,6 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import com.kdt.domain.entities.Estate;
 import com.kdt.domain.entities.EstateImage;
 import com.kdt.domain.entities.RealEstateViews;
@@ -59,36 +64,41 @@ public class EstateService {
 	private EstateRepository eRepo;
 	@Autowired
 	private RealEstateViewsRepository rRepo;
-	
-	//관리자 영역
-	//매물 조회수 등록
-	
-	public void increaseViewCount(Long estateId) {
-	    RealEstateViews views = rRepo.findByEstate_EstateId(estateId);
-	    logger.debug("views : "+ views);
 
-	    if (views != null) {
-	        views.setViewCount(views.getViewCount() + 1);
-	    } else {
-	        views = new RealEstateViews();
-	        views.setViewCount(1);
-	        views.setEstateId(estateId); // 어떤 estate에 대한 조회수인지 설정해야 합니다.
-	    }
-	    rRepo.save(views);
+	private final Storage storage = StorageOptions.getDefaultInstance().getService();
+	private final String bucketName = "daebbang_storage";
+	private final String folderName = "estateImages";
+
+	// 관리자 영역
+	// 매물 조회수 등록
+
+	public void increaseViewCount(Long estateId) {
+		RealEstateViews views = rRepo.findByEstate_EstateId(estateId);
+		logger.debug("views : " + views);
+
+		if (views != null) {
+			views.setViewCount(views.getViewCount() + 1);
+		} else {
+			views = new RealEstateViews();
+			views.setViewCount(1);
+			views.setEstateId(estateId); // 어떤 estate에 대한 조회수인지 설정해야 합니다.
+		}
+		rRepo.save(views);
 	}
 
-
-	//통계
+	// 통계
 	public List<Object[]> countByRoomCode() {
 		return eRepo.countByRoom();
 	}
+
 	public Long countEstate() {
 		return eRepo.countByEstate();
 	}
+
 	public Long countTodayByEstate() {
 		return eRepo.countTodayByEstate();
 	}
-	
+
 	@Transactional
 	public void insertEstate(UploadEstateDTO dto, List<UploadEstateOptionDTO> optionDTOList,
 			List<MultipartFile> images) {
@@ -121,21 +131,24 @@ public class EstateService {
 
 			// 사진 파일 입력 ->
 			if (images.size() != 0) {
-				String upload = "/uploads/estateImages/";
-				File uploadPath = new File(upload);
-				if (!uploadPath.exists()) {
-					uploadPath.mkdir();
-				}
 
 				for (MultipartFile image : images) {
-					String oriName = image.getOriginalFilename();
-					String sysName = UUID.randomUUID() + "_" + oriName;
+					String fileName = image.getOriginalFilename();
 
-					image.transferTo(new File(uploadPath, sysName));
-					eiRepo.save(new EstateImage(null, oriName, sysName, parentSeq));
+					BlobId blobId = BlobId.of(bucketName, folderName + "/" + fileName);
+					BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+
+					// 파일을 GCS에 업로드하고 Blob 객체를 받습니다.
+					Blob blob = storage.create(blobInfo, image.getBytes());
+					System.out.println(blob.getMediaLink());
+					// 업로드된 파일의 URL을 반환합니다.
+					String sysName = blob.getMediaLink();
+
+					eiRepo.save(new EstateImage(null, fileName, sysName, parentSeq));
 				}
 			}
 			// <- 사진 파일 입력
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -146,10 +159,10 @@ public class EstateService {
 	public List<EstateDTO> selectById(String loginId) {
 
 		List<Estate> eList = eRepo.findAllByRealEstateAgentEmail(loginId);
-		
+
 		List<EstateDTO> list = eMapper.toDtoList(eList);
-		
-		for(EstateDTO dto : list) {
+
+		for (EstateDTO dto : list) {
 			dto.getRealEstateAgent().setPw(null);
 		}
 
@@ -160,49 +173,52 @@ public class EstateService {
 		List<Estate> eList = eRepo.findAllBySoldStatusFalse();
 		List<EstateDTO> list = eMapper.toDtoList(eList);
 
-		for(EstateDTO dto : list) {
+		for (EstateDTO dto : list) {
 			dto.getRealEstateAgent().setPw(null);
 		}
-		
+
 		return list;
 	}
+
 	public List<EstateDTO> selectLimitAll() {
 		List<Estate> eList = eRepo.findTop6ByOrderByEstateIdDesc();
 		logger.debug(eList.get(3).getAddress1());
 		List<EstateDTO> list = eMapper.toDtoList(eList);
-		
-		for(EstateDTO dto : list) {
+
+		for (EstateDTO dto : list) {
 			dto.getRealEstateAgent().setPw(null);
 		}
-		
+
 		return list;
 	}
+
 	public List<EstateDTO> selectWatchAll(List<Long> recent) {
-	    // ID 순서를 유지하기 위해 LinkedHashMap 사용
-	    Map<Long, Estate> estateMap = new LinkedHashMap<>();
-	    for (Long id : recent) {
-	        Estate estate = eRepo.findById(id).orElse(null);
-	        if (estate != null) {
-	            estateMap.put(id, estate);
-	        }
-	    }
-	    List<EstateDTO> list = eMapper.toDtoList(new ArrayList<>(estateMap.values()));
-	    
-	    for(EstateDTO dto : list) {
+		// ID 순서를 유지하기 위해 LinkedHashMap 사용
+		Map<Long, Estate> estateMap = new LinkedHashMap<>();
+		for (Long id : recent) {
+			Estate estate = eRepo.findById(id).orElse(null);
+			if (estate != null) {
+				estateMap.put(id, estate);
+			}
+		}
+		List<EstateDTO> list = eMapper.toDtoList(new ArrayList<>(estateMap.values()));
+
+		for (EstateDTO dto : list) {
 			dto.getRealEstateAgent().setPw(null);
 		}
-	    
-	    return list;
+
+		return list;
 	}
+
 	public List<String> selectImageAll(List<Long> recent) {
-	    List<String> resultList = new ArrayList<>();
+		List<String> resultList = new ArrayList<>();
 
-	    for (Long parentId : recent) {
-	        List<String> sysNameList = eiRepo.selectbyparentIdordertBySeq(parentId);
-	        resultList.addAll(sysNameList);
-	    }
+		for (Long parentId : recent) {
+			List<String> sysNameList = eiRepo.selectbyparentIdordertBySeq(parentId);
+			resultList.addAll(sysNameList);
+		}
 
-	    return resultList;
+		return resultList;
 	}
 
 	public UploadEstateDTO selectById(Long estateId) {
@@ -215,7 +231,7 @@ public class EstateService {
 	public EstateDTO getById(Long estateId) {
 		Estate estate = eRepo.findById(estateId).get();
 		EstateDTO dto = eMapper.toDto(estate);
-		
+
 		dto.getRealEstateAgent().setPw(null);
 
 		return dto;
@@ -228,18 +244,6 @@ public class EstateService {
 			// 매물 옵션 정보 삭제
 			ueoRepo.deleteByEstateCode(estateId);
 
-			// 사진 파일 삭제 ->
-			// 실제로 지울 파일 이름 검색
-			List<EstateImage> eiList = eiRepo.findAllByParentId(estateId);
-			List<String> delFileList = new ArrayList<>();
-			for (EstateImage image : eiList) {
-				delFileList.add(image.getSysName());
-			}
-			delServerFile(delFileList);
-			// DB에서 삭제
-			eiRepo.deleteByParentId(estateId);
-			// <- 사진 파일 삭제
-
 			// 매물 정보 삭제
 			ueRepo.deleteById(estateId);
 		} catch (Exception e) {
@@ -247,30 +251,6 @@ public class EstateService {
 			e.printStackTrace();
 		}
 
-	}
-
-	// 사진 파일 삭제
-	public void delServerFile(List<String> delFileList) throws Exception {
-		String filePath = "/uploads";
-		File uploadFilePath = new File(filePath);
-		if (!uploadFilePath.exists()) {
-			uploadFilePath.mkdir();
-		}
-
-		String realPath = "/uploads/estateImages/";
-		File uploadPath = new File(realPath);
-		if (!uploadPath.exists()) {
-			uploadPath.mkdir();
-		}
-
-		if (delFileList != null) {
-			for (String delFile : delFileList) {
-				if (delFile != null) {
-					Path path = Paths.get(uploadPath + "/" + delFile);
-					java.nio.file.Files.deleteIfExists(path);
-				}
-			}
-		}
 	}
 
 	// 매물 정보 수정
@@ -296,18 +276,6 @@ public class EstateService {
 				// 매물 옵션 정보 삭제
 				ueoRepo.deleteByEstateCode(estateId);
 
-				// 사진 파일 삭제 ->
-				// 실제로 지울 파일 이름 검색
-				List<EstateImage> eiList = eiRepo.findAllByParentId(estateId);
-				List<String> delFileList = new ArrayList<>();
-				for (EstateImage image : eiList) {
-					delFileList.add(image.getSysName());
-				}
-				delServerFile(delFileList);
-				// DB에서 삭제
-				eiRepo.deleteByParentId(estateId);
-				// <- 사진 파일 삭제
-
 				// 매물 옵션 입력 ->
 				for (UploadEstateOptionDTO optionDTO : optionDTOList) {
 					UploadEstateOption option = ueoMapper.toEntity(optionDTO);
@@ -319,18 +287,20 @@ public class EstateService {
 
 				// 사진 파일 입력 ->
 				if (images.size() != 0) {
-					String upload = "/uploads/estateImages/";
-					File uploadPath = new File(upload);
-					if (!uploadPath.exists()) {
-						uploadPath.mkdir();
-					}
 
 					for (MultipartFile image : images) {
-						String oriName = image.getOriginalFilename();
-						String sysName = UUID.randomUUID() + "_" + oriName;
+						String fileName = image.getOriginalFilename();
 
-						image.transferTo(new File(uploadPath, sysName));
-						eiRepo.save(new EstateImage(null, oriName, sysName, estateId));
+						BlobId blobId = BlobId.of(bucketName, folderName + "/" + fileName);
+						BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+
+						// 파일을 GCS에 업로드하고 Blob 객체를 받습니다.
+						Blob blob = storage.create(blobInfo, image.getBytes());
+						System.out.println(blob.getMediaLink());
+						// 업로드된 파일의 URL을 반환합니다.
+						String sysName = blob.getMediaLink();
+
+						eiRepo.save(new EstateImage(null, fileName, sysName, estateId));
 					}
 				}
 				// <- 사진 파일 입력
@@ -369,18 +339,18 @@ public class EstateService {
 	public EstateDTO selectEstate(Long id) {
 		Estate e = eRepo.findById(id).get();
 		EstateDTO edto = eMapper.toDto(e);
-		
+
 		edto.getRealEstateAgent().setPw(null);
-		
+
 		return edto;
 	}
-	
+
 	public void updateStatus(Long estateId) {
 		Estate estate = eRepo.findById(estateId).get();
 		estate.setSoldStatus(!estate.isSoldStatus());
 
 		logger.debug("estate: " + estate);
-		
+
 		eRepo.save(estate);
 	}
 }
