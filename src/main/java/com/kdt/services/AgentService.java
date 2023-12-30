@@ -1,5 +1,6 @@
 package com.kdt.services;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -94,7 +95,11 @@ public class AgentService {
 	public void signup(RealEstateAgentDTO RealEstateAgentDTO) {
 		String crypPw = passwordEncoder.encode(RealEstateAgentDTO.getPw());
 		RealEstateAgentDTO.setPw(crypPw);
+		long currentTimeMillis = System.currentTimeMillis();
+        Timestamp timestamp = new Timestamp(currentTimeMillis);
+        RealEstateAgentDTO.setSignupDate(timestamp);
 		RealEstateAgentDTO.setManners_temperature(36.5);
+		RealEstateAgentDTO.setReport_Count(0L);
 		RealEstateAgent e = aMapper.toEntity(RealEstateAgentDTO);
 		aRepo.save(e);
 	}
