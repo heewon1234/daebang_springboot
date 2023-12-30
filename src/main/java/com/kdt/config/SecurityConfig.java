@@ -105,7 +105,16 @@ public class SecurityConfig {
 		.requestMatchers(new AntPathRequestMatcher("/api/member/getAll")).hasRole("ADMIN")
 		.requestMatchers(new AntPathRequestMatcher("/api/reviewApproval/admin/**")).hasRole("ADMIN")
 		.requestMatchers(new AntPathRequestMatcher("/api/admin/**")).hasRole("ADMIN")
-		.requestMatchers(new AntPathRequestMatcher("/**")).permitAll();
+		.requestMatchers(new AntPathRequestMatcher("/api/board/insertBoardContents")).authenticated()
+		.requestMatchers(new AntPathRequestMatcher("/api/board/editBoardContents")).authenticated()
+		.requestMatchers(new AntPathRequestMatcher("/api/board/delBoardContents")).authenticated()
+		.requestMatchers(new AntPathRequestMatcher("/api/favoriteBoard/**")).authenticated()
+		.requestMatchers(new AntPathRequestMatcher("/api/file/upload")).authenticated()
+		.requestMatchers(new AntPathRequestMatcher("/api/review/insertReview")).authenticated()
+		.requestMatchers(new AntPathRequestMatcher("/api/review/delReviewBySeq")).authenticated()
+		.requestMatchers(new AntPathRequestMatcher("/api/review/updateReview")).authenticated()
+		.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
+		;
 		
 		return http.build();
 	}
