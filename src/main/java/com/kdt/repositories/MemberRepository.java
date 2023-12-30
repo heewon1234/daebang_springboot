@@ -13,6 +13,8 @@ public interface MemberRepository extends JpaRepository<Member, String>{
 	List<Member> findByIdAndEmail(String id,String email);
 	List<Member> findByRole(String role);
 	
+	List<Member> findAllByRoleOrderBySignupDateDesc(String role);
+	
 	@Query("select m from Member m where m.email = ?1")
 	List<Member> selectbyemail(String email);
 	

@@ -51,33 +51,6 @@ public class Report {
 	@JoinColumn(name = "status_code", referencedColumnName = "id")
 	private ReportStatus reportStatus;
 
-	public void setTaker(String email) {
-	    if (this.realEstateAgent == null) {
-	        this.realEstateAgent = new RealEstateAgent();
-	    }
-	    this.realEstateAgent.setEmail(email);
-	}
-	public void setContentsCode(String id) {
-	    if (this.reportContents == null) {
-	        this.reportContents = new ReportContents();
-	    }
-	    this.reportContents.setId(id);
-	}
-	public void setEstateId(Long estateId) {
-	    if (this.estate == null) {
-	        this.estate = new Estate();
-	    }
-	    this.estate.setEstateId(estateId);
-	}public void setStatus_code(String id) {
-	    if (this.reportStatus == null) {
-	        this.reportStatus = new ReportStatus();
-	    }
-	    this.reportStatus.setId(id);
-	}
-
-
-
-
 
 
 
@@ -97,19 +70,9 @@ public class Report {
 
 
 
-
-
-
-
-
 	public Long getSeq() {
 		return seq;
 	}
-
-
-
-
-
 
 
 
@@ -121,19 +84,9 @@ public class Report {
 
 
 
-
-
-
-
-
 	public String getWriter() {
 		return writer;
 	}
-
-
-
-
-
 
 
 
@@ -145,19 +98,9 @@ public class Report {
 
 
 
-
-
-
-
-
 	public String getContent() {
 		return content;
 	}
-
-
-
-
-
 
 
 
@@ -169,19 +112,9 @@ public class Report {
 
 
 
-
-
-
-
-
 	public Timestamp getWriteDate() {
 		return writeDate;
 	}
-
-
-
-
-
 
 
 
@@ -193,19 +126,9 @@ public class Report {
 
 
 
-
-
-
-
-
 	public Estate getEstate() {
 		return estate;
 	}
-
-
-
-
-
 
 
 
@@ -217,19 +140,9 @@ public class Report {
 
 
 
-
-
-
-
-
 	public RealEstateAgent getRealEstateAgent() {
 		return realEstateAgent;
 	}
-
-
-
-
-
 
 
 
@@ -241,19 +154,9 @@ public class Report {
 
 
 
-
-
-
-
-
 	public ReportContents getReportContents() {
 		return reportContents;
 	}
-
-
-
-
-
 
 
 
@@ -265,11 +168,6 @@ public class Report {
 
 
 
-
-
-
-
-
 	public ReportStatus getReportStatus() {
 		return reportStatus;
 	}
@@ -277,19 +175,9 @@ public class Report {
 
 
 
-
-
-
-
-
 	public void setReportStatus(ReportStatus reportStatus) {
 		this.reportStatus = reportStatus;
 	}
-
-
-
-
-
 
 
 

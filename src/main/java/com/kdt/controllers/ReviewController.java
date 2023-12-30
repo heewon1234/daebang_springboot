@@ -3,6 +3,7 @@ package com.kdt.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -70,6 +71,11 @@ public class ReviewController {
 	// 리뷰 수정
 	@PutMapping("/{seq}")
 	public ResponseEntity<Void> updateReview(@PathVariable Long seq, UploadReviewDTO dto, String[] delFileList) throws Exception{
+		
+		if(!dto.getId().equals(getUser().getUsername())){
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		}
+		
 		dto.setSeq(seq);
 		dto.setId(getUser().getUsername());
 		rServ.updateReview(dto, delFileList);

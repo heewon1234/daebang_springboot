@@ -6,6 +6,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import com.kdt.domain.entities.Review;
+import com.kdt.domain.entities.UploadReview;
 import com.kdt.dto.ReviewDTO;
 import com.kdt.dto.UploadReviewDTO;
 
@@ -14,6 +15,8 @@ public interface ReviewMapper extends GenericMapper<ReviewDTO,Review>{
 
 	Review toEntity(UploadReviewDTO dto);
 
+	
+	UploadReview toEntityUp(UploadReviewDTO dto);
 	
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	void updateEntityFromDTO(UploadReviewDTO dto, @MappingTarget Review review);
