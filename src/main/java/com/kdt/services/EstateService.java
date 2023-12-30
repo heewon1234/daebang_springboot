@@ -66,7 +66,7 @@ public class EstateService {
 	private RealEstateViewsRepository rRepo;
 
 	private final Storage storage = StorageOptions.getDefaultInstance().getService();
-	private final String bucketName = "daebbang_storage";
+	private final String bucketName = "daebbang";
 	private final String folderName = "estateImages";
 
 	// 관리자 영역
@@ -279,6 +279,9 @@ public class EstateService {
 				}
 				// <- 매물 옵션 입력
 
+				// DB에서 이미지 삭제
+				eiRepo.deleteByParentId(estateId);
+				
 				// 사진 파일 입력 ->
 				if (images.size() != 0) {
 
