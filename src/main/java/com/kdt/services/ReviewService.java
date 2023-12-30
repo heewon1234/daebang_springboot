@@ -112,7 +112,7 @@ public class ReviewService {
 
 	// 리뷰 목록 불러오기
 	public List<ReviewDTO> selectReviewByEstateId(Long estateId){
-		return rMapper.toDtoList(rRepo.findByEstateId(estateId));
+		return rMapper.toDtoList(rRepo.findByEstateIdOrderBySeqDesc(estateId));
 	}
 
 	public List<ReviewDTO> selectReviewByAgent(String estateNumber){
@@ -128,6 +128,7 @@ public class ReviewService {
 
 	// 리뷰 수정 - 내용 가져오기
 	public ReviewDTO selectReviewBySeq(Long seq) {
+		System.out.println("d");
 		return rMapper.toDto(rRepo.findById(seq).get());	
 	}
 
