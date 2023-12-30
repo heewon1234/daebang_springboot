@@ -20,6 +20,7 @@ import com.kdt.domain.entities.AgentProfile;
 import com.kdt.domain.entities.RealEstateAgent;
 import com.kdt.dto.AgentProfileDTO;
 import com.kdt.dto.RealEstateAgentDTO;
+import com.kdt.dto.UpdateEstateDTO;
 import com.kdt.mappers.AgentMapper;
 import com.kdt.mappers.AgentProfileMapper;
 import com.kdt.mappers.NewEstateMapper;
@@ -124,14 +125,14 @@ public class AgentService {
 	}
 
 	// 공인중개사 정보 변경
-//	public void updateMyInfo(UpdateEstateDTO dto) {
-//		RealEstateAgent a = aRepo.findById(dto.getId()).get();
-//		RealEstateAgentDTO adto = new RealEstateAgentDTO(a.getEmail(), a.getPw(), a.getEstateName(),
-//				a.getEstateNumber(), dto.getName(), dto.getAddress(), dto.getPhone(), a.getManners_temperature(),
-//				dto.getLatitude(), dto.getLongitude(), a.getRole(), a.isEnabled(),dto.getContent());
-//		aMapper.updateEntityFromDTO(adto, a);
-//		aRepo.save(a);
-//	}
+	public void updateMyInfo(UpdateEstateDTO dto) {
+		RealEstateAgent a = aRepo.findById(dto.getId()).get();
+		RealEstateAgentDTO adto = new RealEstateAgentDTO(a.getEmail(), a.getPw(), a.getEstateName(),
+				a.getEstateNumber(), dto.getName(), dto.getAddress(), dto.getPhone(), a.getManners_temperature(),
+				dto.getLatitude(), dto.getLongitude(), a.getRole(), a.isEnabled(),dto.getContent(), a.getReport_Count(), a.getSignupDate());
+		aMapper.updateEntityFromDTO(adto, a);
+		aRepo.save(a);
+	}
 
 	public List<RealEstateAgentDTO> getId(String name, String phone) {
 		List<RealEstateAgent> list = aRepo.selectbynamephone(name, phone);

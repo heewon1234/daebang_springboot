@@ -64,11 +64,11 @@ public class EstateAgentController {
 		String name = aServ.getNamebyId(estateid);
 		return ResponseEntity.ok(name);
 	}
-//	@PostMapping("updateMyInfo")
-//	public ResponseEntity<Void> updateMyInfo(@RequestBody UpdateEstateDTO dto) {
-//		aServ.updateMyInfo(dto);
-//		return ResponseEntity.ok().build();
-//	}
+	@PostMapping("updateMyInfo")
+	public ResponseEntity<Void> updateMyInfo(@RequestBody UpdateEstateDTO dto) {
+		aServ.updateMyInfo(dto);
+		return ResponseEntity.ok().build();
+	}
 
 	@GetMapping("findId/{name}/{phone}")
 	public ResponseEntity<List<String>> getId(@PathVariable String name, @PathVariable String phone) {
