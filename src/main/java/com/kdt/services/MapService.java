@@ -72,7 +72,7 @@ public class MapService {
 
 	@Autowired
 	private ReportRepository rRepository;
-	
+
 	@Autowired
 	private ReportStatusRepository rsRepository;
 
@@ -125,59 +125,53 @@ public class MapService {
 		List<EstateDTO> dtos = eMapper.toDtoList(list);
 		return dtos;
 	}
-	
+
 	// 공인 중개사 매물 전부 가져오기
 	public List<EstateDTO> getAgentContentAll(String email) {
-	    List<Estate> list = eRepo.findAllByRealEstateAgentEmailAndSoldStatusFalseOrderByWriteDateDesc(email);
-	    List<EstateDTO> dtos = eMapper.toDtoList(list);
+		List<Estate> list = eRepo.findAllByRealEstateAgentEmailAndSoldStatusFalseOrderByWriteDateDesc(email);
+		List<EstateDTO> dtos = eMapper.toDtoList(list);
 		return dtos;
 	}
 
 	// 신고하기
 	public void report(ReportInsertDTO dto) {
-		//		Report report = new Report();
-		//		
-				Date currentDate = new Date();
-				Timestamp timestamp = new Timestamp(currentDate.getTime());
-		//
-		//		report.setWriter(reportDTO.getWriter());
-		////		report.setTaker(reportDTO.getTaker());
-		////        report.setContent(reportDTO.getContent());
-		////        report.setEstateId(reportDTO.getEstate_id());
-		////        report.setContentsCode(reportDTO.getContents_code());
-		////        report.setStatus_code("rs1");
-		        
-		//        
-		//        rRepository.save(report);
+
+		Date currentDate = new Date();
+		Timestamp timestamp = new Timestamp(currentDate.getTime());
 
 		Report report = new Report();
-		
-		ReportStatus reportStatus = new ReportStatus();
-		RealEstateAgent realEstateAgent = new RealEstateAgent();
-		Estate estate = new Estate();
-		ReportContents reportContents = new ReportContents();
-		
-		
 
-		report.setReportStatus(rsRepository.findById("rs1").orElse(null));
-		realEstateAgent.setEmail(dto.getTaker());
-		estate.setEstateId(dto.getEstateId());
-		reportContents.setContent(dto.getContentsCode());
-		
-		
-		report.setReportStatus(reportStatus);
-		report.setRealEstateAgent(realEstateAgent);
-		report.setEstate(estate);
-		report.setReportContents(reportContents);
-		report.setWriteDate(timestamp);
-		report.setWriter(dto.getWriter());
+		// 신고 내용 저장
 		report.setContent(dto.getContent());
+
+		// 매물 불러오는거 (매물 번호 받기 위해서)
+		Estate estate = new Estate();
+		estate.setEstateId(dto.getEstateId());
+		report.setEstate(estate);
+
+		// 공인 중개사 불러오는거 (받는 사람 taker 위해서)
+		RealEstateAgent realEstateAgent = new RealEstateAgent();
+		realEstateAgent.setEmail(dto.getTaker());
+		report.setRealEstateAgent(realEstateAgent);
 		
+		// 신고 종류 불러오는거 (rc 1 ~ 5)
+		ReportContents reportContents = new ReportContents();
+		reportContents.setId(dto.getContentsCode());
+		report.setReportContents(reportContents);
+
+		// 신고 상태를 불러오는거 (신고 상태 rs1 입력하기 위해서)
+		ReportStatus reportStatus = new ReportStatus();
+		reportStatus.setId("rs1");
+		report.setReportStatus(reportStatus);
 		
+		// 작성 날짜 정보
+		report.setWriteDate(timestamp);
 		
-	
+		// 작성자 정보
+		report.setWriter(dto.getWriter());
+
 		rRepository.save(report);
-		//		
+	
 	}
 
 }
