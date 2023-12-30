@@ -31,6 +31,8 @@ public interface EstateRepository extends JpaRepository<Estate, Long> {
 			"optionList", "realEstateAgent" })
 	List<Estate> findAllBySoldStatusFalse();
 
-	List<Estate> findByRealEstateAgentEmailOrderByWriteDateDesc(String email, Pageable pageable);
+	List<Estate> findByRealEstateAgentEmailAndSoldStatusFalseOrderByWriteDateDesc(String email, Pageable pageable);
+	
+	List<Estate> findAllByRealEstateAgentEmailAndSoldStatusFalseOrderByWriteDateDesc(String email);
 
 }
