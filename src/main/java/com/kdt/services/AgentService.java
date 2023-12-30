@@ -1,6 +1,7 @@
 package com.kdt.services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +46,7 @@ public class AgentService {
 	private NewEstateMapper nMapper;
 
 	private final PasswordEncoder passwordEncoder;
-	
+
 	private final Storage storage = StorageOptions.getDefaultInstance().getService();
 	private final String bucketName = "daebbang_storage";
 	private final String folderName = "agentProfiles";
@@ -148,18 +149,12 @@ public class AgentService {
 			if (images.size() != 0) {
 
 				for (MultipartFile image : images) {
-					String fileName = image.getOriginalFilename();
+					String oriName = image.getOriginalFilename();
+					String sysName = UUID.randomUUID() + "_" + oriName;
 
-					BlobId blobId = BlobId.of(bucketName, folderName + "/" + fileName);
-					BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+					fileInsert(image, sysName, folderName);
 
-					// 파일을 GCS에 업로드하고 Blob 객체를 받습니다.
-					Blob blob = storage.create(blobInfo, image.getBytes());
-					System.out.println(blob.getMediaLink());
-					// 업로드된 파일의 URL을 반환합니다.
-					String sysName = blob.getMediaLink();
-
-					apRepo.save(new AgentProfile(null, fileName, sysName, loginId));
+					apRepo.save(new AgentProfile(null, oriName, sysName, loginId));
 				}
 			}
 			// <- 사진 파일 입력
@@ -175,5 +170,13 @@ public class AgentService {
 		List<AgentProfileDTO> apList = apMapper.toDtoList(ap);
 
 		return apList;
+	}
+
+	// 파일 입력
+	@Transactional
+	public void fileInsert(MultipartFile files, String sysName, String realPath) throws Exception {
+		BlobId blobId = BlobId.of(bucketName, realPath + "/" + sysName);
+		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+		Blob blob = storage.create(blobInfo, files.getBytes());
 	}
 }
