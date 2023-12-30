@@ -49,7 +49,7 @@ public class AgentService {
 	private final PasswordEncoder passwordEncoder;
 
 	private final Storage storage = StorageOptions.getDefaultInstance().getService();
-	private final String bucketName = "daebbang_storage";
+	private final String bucketName = "daebbang";
 	private final String folderName = "agentProfiles";
 	private static final Logger logger = LoggerFactory.getLogger(AgentService.class);
 
@@ -97,8 +97,8 @@ public class AgentService {
 		String crypPw = passwordEncoder.encode(RealEstateAgentDTO.getPw());
 		RealEstateAgentDTO.setPw(crypPw);
 		long currentTimeMillis = System.currentTimeMillis();
-        Timestamp timestamp = new Timestamp(currentTimeMillis);
-        RealEstateAgentDTO.setSignupDate(timestamp);
+		Timestamp timestamp = new Timestamp(currentTimeMillis);
+		RealEstateAgentDTO.setSignupDate(timestamp);
 		RealEstateAgentDTO.setManners_temperature(36.5);
 		RealEstateAgentDTO.setReport_Count(0L);
 		RealEstateAgent e = aMapper.toEntity(RealEstateAgentDTO);
@@ -148,6 +148,8 @@ public class AgentService {
 
 	@Transactional
 	public void insertImage(String loginId, List<MultipartFile> images) {
+		// DB에서 이미지 삭제
+		apRepo.deleteByParentEmail(loginId);
 
 		try {
 			// 사진 파일 입력 ->
