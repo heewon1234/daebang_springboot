@@ -2,6 +2,7 @@ package com.kdt.services;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -18,8 +19,10 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import com.kdt.domain.entities.AgentProfile;
+import com.kdt.domain.entities.Member;
 import com.kdt.domain.entities.RealEstateAgent;
 import com.kdt.dto.AgentProfileDTO;
+import com.kdt.dto.MemberDTO;
 import com.kdt.dto.RealEstateAgentDTO;
 import com.kdt.dto.UpdateEstateDTO;
 import com.kdt.mappers.AgentMapper;
@@ -41,11 +44,6 @@ public class AgentService {
 	@Autowired
 	private AgentProfileMapper apMapper;
 
-	@Autowired
-	private NewEstateRepository nRepo;
-
-	@Autowired
-	private NewEstateMapper nMapper;
 
 	private final PasswordEncoder passwordEncoder;
 
@@ -53,6 +51,12 @@ public class AgentService {
 	private final String bucketName = "daebbang";
 	private final String folderName = "agentProfiles";
 	private static final Logger logger = LoggerFactory.getLogger(AgentService.class);
+	
+	//중복검사
+	public Boolean emailDuplCheck(String email) {
+	    RealEstateAgent m = aRepo.findByEmail(email);
+	    return m == null; // m이 null이면 중복되지 않음
+	}
 
 	// @Autowired
 	public AgentService(PasswordEncoder passwordEncoder) {
