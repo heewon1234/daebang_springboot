@@ -1,6 +1,8 @@
 package com.kdt.services;
 
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,9 +47,9 @@ public class AgentService {
 	private NewEstateMapper nMapper;
 
 	private final PasswordEncoder passwordEncoder;
-	
+
 	private final Storage storage = StorageOptions.getDefaultInstance().getService();
-	private final String bucketName = "daebbang_storage";
+	private final String bucketName = "daebbang";
 	private final String folderName = "agentProfiles";
 	private static final Logger logger = LoggerFactory.getLogger(AgentService.class);
 
@@ -94,7 +96,11 @@ public class AgentService {
 	public void signup(RealEstateAgentDTO RealEstateAgentDTO) {
 		String crypPw = passwordEncoder.encode(RealEstateAgentDTO.getPw());
 		RealEstateAgentDTO.setPw(crypPw);
+		long currentTimeMillis = System.currentTimeMillis();
+		Timestamp timestamp = new Timestamp(currentTimeMillis);
+		RealEstateAgentDTO.setSignupDate(timestamp);
 		RealEstateAgentDTO.setManners_temperature(36.5);
+		RealEstateAgentDTO.setReport_Count(0L);
 		RealEstateAgent e = aMapper.toEntity(RealEstateAgentDTO);
 		aRepo.save(e);
 	}
@@ -142,24 +148,20 @@ public class AgentService {
 
 	@Transactional
 	public void insertImage(String loginId, List<MultipartFile> images) {
+		// DB에서 이미지 삭제
+		apRepo.deleteByParentEmail(loginId);
 
 		try {
 			// 사진 파일 입력 ->
 			if (images.size() != 0) {
 
 				for (MultipartFile image : images) {
-					String fileName = image.getOriginalFilename();
+					String oriName = image.getOriginalFilename();
+					String sysName = UUID.randomUUID() + "_" + oriName;
 
-					BlobId blobId = BlobId.of(bucketName, folderName + "/" + fileName);
-					BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+					fileInsert(image, sysName, folderName);
 
-					// 파일을 GCS에 업로드하고 Blob 객체를 받습니다.
-					Blob blob = storage.create(blobInfo, image.getBytes());
-					System.out.println(blob.getMediaLink());
-					// 업로드된 파일의 URL을 반환합니다.
-					String sysName = blob.getMediaLink();
-
-					apRepo.save(new AgentProfile(null, fileName, sysName, loginId));
+					apRepo.save(new AgentProfile(null, oriName, sysName, loginId));
 				}
 			}
 			// <- 사진 파일 입력
@@ -175,5 +177,13 @@ public class AgentService {
 		List<AgentProfileDTO> apList = apMapper.toDtoList(ap);
 
 		return apList;
+	}
+
+	// 파일 입력
+	@Transactional
+	public void fileInsert(MultipartFile files, String sysName, String realPath) throws Exception {
+		BlobId blobId = BlobId.of(bucketName, realPath + "/" + sysName);
+		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+		Blob blob = storage.create(blobInfo, files.getBytes());
 	}
 }
