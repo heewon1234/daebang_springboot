@@ -35,6 +35,12 @@ public class EstateAgentController {
 
 	@Autowired
 	private AgentService aServ;
+	
+	@GetMapping("getEnabled/{id}")
+	public ResponseEntity<Boolean> getEnabled(@PathVariable String id) {
+		Boolean enabled = aServ.getEnabled(id);
+		return ResponseEntity.ok(enabled);
+	}
 
 	@GetMapping("estateInfo/{id}")
 	public ResponseEntity<RealEstateAgentDTO> estateInfo(@PathVariable String id) {

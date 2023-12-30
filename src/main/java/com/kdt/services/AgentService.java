@@ -58,6 +58,11 @@ public class AgentService {
 	public AgentService(PasswordEncoder passwordEncoder) {
 		this.passwordEncoder = passwordEncoder;
 	}
+	
+	public Boolean getEnabled(String id) {
+		RealEstateAgent agent = aRepo.findById(id).get();
+		return agent.isEnabled();
+	}
 
 	// 관리자 중개사 관리 내림차순
 	public List<RealEstateAgentDTO> getAllDESC() {
