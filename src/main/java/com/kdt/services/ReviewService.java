@@ -106,7 +106,6 @@ public class ReviewService {
 		} else if(avgScore<0) {
 			avgScore=0;
 		}
-		System.out.println("9");
 		aRepo.updateMannerTemp(avgScore,realEstateNumber);
 
 	}
