@@ -14,8 +14,8 @@ public class WebConfig implements WebMvcConfigurer{
 		registry.addResourceHandler("/board/**").addResourceLocations("file:https://storage.googleapis.com/"+bucketName+"/board");
 		registry.addResourceHandler("/temp_review/**").addResourceLocations("file:https://storage.googleapis.com/"+bucketName+"/temp_review");
 		registry.addResourceHandler("/review/**").addResourceLocations("file:https://storage.googleapis.com/"+bucketName+"/review");
-		registry.addResourceHandler("/uploads/estateImages/**").addResourceLocations("file:/uploads/estateImages/");
-		registry.addResourceHandler("/uploads/agentProfile/**").addResourceLocations("file:/uploads/agentProfile/");
+		registry.addResourceHandler("/estateImages/**").addResourceLocations("file:https://storage.googleapis.com/"+bucketName+"/estateImages");
+		registry.addResourceHandler("/agentProfile/**").addResourceLocations("file:https://storage.googleapis.com/"+bucketName+"/agentProfile");
 	}
 	
 }
