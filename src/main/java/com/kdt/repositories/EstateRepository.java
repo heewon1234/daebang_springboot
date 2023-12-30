@@ -15,7 +15,7 @@ public interface EstateRepository extends JpaRepository<Estate, Long> {
 //	List<Estate> findAllByWriter(String loginId);
 	List<Estate> findAllByRealEstateAgentEmail(String email);
 
-	@Query("select m from Estate m order by estateId desc limit 6")
+	@Query("select m from Estate m where m.soldStatus = false order by estateId desc limit 6")
 	List<Estate> findTop6ByOrderByEstateIdDesc();
 
 	@Query("select count(m) from Estate m")
@@ -31,6 +31,8 @@ public interface EstateRepository extends JpaRepository<Estate, Long> {
 			"optionList", "realEstateAgent" })
 	List<Estate> findAllBySoldStatusFalse();
 
-	List<Estate> findByRealEstateAgentEmailOrderByWriteDateDesc(String email, Pageable pageable);
+	List<Estate> findByRealEstateAgentEmailAndSoldStatusFalseOrderByWriteDateDesc(String email, Pageable pageable);
+	
+	List<Estate> findAllByRealEstateAgentEmailAndSoldStatusFalseOrderByWriteDateDesc(String email);
 
 }
