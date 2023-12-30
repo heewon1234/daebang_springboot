@@ -24,6 +24,7 @@ import com.kdt.dto.MapSchoolDTO;
 import com.kdt.dto.MapSubwayDTO;
 import com.kdt.dto.RealEstateAgentDTO;
 import com.kdt.dto.ReportDTO;
+import com.kdt.dto.ReportInsertDTO;
 import com.kdt.services.EstateService;
 import com.kdt.services.MapService;
 
@@ -163,11 +164,25 @@ public class MapController {
 	    }
 	}
 	
+	// 공인 중개사의 최신 게시물 전부
+	@GetMapping("getAgentContentAll")
+	public ResponseEntity<List<EstateDTO>> getAgentContentAll(@RequestParam("email") String email) {
+
+	    try {
+	        List<EstateDTO> estateListAll = mServ.getAgentContentAll(email);
+	        return ResponseEntity.ok(estateListAll);
+	    } catch (Exception e) {
+	    	logger.error(e.getMessage());
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	    }
+	}
+	
 	// 신고하기
 	@PostMapping("report")
-	public ResponseEntity<ReportDTO> report(@RequestBody ReportDTO reportDTO) {
+	public ResponseEntity<ReportDTO> report(@RequestBody ReportInsertDTO reportInsertDTO) {
 		try {
-			mServ.report(reportDTO);
+			
+			mServ.report(reportInsertDTO);
 		    return ResponseEntity.ok().build();
 		}
 		catch(Exception e) {
