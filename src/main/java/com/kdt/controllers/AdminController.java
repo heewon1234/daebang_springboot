@@ -63,6 +63,22 @@ public class AdminController {
 
 	@Autowired
 	private ReviewApprovalService raServ;
+	
+	@DeleteMapping("/agent/ban/delete/{email}")
+	public ResponseEntity<Void> delete(@PathVariable String email) throws Exception {
+		System.out.println("삭제이메일"+email);
+		eServ.deleteAllByWriter(email);
+
+		return ResponseEntity.ok().build();
+	}
+	
+	//중개사 ban 목록
+	@GetMapping("/agent/ban")
+	public ResponseEntity<List<RealEstateAgentDTO>> ban() {
+		List<RealEstateAgentDTO> list = aServ.ban();
+		return ResponseEntity.ok(list);
+	}
+	
 	//문의관리
 	//관리자 승인
 	@GetMapping("/reviewApproval/selectByAdmin")
