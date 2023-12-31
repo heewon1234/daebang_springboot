@@ -29,6 +29,7 @@ import com.kdt.dto.UploadReviewDTO;
 import com.kdt.mappers.ReviewMapper;
 import com.kdt.repositories.AgentRepository;
 import com.kdt.repositories.EstateRepository;
+import com.kdt.repositories.ReportRepository;
 import com.kdt.repositories.ReviewFilesRepository;
 import com.kdt.repositories.ReviewRepository;
 import com.kdt.repositories.UploadReviewRepository;
@@ -57,6 +58,9 @@ public class ReviewService {
 	@Autowired
 	private ReviewFilesRepository rfRepo;
 
+	@Autowired
+	private ReportRepository rpRepo;
+	
 	@Autowired
 	private AgentRepository aRepo;
 
@@ -99,8 +103,13 @@ public class ReviewService {
 		}
 		ruRepo.save(review);
 		entityManager.flush();
-
+		Long reportCount = aRepo.selectReportCountByEstateNumber(realEstateNumber);
 		double avgScore = rRepo.findAverageScoreByRealEstateNumber(realEstateNumber) + 36.5;
+		
+		if(reportCount%5==0) {
+			avgScore = avgScore - (0.5*(reportCount/5));
+		} 
+
 		if(avgScore>99.9) {
 			avgScore=99.9;
 		} else if(avgScore<0) {
@@ -163,7 +172,14 @@ public class ReviewService {
 		}
 		rRepo.save(review);
 		entityManager.flush();
+		
+		Long reportCount = aRepo.selectReportCountByEstateNumber(realEstateNumber);
 		double avgScore = rRepo.findAverageScoreByRealEstateNumber(realEstateNumber) + 36.5;
+		
+		if(reportCount%5==0) {
+			avgScore = avgScore - (0.5*(reportCount/5));
+		} 
+		
 		if(avgScore>99.9) {
 			avgScore=99.9;
 		} else if(avgScore<0) {

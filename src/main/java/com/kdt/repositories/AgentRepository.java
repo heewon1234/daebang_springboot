@@ -18,6 +18,9 @@ public interface AgentRepository extends JpaRepository<RealEstateAgent, String> 
 	@Query("select m from RealEstateAgent m where m.name = ?1 and m.phone = ?2")
 	List<RealEstateAgent> selectbynamephone(String name,String phone);
 	
+	@Query("select m.report_Count from RealEstateAgent m where m.estateNumber=?1")
+	Long selectReportCountByEstateNumber(String estateNumber);
+	
 	@Query("select m.estateName from RealEstateAgent m where m.email = ?1")
 	String findNamebyId(String estateid);
 	
