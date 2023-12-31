@@ -2,6 +2,7 @@ package com.kdt.services;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -18,9 +19,12 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import com.kdt.domain.entities.AgentProfile;
+import com.kdt.domain.entities.Member;
 import com.kdt.domain.entities.RealEstateAgent;
 import com.kdt.dto.AgentProfileDTO;
+import com.kdt.dto.MemberDTO;
 import com.kdt.dto.RealEstateAgentDTO;
+import com.kdt.dto.UpdateEstateDTO;
 import com.kdt.mappers.AgentMapper;
 import com.kdt.mappers.AgentProfileMapper;
 import com.kdt.mappers.NewEstateMapper;
@@ -40,11 +44,6 @@ public class AgentService {
 	@Autowired
 	private AgentProfileMapper apMapper;
 
-	@Autowired
-	private NewEstateRepository nRepo;
-
-	@Autowired
-	private NewEstateMapper nMapper;
 
 	private final PasswordEncoder passwordEncoder;
 
@@ -52,10 +51,21 @@ public class AgentService {
 	private final String bucketName = "daebbang";
 	private final String folderName = "agentProfiles";
 	private static final Logger logger = LoggerFactory.getLogger(AgentService.class);
+	
+	//중복검사
+	public Boolean emailDuplCheck(String email) {
+	    RealEstateAgent m = aRepo.findByEmail(email);
+	    return m == null; // m이 null이면 중복되지 않음
+	}
 
 	// @Autowired
 	public AgentService(PasswordEncoder passwordEncoder) {
 		this.passwordEncoder = passwordEncoder;
+	}
+	
+	public Boolean getEnabled(String id) {
+		RealEstateAgent agent = aRepo.findById(id).get();
+		return agent.isEnabled();
 	}
 
 	// 관리자 중개사 관리 내림차순
@@ -125,14 +135,14 @@ public class AgentService {
 	}
 
 	// 공인중개사 정보 변경
-//	public void updateMyInfo(UpdateEstateDTO dto) {
-//		RealEstateAgent a = aRepo.findById(dto.getId()).get();
-//		RealEstateAgentDTO adto = new RealEstateAgentDTO(a.getEmail(), a.getPw(), a.getEstateName(),
-//				a.getEstateNumber(), dto.getName(), dto.getAddress(), dto.getPhone(), a.getManners_temperature(),
-//				dto.getLatitude(), dto.getLongitude(), a.getRole(), a.isEnabled(),dto.getContent());
-//		aMapper.updateEntityFromDTO(adto, a);
-//		aRepo.save(a);
-//	}
+	public void updateMyInfo(UpdateEstateDTO dto) {
+		RealEstateAgent a = aRepo.findById(dto.getId()).get();
+		RealEstateAgentDTO adto = new RealEstateAgentDTO(a.getEmail(), a.getPw(), a.getEstateName(),
+				a.getEstateNumber(), dto.getName(), dto.getAddress(), dto.getPhone(), a.getManners_temperature(),
+				dto.getLatitude(), dto.getLongitude(), a.getRole(), a.isEnabled(),dto.getContent(), a.getReport_Count(), a.getSignupDate());
+		aMapper.updateEntityFromDTO(adto, a);
+		aRepo.save(a);
+	}
 
 	public List<RealEstateAgentDTO> getId(String name, String phone) {
 		List<RealEstateAgent> list = aRepo.selectbynamephone(name, phone);

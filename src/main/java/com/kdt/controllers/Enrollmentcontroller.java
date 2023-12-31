@@ -88,6 +88,13 @@ public class Enrollmentcontroller {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
 		}
 	}
+	
+	@GetMapping("/agent/emailDuplCheck/{email}")
+	public ResponseEntity<Boolean> emailDuplCheck(@PathVariable String email) {
+		boolean isDuplicate = aServ.emailDuplCheck(email);
+		return ResponseEntity.ok(isDuplicate);
+	}
+	
 	@GetMapping("/agent/isEstateNumber/{number}")
 	public ResponseEntity<Boolean> isEstateNumber(@PathVariable String number) {
 		boolean isDuplicate = aServ.isEstateNumber(number);
