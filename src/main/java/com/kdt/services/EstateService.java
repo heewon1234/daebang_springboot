@@ -237,6 +237,9 @@ public class EstateService {
 		try {
 			// 매물 옵션 정보 삭제
 			ueoRepo.deleteByEstateCode(estateId);
+			
+			// DB에서 이미지 삭제
+			eiRepo.deleteByParentId(estateId);
 
 			// 매물 정보 삭제
 			ueRepo.deleteById(estateId);
