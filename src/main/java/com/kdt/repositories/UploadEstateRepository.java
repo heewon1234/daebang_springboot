@@ -8,4 +8,6 @@ import com.kdt.domain.entities.UploadEstate;
 
 public interface UploadEstateRepository extends JpaRepository<UploadEstate, Long>{
 	 List<UploadEstate> findByWriter(String loginId);
+	 void deleteByWriter(String email);
+	 
 }

@@ -27,10 +27,14 @@ import com.kdt.dto.RealEstateAgentDTO;
 import com.kdt.dto.UpdateEstateDTO;
 import com.kdt.mappers.AgentMapper;
 import com.kdt.mappers.AgentProfileMapper;
+import com.kdt.mappers.EstateImageMapper;
+import com.kdt.mappers.EstateMapper;
 import com.kdt.mappers.NewEstateMapper;
 import com.kdt.repositories.AgentProfileRepository;
 import com.kdt.repositories.AgentRepository;
+import com.kdt.repositories.EstateRepository;
 import com.kdt.repositories.NewEstateRepository;
+
 
 @Service
 public class AgentService {
@@ -43,7 +47,9 @@ public class AgentService {
 	private AgentMapper aMapper;
 	@Autowired
 	private AgentProfileMapper apMapper;
-
+	
+	@Autowired
+	private EstateRepository eRepo;
 
 	private final PasswordEncoder passwordEncoder;
 
@@ -80,6 +86,13 @@ public class AgentService {
 		List<RealEstateAgentDTO> dtos = aMapper.toDtoList(list);
 		return dtos;
 	}
+	//중개사 밴
+	@Transactional
+	public List<RealEstateAgentDTO> ban() {
+		List<RealEstateAgent> list = aRepo.findAllByBan();
+		List<RealEstateAgentDTO> dtos = aMapper.toDtoList(list);
+		return dtos;
+	}
 
 	public void deleteById(String email) {
 		RealEstateAgent e = aRepo.findById(email).get();
@@ -90,7 +103,6 @@ public class AgentService {
 		String name = aRepo.findNamebyId(estateid);
 		return name;
 	}
-
 	public void approve(String email) {
 		RealEstateAgent e = aRepo.findById(email).get();
 		e.setEnabled(true);

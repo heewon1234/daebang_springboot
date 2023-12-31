@@ -24,6 +24,9 @@ public interface AgentRepository extends JpaRepository<RealEstateAgent, String> 
 	@Query("select m.estateName from RealEstateAgent m where m.email = ?1")
 	String findNamebyId(String estateid);
 	
+	@Query("select m from RealEstateAgent m where m.manners_temperature <= 20")
+	List<RealEstateAgent> findAllByBan();
+	
 	@Modifying
 	@Query("update RealEstateAgent a set a.manners_temperature=?1 where a.estateNumber=?2")
 	void updateMannerTemp(double avgScore, String estateNumber);

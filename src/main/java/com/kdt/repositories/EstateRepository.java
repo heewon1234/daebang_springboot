@@ -13,7 +13,13 @@ public interface EstateRepository extends JpaRepository<Estate, Long> {
 	@EntityGraph(attributePaths = { "building", "heatingSystem", "room", "structure", "transaction", "images",
 			"optionList", "realEstateAgent" })
 //	List<Estate> findAllByWriter(String loginId);
+	
+//	
+	void deleteByRealEstateAgentEmail(String email);
+
+	
 	List<Estate> findAllByRealEstateAgentEmail(String email);
+	Estate findByRealEstateAgentEmail(String email);
 
 	@Query("select m from Estate m where m.soldStatus = false order by estateId desc limit 6")
 	List<Estate> findTop6ByOrderByEstateIdDesc();

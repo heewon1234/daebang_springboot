@@ -69,7 +69,27 @@ public class EstateService {
 	private final String bucketName = "daebbang";
 	private final String folderName = "estateImages";
 
+
+
 	// 관리자 영역
+	@Transactional
+	public void deleteAllByWriter(String email) {
+	    // 매물 옵션 정보 삭제
+	    List<UploadEstate> uploadEstates = ueRepo.findByWriter(email);
+	    for (UploadEstate uploadEstate : uploadEstates) {
+	        try {
+	            System.out.println("삭제 " + uploadEstate.getEstateId());
+	            ueoRepo.deleteByEstateCode(uploadEstate.getEstateId());
+	            eiRepo.deleteByParentId(uploadEstate.getEstateId());
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            // 예외 처리 로직 추가
+	        }
+	    }
+	    ueRepo.deleteByWriter(email); // 주의: 이 부분은 모든 매물 삭제가 완료된 후에 처리되어야 합니다.
+	}
+
+
 	// 매물 조회수 등록
 
 	public void increaseViewCount(Long estateId) {
@@ -284,7 +304,7 @@ public class EstateService {
 
 				// DB에서 이미지 삭제
 				eiRepo.deleteByParentId(estateId);
-				
+
 				// 사진 파일 입력 ->
 				if (images.size() != 0) {
 
