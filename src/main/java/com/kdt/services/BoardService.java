@@ -85,7 +85,7 @@ public class BoardService {
 				}	
 			}
 		}
-
+		board.setWriteDate(new Timestamp(System.currentTimeMillis()));
 		bRepo.save(board);
 
 		// 서버에 있는 쓸모없는 이미지 파일 삭제
