@@ -272,14 +272,6 @@ public class EstateService {
 		}
 
 	}
-	
-	public boolean confirm(Long estateId) {
-		if(uraRepo.findAllByEstateCode(estateId) != null) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 
 	// 매물 정보 수정
 	@Transactional
