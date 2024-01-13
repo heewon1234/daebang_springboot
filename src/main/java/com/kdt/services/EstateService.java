@@ -33,7 +33,6 @@ import com.kdt.mappers.UploadEstateOptionMapper;
 import com.kdt.repositories.EstateImageRepository;
 import com.kdt.repositories.EstateRepository;
 import com.kdt.repositories.RealEstateViewsRepository;
-import com.kdt.repositories.ReviewApprovalRepository;
 import com.kdt.repositories.UploadEstateOptionRepository;
 import com.kdt.repositories.UploadEstateRepository;
 import com.kdt.repositories.UploadReviewApprovalRepository;

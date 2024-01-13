@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.kdt.domain.entities.UploadReviewApproval;
 
 public interface UploadReviewApprovalRepository extends JpaRepository<UploadReviewApproval, Long>{
-	List<UploadReviewApproval> findAllByEstateCode(Long estateCode);
+	List<UploadReviewApproval> findAllByEstateCode(Long estateId);
 	
 	List<UploadReviewApproval> findAllByEstateCodeAndApprovalCodeIn(Long estateCode, List<String> approvalCodes);
 	
