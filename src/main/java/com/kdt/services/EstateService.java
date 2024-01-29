@@ -1,8 +1,5 @@
 package com.kdt.services;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -38,6 +35,7 @@ import com.kdt.repositories.EstateRepository;
 import com.kdt.repositories.RealEstateViewsRepository;
 import com.kdt.repositories.UploadEstateOptionRepository;
 import com.kdt.repositories.UploadEstateRepository;
+import com.kdt.repositories.UploadReviewApprovalRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -64,6 +62,8 @@ public class EstateService {
 	private EstateRepository eRepo;
 	@Autowired
 	private RealEstateViewsRepository rRepo;
+	@Autowired
+	private UploadReviewApprovalRepository uraRepo;
 
 	private final Storage storage = StorageOptions.getDefaultInstance().getService();
 	private final String bucketName = "daebbang";
@@ -259,6 +259,9 @@ public class EstateService {
 			
 			// DB에서 이미지 삭제
 			eiRepo.deleteByParentId(estateId);
+			
+			// 문의 내용 삭제
+			uraRepo.deleteByEstateCode(estateId);
 
 			// 매물 정보 삭제
 			ueRepo.deleteById(estateId);
